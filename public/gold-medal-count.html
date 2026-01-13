@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0b1220" />
+
+  <title>Gold Medal Count | Olympic Gold Medals by Country</title>
+  <meta name="description" content="Gold medal count with Olympic rankings by country. Track gold medals first with silver and bronze tie-breakers. Fast, mobile-friendly, and SEO-ready." />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://usamedalstoday.com/gold-medal-count.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Gold Medal Count | Olympic Gold Medals by Country" />
+  <meta property="og:description" content="Track the Olympic gold medal count and rankings by country using official gold-first standings." />
+  <meta property="og:url" content="https://usamedalstoday.com/gold-medal-count.html" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Gold Medal Count | Olympic Gold Medals by Country" />
+  <meta name="twitter:description" content="Track the Olympic gold medal count and rankings by country using official gold-first standings." />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"Gold Medal Count",
+    "url":"https://usamedalstoday.com/gold-medal-count.html",
+    "description":"Gold medal count with Olympic rankings by country using gold-first standings.",
+    "inLanguage":"en"
+  }
+  </script>
+
+  <style>
+    /* === SAME CSS AS OTHER PAGES (UNCHANGED) === */
+    :root{
+      --bg:#0b1220;
+      --text:#eaf0ff;
+      --muted:#a9b7df;
+      --line:rgba(255,255,255,.10);
+      --usaRed:#ff4d5e;
+      --usaBlue:#5aa7ff;
+      --usaWhite:rgba(255,255,255,.92);
+      --accent: var(--usaBlue);
+      --good:#38d996;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius2: 14px;
+      --max: 1050px;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(1200px 700px at 20% -10%, rgba(90,167,255,.22), transparent 60%),
+        radial-gradient(900px 500px at 95% 0%, rgba(255,77,94,.12), transparent 60%),
+        radial-gradient(900px 700px at 60% 120%, rgba(255,255,255,.06), transparent 60%),
+        var(--bg);
+    }
+    a{color:inherit}
+    .wrap{max-width:var(--max);margin:0 auto;padding:22px 16px 64px;}
+    header{display:flex;gap:14px;justify-content:space-between;margin-bottom:12px;}
+    @media(max-width:860px){header{flex-direction:column}}
+    .brand{display:flex;gap:12px;align-items:center;}
+    .logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#5aa7ff,#ff4d5e);display:grid;place-items:center;font-weight:900;color:#061026;}
+    .brand h1{margin:0;font-size:22px}
+    .brand p{margin:6px 0 0;color:var(--muted);font-size:13px;max-width:720px}
+    .hero{border:1px solid var(--line);border-radius:var(--radius);margin-bottom:14px}
+    .heroInner{padding:14px 16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .search{border-radius:999px;border:1px solid var(--line);padding:10px 12px;background:#0003;color:white}
+    .pill{border-radius:999px;border:1px solid var(--line);padding:10px 12px;background:#fff1;color:white;cursor:pointer}
+    .pill.primary{background:#5aa7ff33}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;border-bottom:1px solid #ffffff10}
+    th{font-size:12px;color:var(--muted);text-transform:uppercase}
+    .countryCell{display:flex;gap:10px;align-items:center}
+    .flag{font-size:16px}
+    .num{text-align:right}
+    .usaRow td{background:#38d99622}
+    footer{margin-top:18px;font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+<header>
+  <div class="brand">
+    <div class="logo">USA</div>
+    <div>
+      <h1>Gold Medal Count</h1>
+      <p>
+        Track the <strong>Olympic gold medal count</strong> by country using official
+        <strong>gold-first rankings</strong> with silver and bronze tie-breakers.
+      </p>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="heroInner">
+    <div>
+      <strong>Olympic Gold Medal Rankings</strong>
+      <div class="small">
+        Gold medals rank first, followed by silver and bronze.
+        <br>
+        <a href="/">Home</a> •
+        <a href="/usa-medal-count.html">USA Medal Count</a> •
+        <a href="/olympic-medal-table.html">Olympic Medal Table</a>
+      </div>
+    </div>
+    <div>
+      <input id="search" class="search" placeholder="Search country…" />
+      <button class="pill primary" id="btnSortGold">Gold First</button>
+      <button class="pill" id="btnSortTotal">Total</button>
+    </div>
+  </div>
+</section>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Country</th>
+      <th class="num">Gold</th>
+      <th class="num">Silver</th>
+      <th class="num">Bronze</th>
+      <th class="num">Total</th>
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+</table>
+
+<p class="small" style="margin-top:12px">
+<strong>Ranking rules:</strong> Countries are ranked by gold medals first,
+then silver, then bronze — the official Olympic standard.
+</p>
+
+<footer>
+  <div>© <span id="year"></span> USA Medals Today</div>
+  <div>Gold medal rankings by country</div>
+</footer>
+</div>
+
+<script>
+const ALL_COUNTRIES = ["United States","China","Japan","Great Britain","France","Germany","Italy","Australia","Canada"];
+const MEDAL_OVERRIDES = {};
+const tableBody = document.getElementById("tableBody");
+const search = document.getElementById("search");
+let sortMode = "gold";
+
+function rows(){
+  return ALL_COUNTRIES.map(c=>{
+    const m = MEDAL_OVERRIDES[c]||{};
+    const g=m.gold||0,s=m.silver||0,b=m.bronze||0;
+    return {c,g,s,b,t:g+s+b};
+  });
+}
+
+function render(){
+  let r = rows();
+  r.sort((a,b)=>{
+    if(sortMode==="gold"){
+      return b.g-a.g||b.s-a.s||b.b-a.b||a.c.localeCompare(b.c);
+    }
+    return b.t-a.t||b.g-a.g||b.s-a.s||b.b-a.b||a.c.localeCompare(b.c);
+  });
+  const q = search.value.toLowerCase();
+  tableBody.innerHTML = r.filter(x=>x.c.toLowerCase().includes(q)).map((x,i)=>`
+    <tr class="${x.c==="United States"?"usaRow":""}">
+      <td>${i+1}</td>
+      <td>${x.c}</td>
+      <td class="num">${x.g}</td>
+      <td class="num">${x.s}</td>
+      <td class="num">${x.b}</td>
+      <td class="num"><b>${x.t}</b></td>
+    </tr>
+  `).join("");
+}
+
+document.getElementById("btnSortGold").onclick=()=>{sortMode="gold";render();}
+document.getElementById("btnSortTotal").onclick=()=>{sortMode="total";render();}
+search.oninput=render;
+document.getElementById("year").textContent=new Date().getFullYear();
+
+render();
+</script>
+</body>
+</html>
