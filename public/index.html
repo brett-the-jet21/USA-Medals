@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="USA Medals Today — live-style medal count page with clean layout. Fast, mobile-friendly, and easy to update." />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0b1220" />
+
+  <title>USA Medals Today</title>
+
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#0f1a33;
+      --card2:#0c152b;
+      --text:#eaf0ff;
+      --muted:#a9b7df;
+      --line:rgba(255,255,255,.10);
+      --accent:#5aa7ff;
+      --good:#38d996;
+      --warn:#ffcc66;
+      --bad:#ff6b6b;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius2: 14px;
+      --max: 980px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color: var(--text);
+      background: radial-gradient(1200px 700px at 20% -10%, rgba(90,167,255,.25), transparent 60%),
+                  radial-gradient(900px 500px at 95% 0%, rgba(56,217,150,.16), transparent 60%),
+                  radial-gradient(900px 700px at 60% 120%, rgba(255,204,102,.10), transparent 60%),
+                  var(--bg);
+    }
+
+    a{color:inherit}
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 22px 16px 56px;
+    }
+
+    header{
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      justify-content:space-between;
+      margin: 8px 0 18px;
+    }
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .logo{
+      width:44px;
+      height:44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(90,167,255,.95), rgba(56,217,150,.85));
+      box-shadow: var(--shadow);
+      display:grid;
+      place-items:center;
+      font-weight:900;
+      color:#061026;
+    }
+    .brand h1{
+      margin:0;
+      line-height:1.05;
+      font-size: 22px;
+      letter-spacing: .2px;
+    }
+    .brand p{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .chipRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:flex-end;
+      margin-top: 2px;
+    }
+    .chip{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      border-radius: 999px;
+      padding: 9px 12px;
+      font-size: 12px;
+      color: var(--muted);
+      backdrop-filter: blur(8px);
+      display:flex;
+      gap:8px;
+      align-items:center;
+      white-space:nowrap;
+    }
+    .dot{
+      width:8px;height:8px;border-radius:99px;background:var(--good);
+      box-shadow: 0 0 0 3px rgba(56,217,150,.16);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 14px;
+      align-items:stretch;
+    }
+    @media (max-width: 860px){
+      header{flex-direction:column}
+      .chipRow{justify-content:flex-start}
+      .grid{grid-template-columns: 1fr}
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .cardHead{
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid var(--line);
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 10px;
+      background: linear-gradient(180deg, rgba(15,26,51,.9), rgba(15,26,51,.2));
+    }
+    .cardHead h2{
+      margin:0;
+      font-size: 15px;
+      letter-spacing:.2px;
+    }
+    .small{
+      color: var(--muted);
+      font-size: 12px;
+      line-height:1.3;
+    }
+    .cardBody{padding: 14px 16px 16px}
+
+    .kpis{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    @media (max-width: 520px){
+      .kpis{grid-template-columns: 1fr}
+    }
+    .kpi{
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--line);
+      border-radius: var(--radius2);
+      padding: 12px 12px;
+    }
+    .kpi .label{
+      font-size: 12px;
+      color: var(--muted);
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .kpi .value{
+      margin-top:6px;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing:.2px;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      overflow:hidden;
+      border-radius: var(--radius2);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.02);
+    }
+    thead th{
+      text-align:left;
+      font-size: 12px;
+      color: var(--muted);
+      padding: 10px 10px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      letter-spacing:.2px;
+      text-transform: uppercase;
+    }
+    tbody td{
+      padding: 10px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      font-size: 14px;
+    }
+    tbody tr:last-child td{border-bottom:none}
+    tbody tr:hover td{background: rgba(90,167,255,.06)}
+    .rank{font-variant-numeric: tabular-nums; color: var(--muted); width: 56px}
+    .country{font-weight:700}
+    .num{font-variant-numeric: tabular-nums; text-align:right}
+    .right{text-align:right}
+
+    .note{
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height:1.4;
+    }
+
+    .btnRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    button{
+      appearance:none;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 13px;
+      cursor:pointer;
+      transition: transform .04s ease, background .2s ease, border-color .2s ease;
+    }
+    button:hover{
+      background: rgba(255,255,255,.06);
+      border-color: rgba(90,167,255,.35);
+    }
+    button:active{transform: translateY(1px)}
+    .primary{
+      background: rgba(90,167,255,.14);
+      border-color: rgba(90,167,255,.35);
+    }
+
+    .panel{
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--line);
+      border-radius: var(--radius2);
+      padding: 12px;
+    }
+    .panel h3{margin:0 0 8px;font-size:14px}
+    textarea{
+      width:100%;
+      min-height: 160px;
+      resize: vertical;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      padding: 10px 10px;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.35;
+      outline:none;
+    }
+    textarea:focus{border-color: rgba(90,167,255,.45)}
+    .hint{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.35}
+
+    footer{
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .sep{opacity:.5}
+    .badge{
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .badge .dot{background: var(--warn); box-shadow: 0 0 0 3px rgba(255,204,102,.12)}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">USA</div>
+        <div>
+          <h1>USA Medals Today</h1>
+          <p>Fast medal-count page you can update in seconds (manual or JSON paste).</p>
+        </div>
+      </div>
+
+      <div class="chipRow">
+        <div class="chip"><span class="dot"></span><span id="statusText">Live layout (data editable)</span></div>
+        <div class="chip">Last updated: <span id="lastUpdated">—</span></div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- LEFT: Medal Table -->
+      <section class="card">
+        <div class="cardHead">
+          <h2>Medal Count</h2>
+          <div class="small">Sort by total (default). Edit the data panel to update.</div>
+        </div>
+
+        <div class="cardBody">
+          <div class="kpis">
+            <div class="kpi">
+              <div class="label">🥇 USA Gold</div>
+              <div class="value" id="usaGold">—</div>
+            </div>
+            <div class="kpi">
+              <div class="label">🥈 USA Silver</div>
+              <div class="value" id="usaSilver">—</div>
+            </div>
+            <div class="kpi">
+              <div class="label">🥉 USA Bronze</div>
+              <div class="value" id="usaBronze">—</div>
+            </div>
+          </div>
+
+          <table aria-label="Medal table">
+            <thead>
+              <tr>
+                <th class="rank">Rank</th>
+                <th>Country</th>
+                <th class="right">Gold</th>
+                <th class="right">Silver</th>
+                <th class="right">Bronze</th>
+                <th class="right">Total</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+
+          <div class="note">
+            Tip: This is intentionally “static-host friendly” (no backend). If you later want true live data,
+            we can wire this to a JSON endpoint or a Google Sheet feed.
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: Data Editor -->
+      <aside class="card">
+        <div class="cardHead">
+          <h2>Quick Update Panel</h2>
+          <div class="small">Paste JSON → Update</div>
+        </div>
+
+        <div class="cardBody">
+          <div class="panel">
+            <h3>Data (JSON)</h3>
+            <textarea id="dataBox" spellcheck="false"></textarea>
+
+            <div class="btnRow">
+              <button class="primary" id="btnUpdate">Update Table</button>
+              <button id="btnReset">Reset Sample</button>
+            </div>
+
+            <div class="hint">
+              Format:
+              <br />
+              <span style="font-family:var(--mono);opacity:.95;">
+                [{"country":"United States","gold":0,"silver":0,"bronze":0}, ...]
+              </span>
+              <br /><br />
+              If you want, you can keep this file updated manually during the Olympics.
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="badge">
+            <span class="dot"></span>
+            <span><b>Note:</b> “DNS Change Recommended” in Vercel is optional. Your setup is fine.</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <div>
+        © <span id="year"></span> USA Medals Today <span class="sep">•</span>
+        Built for speed & SEO.
+      </div>
+      <div>
+        <span class="sep">Tip:</span> Keep one canonical domain (root) + redirect www.
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // ---------- Sample data (edit anytime) ----------
+    const SAMPLE = [
+      { country: "United States", gold: 0, silver: 0, bronze: 0 },
+      { country: "China",         gold: 0, silver: 0, bronze: 0 },
+      { country: "Japan",         gold: 0, silver: 0, bronze: 0 },
+      { country: "Great Britain", gold: 0, silver: 0, bronze: 0 },
+      { country: "Australia",     gold: 0, silver: 0, bronze: 0 }
+    ];
+
+    const els = {
+      tableBody: document.getElementById("tableBody"),
+      dataBox: document.getElementById("dataBox"),
+      lastUpdated: document.getElementById("lastUpdated"),
+      year: document.getElementById("year"),
+      usaGold: document.getElementById("usaGold"),
+      usaSilver: document.getElementById("usaSilver"),
+      usaBronze: document.getElementById("usaBronze"),
+      btnUpdate: document.getElementById("btnUpdate"),
+      btnReset: document.getElementById("btnReset")
+    };
+
+    function normalizeRow(row){
+      const country = String(row.country ?? "").trim();
+      const gold = Number(row.gold ?? 0) || 0;
+      const silver = Number(row.silver ?? 0) || 0;
+      const bronze = Number(row.bronze ?? 0) || 0;
+      return { country, gold, silver, bronze, total: gold + silver + bronze };
+    }
+
+    function render(data){
+      // sort by total desc, then gold desc
+      const rows = data
+        .map(normalizeRow)
+        .filter(r => r.country.length > 0)
+        .sort((a,b) => (b.total - a.total) || (b.gold - a.gold) || (b.silver - a.silver) || (b.bronze - a.bronze) || a.country.localeCompare(b.country));
+
+      // USA KPIs
+      const usa = rows.find(r => r.country.toLowerCase() === "united states" || r.country.toLowerCase() === "usa");
+      els.usaGold.textContent = usa ? usa.gold : "—";
+      els.usaSilver.textContent = usa ? usa.silver : "—";
+      els.usaBronze.textContent = usa ? usa.bronze : "—";
+
+      // Table body
+      els.tableBody.innerHTML = rows.map((r, i) => `
+        <tr>
+          <td class="rank">${i + 1}</td>
+          <td class="country">${escapeHtml(r.country)}</td>
+          <td class="num">${r.gold}</td>
+          <td class="num">${r.silver}</td>
+          <td class="num">${r.bronze}</td>
+          <td class="num"><b>${r.total}</b></td>
+        </tr>
+      `).join("");
+
+      // timestamp
+      const now = new Date();
+      els.lastUpdated.textContent = now.toLocaleString();
+      localStorage.setItem("usa_medals_data", JSON.stringify(rows));
+    }
+
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function load(){
+      els.year.textContent = new Date().getFullYear();
+      const saved = localStorage.getItem("usa_medals_data");
+      if(saved){
+        try{
+          const parsed = JSON.parse(saved);
+          els.dataBox.value = JSON.stringify(parsed.map(({country,gold,silver,bronze}) => ({country,gold,silver,bronze})), null, 2);
+          render(parsed);
+          return;
+        }catch(_){}
+      }
+      // default sample
+      els.dataBox.value = JSON.stringify(SAMPLE, null, 2);
+      render(SAMPLE);
+    }
+
+    els.btnUpdate.addEventListener("click", () => {
+      try{
+        const parsed = JSON.parse(els.dataBox.value);
+        if(!Array.isArray(parsed)) throw new Error("Data must be an array.");
+        render(parsed);
+      }catch(e){
+        alert("Invalid JSON. Please check formatting.\n\n" + e.message);
+      }
+    });
+
+    els.btnReset.addEventListener("click", () => {
+      els.dataBox.value = JSON.stringify(SAMPLE, null, 2);
+      render(SAMPLE);
+    });
+
+    load();
+  </script>
+</body>
+</html>
