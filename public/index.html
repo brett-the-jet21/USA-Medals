@@ -104,7 +104,6 @@
       position:relative;
       overflow:hidden;
     }
-    /* tiny star sparkle in logo */
     .logo::after{
       content:"★";
       position:absolute;
@@ -167,7 +166,6 @@
       position:relative;
     }
 
-    /* subtle USA border hint (stars) */
     .hero::before,
     .card::before{
       content:"";
@@ -367,7 +365,6 @@
     .num{font-variant-numeric: tabular-nums; text-align:right}
     .right{text-align:right}
 
-    /* Country cell with flag */
     .countryCell{
       display:flex;
       align-items:center;
@@ -546,6 +543,8 @@
           <div class="note">
             <strong>Note:</strong> This page is intentionally lightweight for speed and indexing. If you want true automated live updates,
             we can connect it to a JSON endpoint or Google Sheets without changing the design.
+            <br><br>
+            <strong>Ranking rules:</strong> Rankings follow Olympic standards: countries are ranked by gold medals first, then silver, then bronze.
           </div>
 
           <div class="faqTitle">About the USA Medal Count</div>
@@ -570,6 +569,17 @@
               </p>
             </details>
           </div>
+
+          <!-- ✅ STEP 1: SEO block (added) -->
+          <h2 class="faqTitle">USA Olympic Medal Count & Olympic Medal Table</h2>
+          <p class="small" style="margin:8px 0 0; line-height:1.55;">
+            The <strong>USA medal count today</strong> shows how the United States ranks on the
+            <strong>Olympic medal table</strong> across all countries. This page tracks the
+            <strong>Olympic medal count</strong> by <strong>gold, silver, bronze</strong>, and
+            <strong>total medals</strong>, so you can follow the full <strong>Olympic medal standings</strong>
+            and <strong>medal rankings by country</strong> throughout the Games.
+          </p>
+
         </div>
       </section>
     </div>
@@ -593,7 +603,6 @@
      * "Japan": { gold: 7, silver: 4, bronze: 5 },
      */
 
-    // --- All countries list (always rendered for SEO/completeness) ---
     const ALL_COUNTRIES = [
       "Afghanistan","Albania","Algeria","American Samoa","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Aruba",
       "Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda",
@@ -617,7 +626,6 @@
       "Vanuatu","Venezuela","Vietnam","Virgin Islands, U.S.","Yemen","Zambia","Zimbabwe"
     ];
 
-    // --- Medal updates live here ---
     const MEDAL_OVERRIDES = {
       // Example:
       // "United States": { gold: 10, silver: 8, bronze: 12 }
@@ -636,7 +644,7 @@
       btnSortGold: document.getElementById("btnSortGold")
     };
 
-    let sortMode = "total"; // "total" or "gold"
+    let sortMode = "total";
 
     function escapeHtml(str){
       return String(str)
@@ -647,7 +655,6 @@
         .replaceAll("'", "&#039;");
     }
 
-    // Convert ISO2 country code -> 🇺🇸 flag emoji
     function iso2ToFlagEmoji(iso2){
       if(!iso2 || iso2.length !== 2) return "🏳️";
       const code = iso2.toUpperCase();
@@ -658,7 +665,6 @@
       return String.fromCodePoint(first, second);
     }
 
-    // Map displayed country name -> ISO2 code (best-effort; falls back safely)
     const COUNTRY_TO_ISO2 = {
       "Afghanistan":"AF","Albania":"AL","Algeria":"DZ","American Samoa":"AS","Andorra":"AD","Angola":"AO",
       "Antigua and Barbuda":"AG","Argentina":"AR","Armenia":"AM","Aruba":"AW","Australia":"AU","Austria":"AT",
@@ -692,7 +698,6 @@
 
     function flagForCountry(countryName){
       const iso2 = COUNTRY_TO_ISO2[countryName];
-      // Many platforms show a generic flag for some entities; fallback keeps UI consistent.
       return iso2 ? iso2ToFlagEmoji(iso2) : "🏳️";
     }
 
