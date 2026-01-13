@@ -38,19 +38,21 @@
   <style>
     :root{
       --bg:#0b1220;
-      --card:#0f1a33;
-      --card2:#0c152b;
       --text:#eaf0ff;
       --muted:#a9b7df;
       --line:rgba(255,255,255,.10);
-      --accent:#5aa7ff;
+
+      /* USA accents (subtle) */
+      --usaRed:#ff4d5e;
+      --usaBlue:#5aa7ff;
+      --usaWhite:rgba(255,255,255,.92);
+
+      --accent: var(--usaBlue);
       --good:#38d996;
-      --warn:#ffcc66;
       --shadow: 0 10px 30px rgba(0,0,0,.35);
       --radius: 18px;
       --radius2: 14px;
       --max: 1050px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
 
@@ -60,10 +62,11 @@
       margin:0;
       font-family: var(--sans);
       color: var(--text);
-      background: radial-gradient(1200px 700px at 20% -10%, rgba(90,167,255,.25), transparent 60%),
-                  radial-gradient(900px 500px at 95% 0%, rgba(56,217,150,.16), transparent 60%),
-                  radial-gradient(900px 700px at 60% 120%, rgba(255,204,102,.10), transparent 60%),
-                  var(--bg);
+      background:
+        radial-gradient(1200px 700px at 20% -10%, rgba(90,167,255,.22), transparent 60%),
+        radial-gradient(900px 500px at 95% 0%, rgba(255,77,94,.12), transparent 60%),
+        radial-gradient(900px 700px at 60% 120%, rgba(255,255,255,.06), transparent 60%),
+        var(--bg);
     }
 
     a{color:inherit}
@@ -91,13 +94,28 @@
     }
     .logo{
       width:44px;height:44px;border-radius: 14px;
-      background: linear-gradient(135deg, rgba(90,167,255,.95), rgba(56,217,150,.85));
+      background:
+        linear-gradient(135deg, rgba(90,167,255,.95), rgba(255,77,94,.85));
       box-shadow: var(--shadow);
       display:grid;place-items:center;
       font-weight:900;
       color:#061026;
       letter-spacing:.3px;
+      position:relative;
+      overflow:hidden;
     }
+    /* tiny star sparkle in logo */
+    .logo::after{
+      content:"★";
+      position:absolute;
+      right:6px;
+      bottom:4px;
+      font-size:10px;
+      color: rgba(255,255,255,.7);
+      text-shadow: 0 2px 10px rgba(255,255,255,.12);
+      transform: rotate(-10deg);
+    }
+
     .brand h1{
       margin:0;
       line-height:1.1;
@@ -146,7 +164,21 @@
       background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
       box-shadow: var(--shadow);
       overflow:hidden;
+      position:relative;
     }
+
+    /* subtle USA border hint (stars) */
+    .hero::before,
+    .card::before{
+      content:"";
+      position:absolute;
+      left:0; right:0; top:0;
+      height:3px;
+      background:
+        linear-gradient(90deg, var(--usaBlue), var(--usaWhite), var(--usaRed));
+      opacity:.9;
+    }
+
     .heroInner{
       padding: 14px 16px;
       display:flex;
@@ -198,7 +230,10 @@
     }
     .pill:hover{background: rgba(255,255,255,.06); border-color: rgba(90,167,255,.35)}
     .pill:active{transform: translateY(1px)}
-    .pill.primary{background: rgba(90,167,255,.14); border-color: rgba(90,167,255,.35)}
+    .pill.primary{
+      background: rgba(90,167,255,.14);
+      border-color: rgba(90,167,255,.35);
+    }
 
     .grid{
       display:grid;
@@ -212,6 +247,7 @@
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow:hidden;
+      position:relative;
     }
     .cardHead{
       padding: 14px 16px 10px;
@@ -233,6 +269,35 @@
       line-height:1.3;
     }
     .cardBody{padding: 14px 16px 16px}
+
+    /* --- Google Ads placeholders --- */
+    .adSlot{
+      border: 1px dashed rgba(255,255,255,.18);
+      border-radius: var(--radius2);
+      background: rgba(0,0,0,.18);
+      padding: 14px 12px;
+      color: rgba(255,255,255,.70);
+      font-size: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin: 10px 0 12px;
+    }
+    .adSlot strong{font-size:12px; letter-spacing:.2px}
+    .adBadge{
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(90,167,255,.12);
+      border: 1px solid rgba(90,167,255,.28);
+      color: rgba(233,243,255,.9);
+      white-space:nowrap;
+    }
+    .adHint{
+      color: rgba(255,255,255,.55);
+      line-height:1.35;
+    }
 
     .kpis{
       display:grid;
@@ -283,16 +348,11 @@
       background: rgba(255,255,255,.03);
       letter-spacing:.2px;
       text-transform: uppercase;
-    }
 
-    /* Sticky header on larger screens */
-    @media (min-width: 900px){
-      thead th{
-        position: sticky;
-        top: 0;
-        z-index: 2;
-        backdrop-filter: blur(10px);
-      }
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      backdrop-filter: blur(10px);
     }
 
     tbody td{
@@ -306,6 +366,32 @@
     .country{font-weight:700}
     .num{font-variant-numeric: tabular-nums; text-align:right}
     .right{text-align:right}
+
+    /* Country cell with flag */
+    .countryCell{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width: 180px;
+    }
+    .flag{
+      width: 22px;
+      text-align:center;
+      font-size: 16px;
+      line-height:1;
+      filter: saturate(1.05);
+    }
+    .countryName{
+      display:flex;
+      flex-direction:column;
+      line-height:1.1;
+    }
+    .countryName small{
+      font-size: 11px;
+      color: rgba(169,183,223,.85);
+      font-weight: 600;
+      letter-spacing:.2px;
+    }
 
     .usaRow td{
       background: rgba(56,217,150,.10);
@@ -321,10 +407,16 @@
       line-height:1.45;
     }
 
+    .faqTitle{
+      margin: 18px 0 6px;
+      font-size: 14px;
+      letter-spacing:.2px;
+      color: var(--text);
+    }
     .faq{
       display:grid;
       gap: 10px;
-      margin-top: 14px;
+      margin-top: 10px;
     }
     .faq details{
       border: 1px solid var(--line);
@@ -374,9 +466,18 @@
 
       <div class="chipRow">
         <div class="chip"><span class="dot"></span><span id="statusText">Medal table ready</span></div>
-        <div class="chip">Last updated: <span id="lastUpdated">—</span></div>
+        <div class="chip">Page refreshed: <span id="lastUpdated">—</span></div>
       </div>
     </header>
+
+    <!-- ✅ Google Ads placeholder (top) -->
+    <div class="adSlot" aria-label="Google Ads placeholder top">
+      <div>
+        <strong>Ad Slot (Top Banner)</strong>
+        <div class="adHint">Paste your Google AdSense code here next week.</div>
+      </div>
+      <div class="adBadge">Google Ads</div>
+    </div>
 
     <section class="hero" aria-label="Controls">
       <div class="heroInner">
@@ -396,7 +497,7 @@
       <section class="card" aria-label="Medal Count Table">
         <div class="cardHead">
           <h2>Medal Count Table</h2>
-          <div class="small">Ranks sort by selected mode (Total or Gold).</div>
+          <div class="small">Ranks sort by selected mode (Total or Gold). All countries are listed for SEO and completeness.</div>
         </div>
 
         <div class="cardBody">
@@ -433,10 +534,21 @@
             <tbody id="tableBody"></tbody>
           </table>
 
+          <!-- ✅ Google Ads placeholder (in-content / mid) -->
+          <div class="adSlot" aria-label="Google Ads placeholder mid">
+            <div>
+              <strong>Ad Slot (In-Content)</strong>
+              <div class="adHint">Good spot for a responsive ad unit (e.g., 336×280 / auto).</div>
+            </div>
+            <div class="adBadge">Google Ads</div>
+          </div>
+
           <div class="note">
             <strong>Note:</strong> This page is intentionally lightweight for speed and indexing. If you want true automated live updates,
             we can connect it to a JSON endpoint or Google Sheets without changing the design.
           </div>
+
+          <div class="faqTitle">About the USA Medal Count</div>
 
           <div class="faq" aria-label="FAQ">
             <details>
@@ -479,13 +591,9 @@
      * Add updates in MEDAL_OVERRIDES below, like:
      * "United States": { gold: 10, silver: 8, bronze: 12 },
      * "Japan": { gold: 7, silver: 4, bronze: 5 },
-     *
-     * This keeps the page clean (no admin panel) while remaining easy to update.
      */
 
-    // --- All countries list (shown even when medals are 0) ---
-    // Note: These are common Olympic team names + territories used in major medal tables.
-    // If you ever want the official NOC list (206), we can swap this to a maintained JSON feed.
+    // --- All countries list (always rendered for SEO/completeness) ---
     const ALL_COUNTRIES = [
       "Afghanistan","Albania","Algeria","American Samoa","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Aruba",
       "Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda",
@@ -512,7 +620,7 @@
     // --- Medal updates live here ---
     const MEDAL_OVERRIDES = {
       // Example:
-      // "United States": { gold: 0, silver: 0, bronze: 0 }
+      // "United States": { gold: 10, silver: 8, bronze: 12 }
     };
 
     const els = {
@@ -529,7 +637,6 @@
     };
 
     let sortMode = "total"; // "total" or "gold"
-    let currentRows = [];
 
     function escapeHtml(str){
       return String(str)
@@ -538,6 +645,55 @@
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
+    }
+
+    // Convert ISO2 country code -> 🇺🇸 flag emoji
+    function iso2ToFlagEmoji(iso2){
+      if(!iso2 || iso2.length !== 2) return "🏳️";
+      const code = iso2.toUpperCase();
+      const A = 0x1F1E6;
+      const base = "A".charCodeAt(0);
+      const first = code.charCodeAt(0) - base + A;
+      const second = code.charCodeAt(1) - base + A;
+      return String.fromCodePoint(first, second);
+    }
+
+    // Map displayed country name -> ISO2 code (best-effort; falls back safely)
+    const COUNTRY_TO_ISO2 = {
+      "Afghanistan":"AF","Albania":"AL","Algeria":"DZ","American Samoa":"AS","Andorra":"AD","Angola":"AO",
+      "Antigua and Barbuda":"AG","Argentina":"AR","Armenia":"AM","Aruba":"AW","Australia":"AU","Austria":"AT",
+      "Azerbaijan":"AZ","Bahamas":"BS","Bahrain":"BH","Bangladesh":"BD","Barbados":"BB","Belarus":"BY","Belgium":"BE",
+      "Belize":"BZ","Benin":"BJ","Bermuda":"BM","Bhutan":"BT","Bolivia":"BO","Bosnia and Herzegovina":"BA","Botswana":"BW",
+      "Brazil":"BR","British Virgin Islands":"VG","Brunei":"BN","Bulgaria":"BG","Burkina Faso":"BF","Burundi":"BI",
+      "Cabo Verde":"CV","Cambodia":"KH","Cameroon":"CM","Canada":"CA","Cayman Islands":"KY","Central African Republic":"CF",
+      "Chad":"TD","Chile":"CL","China":"CN","Chinese Taipei":"TW","Colombia":"CO","Comoros":"KM","Congo":"CG","Cook Islands":"CK",
+      "Costa Rica":"CR","Croatia":"HR","Cuba":"CU","Cyprus":"CY","Czechia":"CZ","Denmark":"DK","Djibouti":"DJ","Dominica":"DM",
+      "Dominican Republic":"DO","DR Congo":"CD","Ecuador":"EC","Egypt":"EG","El Salvador":"SV","Equatorial Guinea":"GQ","Eritrea":"ER",
+      "Estonia":"EE","Eswatini":"SZ","Ethiopia":"ET","Fiji":"FJ","Finland":"FI","France":"FR","Gabon":"GA","Gambia":"GM","Georgia":"GE",
+      "Germany":"DE","Ghana":"GH","Greece":"GR","Grenada":"GD","Guam":"GU","Guatemala":"GT","Guinea":"GN","Guinea-Bissau":"GW",
+      "Guyana":"GY","Haiti":"HT","Honduras":"HN","Hong Kong, China":"HK","Hungary":"HU","Iceland":"IS","India":"IN","Indonesia":"ID",
+      "Iran":"IR","Iraq":"IQ","Ireland":"IE","Israel":"IL","Italy":"IT","Jamaica":"JM","Japan":"JP","Jordan":"JO","Kazakhstan":"KZ",
+      "Kenya":"KE","Kiribati":"KI","Kosovo":"XK","Kuwait":"KW","Kyrgyzstan":"KG","Laos":"LA","Latvia":"LV","Lebanon":"LB","Lesotho":"LS",
+      "Liberia":"LR","Libya":"LY","Liechtenstein":"LI","Lithuania":"LT","Luxembourg":"LU","Madagascar":"MG","Malawi":"MW","Malaysia":"MY",
+      "Maldives":"MV","Mali":"ML","Malta":"MT","Marshall Islands":"MH","Mauritania":"MR","Mauritius":"MU","Mexico":"MX","Micronesia":"FM",
+      "Moldova":"MD","Monaco":"MC","Mongolia":"MN","Montenegro":"ME","Morocco":"MA","Mozambique":"MZ","Myanmar":"MM","Namibia":"NA",
+      "Nauru":"NR","Nepal":"NP","Netherlands":"NL","New Zealand":"NZ","Nicaragua":"NI","Niger":"NE","Nigeria":"NG","North Korea":"KP",
+      "North Macedonia":"MK","Northern Mariana Islands":"MP","Norway":"NO","Oman":"OM","Pakistan":"PK","Palau":"PW","Palestine":"PS",
+      "Panama":"PA","Papua New Guinea":"PG","Paraguay":"PY","Peru":"PE","Philippines":"PH","Poland":"PL","Portugal":"PT","Puerto Rico":"PR",
+      "Qatar":"QA","Romania":"RO","Russia":"RU","Rwanda":"RW","Saint Kitts and Nevis":"KN","Saint Lucia":"LC",
+      "Saint Vincent and the Grenadines":"VC","Samoa":"WS","San Marino":"SM","Sao Tome and Principe":"ST","Saudi Arabia":"SA",
+      "Senegal":"SN","Serbia":"RS","Seychelles":"SC","Sierra Leone":"SL","Singapore":"SG","Slovakia":"SK","Slovenia":"SI",
+      "Solomon Islands":"SB","Somalia":"SO","South Africa":"ZA","South Korea":"KR","South Sudan":"SS","Spain":"ES","Sri Lanka":"LK",
+      "Sudan":"SD","Suriname":"SR","Sweden":"SE","Switzerland":"CH","Syria":"SY","Tajikistan":"TJ","Tanzania":"TZ","Thailand":"TH",
+      "Timor-Leste":"TL","Togo":"TG","Tonga":"TO","Trinidad and Tobago":"TT","Tunisia":"TN","Turkey":"TR","Turkmenistan":"TM",
+      "Tuvalu":"TV","Uganda":"UG","Ukraine":"UA","United Arab Emirates":"AE","United Kingdom":"GB","United States":"US","Uruguay":"UY",
+      "Uzbekistan":"UZ","Vanuatu":"VU","Venezuela":"VE","Vietnam":"VN","Virgin Islands, U.S.":"VI","Yemen":"YE","Zambia":"ZM","Zimbabwe":"ZW"
+    };
+
+    function flagForCountry(countryName){
+      const iso2 = COUNTRY_TO_ISO2[countryName];
+      // Many platforms show a generic flag for some entities; fallback keeps UI consistent.
+      return iso2 ? iso2ToFlagEmoji(iso2) : "🏳️";
     }
 
     function normalizeRow(country, override){
@@ -549,7 +705,6 @@
 
     function buildAllRows(){
       const rows = ALL_COUNTRIES.map(name => normalizeRow(name, MEDAL_OVERRIDES[name]));
-      // Ensure USA always present (in case naming differs)
       if(!rows.some(r => r.country === "United States")){
         rows.push(normalizeRow("United States", MEDAL_OVERRIDES["United States"]));
       }
@@ -557,13 +712,21 @@
     }
 
     function sortRows(rows){
+      const allZero = rows.every(r => r.total === 0);
+      if (allZero) {
+        return rows.slice().sort((a,b) => {
+          if (a.country === "United States") return -1;
+          if (b.country === "United States") return 1;
+          return a.country.localeCompare(b.country);
+        });
+      }
+
       const keyPrimary = sortMode === "gold" ? "gold" : "total";
 
       return rows.slice().sort((a,b) => {
         const p = b[keyPrimary] - a[keyPrimary];
         if(p) return p;
 
-        // Tie-breakers: gold -> silver -> bronze -> total -> alpha
         const g = b.gold - a.gold; if(g) return g;
         const s = b.silver - a.silver; if(s) return s;
         const br = b.bronze - a.bronze; if(br) return br;
@@ -584,7 +747,6 @@
       const sorted = sortRows(all);
       const filtered = applySearch(sorted);
 
-      // USA KPIs (prefer "United States")
       const usa = all.find(r => r.country === "United States") ||
                   all.find(r => r.country.toLowerCase() === "usa");
 
@@ -593,20 +755,30 @@
       els.usaBronze.textContent = usa ? usa.bronze : "—";
       els.usaTotal.textContent = usa ? usa.total : "—";
 
-      els.tableBody.innerHTML = filtered.map((r, i) => `
+      els.tableBody.innerHTML = filtered.map((r, i) => {
+        const flag = flagForCountry(r.country);
+        const iso2 = COUNTRY_TO_ISO2[r.country] || "";
+        return `
         <tr class="${r.country === "United States" ? "usaRow" : ""}">
           <td class="rank">${i + 1}</td>
-          <td class="country">${escapeHtml(r.country)}</td>
+          <td class="country">
+            <div class="countryCell">
+              <span class="flag" aria-hidden="true">${flag}</span>
+              <span class="countryName">
+                <span>${escapeHtml(r.country)}</span>
+                ${iso2 ? `<small>${iso2}</small>` : ``}
+              </span>
+            </div>
+          </td>
           <td class="num">${r.gold}</td>
           <td class="num">${r.silver}</td>
           <td class="num">${r.bronze}</td>
           <td class="num"><b>${r.total}</b></td>
-        </tr>
-      `).join("");
+        </tr>`;
+      }).join("");
 
       const now = new Date();
       els.lastUpdated.textContent = now.toLocaleString();
-      currentRows = filtered;
     }
 
     function setSort(mode){
@@ -619,12 +791,10 @@
     function init(){
       els.year.textContent = new Date().getFullYear();
 
-      // Events
       els.search.addEventListener("input", () => render());
       els.btnSortTotal.addEventListener("click", () => setSort("total"));
       els.btnSortGold.addEventListener("click", () => setSort("gold"));
 
-      // First render
       setSort("total");
     }
 
