@@ -15,13 +15,13 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Gold Medal Count | Olympic Gold Medals by Country" />
-  <meta property="og:description" content="Track the Olympic gold medal count and rankings by country using official gold-first standings." />
+  <meta property="og:description" content="Track the Olympic gold medal count and rankings by country using gold-first standings with tie-breakers." />
   <meta property="og:url" content="https://usamedalstoday.com/gold-medal-count.html" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Gold Medal Count | Olympic Gold Medals by Country" />
-  <meta name="twitter:description" content="Track the Olympic gold medal count and rankings by country using official gold-first standings." />
+  <meta name="twitter:description" content="Track the Olympic gold medal count and rankings by country using gold-first standings with tie-breakers." />
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -30,21 +30,23 @@
     "@type":"WebPage",
     "name":"Gold Medal Count",
     "url":"https://usamedalstoday.com/gold-medal-count.html",
-    "description":"Gold medal count with Olympic rankings by country using gold-first standings.",
+    "description":"Gold medal count with Olympic rankings by country using gold-first standings and tie-breakers.",
     "inLanguage":"en"
   }
   </script>
 
   <style>
-    /* === SAME CSS AS OTHER PAGES (UNCHANGED) === */
     :root{
       --bg:#0b1220;
       --text:#eaf0ff;
       --muted:#a9b7df;
       --line:rgba(255,255,255,.10);
+
+      /* USA accents (subtle; consistent across site) */
       --usaRed:#ff4d5e;
       --usaBlue:#5aa7ff;
       --usaWhite:rgba(255,255,255,.92);
+
       --accent: var(--usaBlue);
       --good:#38d996;
       --shadow: 0 10px 30px rgba(0,0,0,.35);
@@ -53,7 +55,9 @@
       --max: 1050px;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
+
     *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
       font-family: var(--sans);
@@ -64,132 +68,742 @@
         radial-gradient(900px 700px at 60% 120%, rgba(255,255,255,.06), transparent 60%),
         var(--bg);
     }
+
     a{color:inherit}
-    .wrap{max-width:var(--max);margin:0 auto;padding:22px 16px 64px;}
-    header{display:flex;gap:14px;justify-content:space-between;margin-bottom:12px;}
-    @media(max-width:860px){header{flex-direction:column}}
-    .brand{display:flex;gap:12px;align-items:center;}
-    .logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#5aa7ff,#ff4d5e);display:grid;place-items:center;font-weight:900;color:#061026;}
-    .brand h1{margin:0;font-size:22px}
-    .brand p{margin:6px 0 0;color:var(--muted);font-size:13px;max-width:720px}
-    .hero{border:1px solid var(--line);border-radius:var(--radius);margin-bottom:14px}
-    .heroInner{padding:14px 16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-    .search{border-radius:999px;border:1px solid var(--line);padding:10px 12px;background:#0003;color:white}
-    .pill{border-radius:999px;border:1px solid var(--line);padding:10px 12px;background:#fff1;color:white;cursor:pointer}
-    .pill.primary{background:#5aa7ff33}
-    table{width:100%;border-collapse:collapse}
-    th,td{padding:10px;border-bottom:1px solid #ffffff10}
-    th{font-size:12px;color:var(--muted);text-transform:uppercase}
-    .countryCell{display:flex;gap:10px;align-items:center}
-    .flag{font-size:16px}
-    .num{text-align:right}
-    .usaRow td{background:#38d99622}
-    footer{margin-top:18px;font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 22px 16px 64px;
+    }
+
+    header{
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      justify-content:space-between;
+      margin: 8px 0 12px;
+    }
+    @media (max-width: 860px){
+      header{flex-direction:column}
+    }
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .logo{
+      width:44px;height:44px;border-radius: 14px;
+      background: linear-gradient(135deg, rgba(90,167,255,.95), rgba(255,77,94,.85));
+      box-shadow: var(--shadow);
+      display:grid;place-items:center;
+      font-weight:900;
+      color:#061026;
+      letter-spacing:.3px;
+      position:relative;
+      overflow:hidden;
+    }
+    .logo::after{
+      content:"★";
+      position:absolute;
+      right:6px;
+      bottom:4px;
+      font-size:10px;
+      color: rgba(255,255,255,.7);
+      text-shadow: 0 2px 10px rgba(255,255,255,.12);
+      transform: rotate(-10deg);
+    }
+
+    .brand h1{
+      margin:0;
+      line-height:1.1;
+      font-size: 22px;
+      letter-spacing: .2px;
+    }
+    .brand p{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      max-width: 720px;
+      line-height:1.45;
+    }
+
+    .chipRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:flex-end;
+      margin-top: 2px;
+    }
+    @media (max-width: 860px){
+      .chipRow{justify-content:flex-start}
+    }
+    .chip{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      border-radius: 999px;
+      padding: 9px 12px;
+      font-size: 12px;
+      color: var(--muted);
+      backdrop-filter: blur(8px);
+      display:flex;
+      gap:8px;
+      align-items:center;
+      white-space:nowrap;
+    }
+    .dot{
+      width:8px;height:8px;border-radius:99px;background:var(--good);
+      box-shadow: 0 0 0 3px rgba(56,217,150,.16);
+    }
+
+    .hero{
+      margin: 10px 0 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .hero::before,
+    .card::before{
+      content:"";
+      position:absolute;
+      left:0; right:0; top:0;
+      height:3px;
+      background: linear-gradient(90deg, var(--usaBlue), var(--usaWhite), var(--usaRed));
+      opacity:.9;
+    }
+
+    .heroInner{
+      padding: 14px 16px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .heroTitle{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .heroTitle strong{
+      font-size: 14px;
+      letter-spacing:.2px;
+    }
+    .heroTitle span{
+      font-size: 12px;
+      color: var(--muted);
+      line-height:1.35;
+    }
+    .navLinks{margin-top:6px;}
+    .navLinks a{text-decoration:underline;}
+
+    .searchRow{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .search{
+      width: min(360px, 74vw);
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      padding: 10px 12px;
+      outline:none;
+      font-size: 13px;
+    }
+    .search:focus{border-color: rgba(90,167,255,.45)}
+    .pill{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 13px;
+      cursor:pointer;
+      transition: transform .04s ease, background .2s ease, border-color .2s ease;
+      color: var(--text);
+    }
+    .pill:hover{background: rgba(255,255,255,.06); border-color: rgba(90,167,255,.35)}
+    .pill:active{transform: translateY(1px)}
+    .pill.primary{background: rgba(90,167,255,.14); border-color: rgba(90,167,255,.35)}
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .cardHead{
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid var(--line);
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 10px;
+      background: linear-gradient(180deg, rgba(15,26,51,.9), rgba(15,26,51,.2));
+    }
+    .cardHead h2{
+      margin:0;
+      font-size: 15px;
+      letter-spacing:.2px;
+    }
+    .small{
+      color: var(--muted);
+      font-size: 12px;
+      line-height:1.3;
+    }
+    .cardBody{padding: 14px 16px 16px}
+
+    /* --- Google Ads placeholders --- */
+    .adSlot{
+      border: 1px dashed rgba(255,255,255,.18);
+      border-radius: var(--radius2);
+      background: rgba(0,0,0,.18);
+      padding: 14px 12px;
+      color: rgba(255,255,255,.70);
+      font-size: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin: 10px 0 12px;
+    }
+    .adSlot strong{font-size:12px; letter-spacing:.2px}
+    .adBadge{
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(90,167,255,.12);
+      border: 1px solid rgba(90,167,255,.28);
+      color: rgba(233,243,255,.9);
+      white-space:nowrap;
+    }
+    .adHint{
+      color: rgba(255,255,255,.55);
+      line-height:1.35;
+    }
+
+    .kpis{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    @media (max-width: 740px){
+      .kpis{grid-template-columns: 1fr 1fr}
+    }
+    @media (max-width: 420px){
+      .kpis{grid-template-columns: 1fr}
+    }
+    .kpi{
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--line);
+      border-radius: var(--radius2);
+      padding: 12px 12px;
+    }
+    .kpi .label{
+      font-size: 12px;
+      color: var(--muted);
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .kpi .value{
+      margin-top:6px;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing:.2px;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      overflow:hidden;
+      border-radius: var(--radius2);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.02);
+    }
+    thead th{
+      text-align:left;
+      font-size: 12px;
+      color: var(--muted);
+      padding: 10px 10px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      letter-spacing:.2px;
+      text-transform: uppercase;
+
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      backdrop-filter: blur(10px);
+    }
+
+    tbody td{
+      padding: 10px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      font-size: 14px;
+    }
+    tbody tr:last-child td{border-bottom:none}
+    tbody tr:hover td{background: rgba(90,167,255,.06)}
+    .rank{font-variant-numeric: tabular-nums; color: var(--muted); width: 58px}
+    .country{font-weight:700}
+    .num{font-variant-numeric: tabular-nums; text-align:right}
+    .right{text-align:right}
+
+    .countryCell{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width: 180px;
+    }
+    .flag{
+      width: 22px;
+      text-align:center;
+      font-size: 16px;
+      line-height:1;
+      filter: saturate(1.05);
+    }
+    .countryName{
+      display:flex;
+      flex-direction:column;
+      line-height:1.1;
+    }
+    .countryName small{
+      font-size: 11px;
+      color: rgba(169,183,223,.85);
+      font-weight: 600;
+      letter-spacing:.2px;
+    }
+
+    .usaRow td{
+      background: rgba(56,217,150,.10);
+    }
+    tbody tr.usaRow:hover td{
+      background: rgba(56,217,150,.14);
+    }
+
+    .note{
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height:1.45;
+    }
+
+    .faqTitle{
+      margin: 18px 0 6px;
+      font-size: 14px;
+      letter-spacing:.2px;
+      color: var(--text);
+    }
+    .faq{
+      display:grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .faq details{
+      border: 1px solid var(--line);
+      border-radius: var(--radius2);
+      background: rgba(255,255,255,.03);
+      padding: 10px 12px;
+    }
+    .faq summary{
+      cursor:pointer;
+      font-weight:700;
+      font-size: 13px;
+    }
+    .faq p{
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height:1.5;
+    }
+
+    footer{
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .sep{opacity:.5}
   </style>
 </head>
 
 <body>
-<div class="wrap">
-<header>
-  <div class="brand">
-    <div class="logo">USA</div>
-    <div>
-      <h1>Gold Medal Count</h1>
-      <p>
-        Track the <strong>Olympic gold medal count</strong> by country using official
-        <strong>gold-first rankings</strong> with silver and bronze tie-breakers.
-      </p>
-    </div>
-  </div>
-</header>
-
-<section class="hero">
-  <div class="heroInner">
-    <div>
-      <strong>Olympic Gold Medal Rankings</strong>
-      <div class="small">
-        Gold medals rank first, followed by silver and bronze.
-        <br>
-        <a href="/">Home</a> •
-        <a href="/usa-medal-count.html">USA Medal Count</a> •
-        <a href="/olympic-medal-table.html">Olympic Medal Table</a>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">USA</div>
+        <div>
+          <h1>Gold Medal Count</h1>
+          <p>
+            Track the <strong>Olympic gold medal count</strong> by country with gold-first rankings.
+            Compare <strong>gold medals</strong>, then <strong>silver</strong>, then <strong>bronze</strong> tie-breakers.
+          </p>
+        </div>
       </div>
+
+      <div class="chipRow">
+        <div class="chip"><span class="dot"></span><span id="statusText">Gold rankings ready</span></div>
+        <div class="chip">Page refreshed: <span id="lastUpdated">—</span></div>
+      </div>
+    </header>
+
+    <!-- ✅ Google Ads placeholder (top) -->
+    <div class="adSlot" aria-label="Google Ads placeholder top">
+      <div>
+        <strong>Ad Slot (Top Banner)</strong>
+        <div class="adHint">Paste your Google AdSense code here next week.</div>
+      </div>
+      <div class="adBadge">Google Ads</div>
     </div>
-    <div>
-      <input id="search" class="search" placeholder="Search country…" />
-      <button class="pill primary" id="btnSortGold">Gold First</button>
-      <button class="pill" id="btnSortTotal">Total</button>
+
+    <section class="hero" aria-label="Controls">
+      <div class="heroInner">
+        <div class="heroTitle">
+          <strong>Olympic Gold Medal Rankings (Gold-First)</strong>
+          <span>Default ranking is by gold medals, then silver, then bronze (official-style standings).</span>
+          <div class="navLinks small">
+            Quick links:
+            <a href="/">Home</a> •
+            <a href="/usa-medal-count.html">USA Medal Count</a> •
+            <a href="/olympic-medal-table.html">Olympic Medal Table</a>
+          </div>
+        </div>
+        <div class="searchRow">
+          <input id="search" class="search" type="search" placeholder="Search country (e.g., China, Japan, USA)..." autocomplete="off" />
+          <button class="pill" id="btnSortTotal" type="button">Sort: Total</button>
+          <button class="pill primary" id="btnSortGold" type="button">Sort: Gold</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card" aria-label="Gold Medal Count Table">
+        <div class="cardHead">
+          <h2>Gold Medal Count by Country</h2>
+          <div class="small">Default sorting uses gold-first standings with silver and bronze tie-breakers.</div>
+        </div>
+
+        <div class="cardBody">
+          <div class="kpis">
+            <div class="kpi">
+              <div class="label">🥇 USA Gold</div>
+              <div class="value" id="usaGold">—</div>
+            </div>
+            <div class="kpi">
+              <div class="label">🥈 USA Silver</div>
+              <div class="value" id="usaSilver">—</div>
+            </div>
+            <div class="kpi">
+              <div class="label">🥉 USA Bronze</div>
+              <div class="value" id="usaBronze">—</div>
+            </div>
+            <div class="kpi">
+              <div class="label">🏅 USA Total</div>
+              <div class="value" id="usaTotal">—</div>
+            </div>
+          </div>
+
+          <table aria-label="Olympic gold medal count table">
+            <thead>
+              <tr>
+                <th class="rank">Rank</th>
+                <th>Country</th>
+                <th class="right">Gold</th>
+                <th class="right">Silver</th>
+                <th class="right">Bronze</th>
+                <th class="right">Total</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+
+          <!-- ✅ Google Ads placeholder (in-content / mid) -->
+          <div class="adSlot" aria-label="Google Ads placeholder mid">
+            <div>
+              <strong>Ad Slot (In-Content)</strong>
+              <div class="adHint">Great spot for a responsive ad unit (e.g., 336×280 / auto).</div>
+            </div>
+            <div class="adBadge">Google Ads</div>
+          </div>
+
+          <div class="note">
+            <strong>Note:</strong> This page is intentionally lightweight for speed and indexing. For true automatic live updates,
+            we can connect this to a JSON endpoint or Google Sheets without changing the design.
+            <br><br>
+            <strong>Ranking rules:</strong> Countries are ranked by <strong>gold medals</strong> first, then <strong>silver</strong>, then <strong>bronze</strong>.
+          </div>
+
+          <div class="faqTitle">About the Gold Medal Count</div>
+
+          <div class="faq" aria-label="FAQ">
+            <details>
+              <summary>Is this the Olympic gold medal count?</summary>
+              <p>
+                This page is built for fast loading and SEO. Medal totals can be updated instantly by editing the update map in the code, or later by connecting a live feed.
+              </p>
+            </details>
+            <details>
+              <summary>Why rank by gold medals first?</summary>
+              <p>
+                Olympic standings are commonly displayed as gold-first rankings. This page defaults to that style and uses silver and bronze as tie-breakers.
+              </p>
+            </details>
+            <details>
+              <summary>Can I switch to total medals?</summary>
+              <p>
+                Yes—tap <b>Sort: Total</b> to rank by total medals. Ties break by gold, silver, then bronze, then alphabetical.
+              </p>
+            </details>
+          </div>
+
+          <h2 class="faqTitle">Olympic Gold Medal Count & Gold-First Standings</h2>
+          <p class="small" style="margin:8px 0 0; line-height:1.55;">
+            The <strong>gold medal count</strong> is a popular way to view the <strong>Olympic medal standings</strong>.
+            This page tracks <strong>Olympic gold medals by country</strong> and ranks nations using <strong>gold-first standings</strong>,
+            with <strong>silver</strong> and <strong>bronze</strong> as tie-breakers.
+          </p>
+        </div>
+      </section>
     </div>
+
+    <footer>
+      <div>
+        © <span id="year"></span> USA Medals Today <span class="sep">•</span>
+        Gold medal count and rankings.
+      </div>
+      <div>
+        <span class="sep">Tip:</span> Keep one canonical domain (root) + redirect www.
+      </div>
+    </footer>
   </div>
-</section>
 
-<table>
-  <thead>
-    <tr>
-      <th>Rank</th>
-      <th>Country</th>
-      <th class="num">Gold</th>
-      <th class="num">Silver</th>
-      <th class="num">Bronze</th>
-      <th class="num">Total</th>
-    </tr>
-  </thead>
-  <tbody id="tableBody"></tbody>
-</table>
+  <script>
+    /**
+     * ✅ Updating medals (simple)
+     * Add updates in MEDAL_OVERRIDES below, like:
+     * "United States": { gold: 10, silver: 8, bronze: 12 },
+     * "China": { gold: 7, silver: 6, bronze: 4 },
+     */
 
-<p class="small" style="margin-top:12px">
-<strong>Ranking rules:</strong> Countries are ranked by gold medals first,
-then silver, then bronze — the official Olympic standard.
-</p>
+    const ALL_COUNTRIES = [
+      "Afghanistan","Albania","Algeria","American Samoa","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Aruba",
+      "Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda",
+      "Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso",
+      "Burundi","Cabo Verde","Cambodia","Cameroon","Canada","Cayman Islands","Central African Republic","Chad","Chile","China",
+      "Chinese Taipei","Colombia","Comoros","Congo","Cook Islands","Costa Rica","Croatia","Cuba","Cyprus","Czechia","Denmark",
+      "Djibouti","Dominica","Dominican Republic","DR Congo","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia",
+      "Eswatini","Ethiopia","Fiji","Finland","France","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guam",
+      "Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti","Honduras","Hong Kong, China","Hungary","Iceland","India","Indonesia",
+      "Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait",
+      "Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Madagascar",
+      "Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova",
+      "Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","New Zealand",
+      "Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Northern Mariana Islands","Norway","Oman","Pakistan","Palau",
+      "Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Romania",
+      "Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino",
+      "Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia",
+      "Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden",
+      "Switzerland","Syria","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey",
+      "Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan",
+      "Vanuatu","Venezuela","Vietnam","Virgin Islands, U.S.","Yemen","Zambia","Zimbabwe"
+    ];
 
-<footer>
-  <div>© <span id="year"></span> USA Medals Today</div>
-  <div>Gold medal rankings by country</div>
-</footer>
-</div>
+    const MEDAL_OVERRIDES = {
+      // Example:
+      // "United States": { gold: 10, silver: 8, bronze: 12 }
+    };
 
-<script>
-const ALL_COUNTRIES = ["United States","China","Japan","Great Britain","France","Germany","Italy","Australia","Canada"];
-const MEDAL_OVERRIDES = {};
-const tableBody = document.getElementById("tableBody");
-const search = document.getElementById("search");
-let sortMode = "gold";
+    const els = {
+      tableBody: document.getElementById("tableBody"),
+      lastUpdated: document.getElementById("lastUpdated"),
+      year: document.getElementById("year"),
+      usaGold: document.getElementById("usaGold"),
+      usaSilver: document.getElementById("usaSilver"),
+      usaBronze: document.getElementById("usaBronze"),
+      usaTotal: document.getElementById("usaTotal"),
+      search: document.getElementById("search"),
+      btnSortTotal: document.getElementById("btnSortTotal"),
+      btnSortGold: document.getElementById("btnSortGold")
+    };
 
-function rows(){
-  return ALL_COUNTRIES.map(c=>{
-    const m = MEDAL_OVERRIDES[c]||{};
-    const g=m.gold||0,s=m.silver||0,b=m.bronze||0;
-    return {c,g,s,b,t:g+s+b};
-  });
-}
+    let sortMode = "gold"; // ✅ DEFAULT: gold-first
 
-function render(){
-  let r = rows();
-  r.sort((a,b)=>{
-    if(sortMode==="gold"){
-      return b.g-a.g||b.s-a.s||b.b-a.b||a.c.localeCompare(b.c);
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
     }
-    return b.t-a.t||b.g-a.g||b.s-a.s||b.b-a.b||a.c.localeCompare(b.c);
-  });
-  const q = search.value.toLowerCase();
-  tableBody.innerHTML = r.filter(x=>x.c.toLowerCase().includes(q)).map((x,i)=>`
-    <tr class="${x.c==="United States"?"usaRow":""}">
-      <td>${i+1}</td>
-      <td>${x.c}</td>
-      <td class="num">${x.g}</td>
-      <td class="num">${x.s}</td>
-      <td class="num">${x.b}</td>
-      <td class="num"><b>${x.t}</b></td>
-    </tr>
-  `).join("");
-}
 
-document.getElementById("btnSortGold").onclick=()=>{sortMode="gold";render();}
-document.getElementById("btnSortTotal").onclick=()=>{sortMode="total";render();}
-search.oninput=render;
-document.getElementById("year").textContent=new Date().getFullYear();
+    function iso2ToFlagEmoji(iso2){
+      if(!iso2 || iso2.length !== 2) return "🏳️";
+      const code = iso2.toUpperCase();
+      const A = 0x1F1E6;
+      const base = "A".charCodeAt(0);
+      const first = code.charCodeAt(0) - base + A;
+      const second = code.charCodeAt(1) - base + A;
+      return String.fromCodePoint(first, second);
+    }
 
-render();
-</script>
+    const COUNTRY_TO_ISO2 = {
+      "Afghanistan":"AF","Albania":"AL","Algeria":"DZ","American Samoa":"AS","Andorra":"AD","Angola":"AO",
+      "Antigua and Barbuda":"AG","Argentina":"AR","Armenia":"AM","Aruba":"AW","Australia":"AU","Austria":"AT",
+      "Azerbaijan":"AZ","Bahamas":"BS","Bahrain":"BH","Bangladesh":"BD","Barbados":"BB","Belarus":"BY","Belgium":"BE",
+      "Belize":"BZ","Benin":"BJ","Bermuda":"BM","Bhutan":"BT","Bolivia":"BO","Bosnia and Herzegovina":"BA","Botswana":"BW",
+      "Brazil":"BR","British Virgin Islands":"VG","Brunei":"BN","Bulgaria":"BG","Burkina Faso":"BF","Burundi":"BI",
+      "Cabo Verde":"CV","Cambodia":"KH","Cameroon":"CM","Canada":"CA","Cayman Islands":"KY","Central African Republic":"CF",
+      "Chad":"TD","Chile":"CL","China":"CN","Chinese Taipei":"TW","Colombia":"CO","Comoros":"KM","Congo":"CG","Cook Islands":"CK",
+      "Costa Rica":"CR","Croatia":"HR","Cuba":"CU","Cyprus":"CY","Czechia":"CZ","Denmark":"DK","Djibouti":"DJ","Dominica":"DM",
+      "Dominican Republic":"DO","DR Congo":"CD","Ecuador":"EC","Egypt":"EG","El Salvador":"SV","Equatorial Guinea":"GQ","Eritrea":"ER",
+      "Estonia":"EE","Eswatini":"SZ","Ethiopia":"ET","Fiji":"FJ","Finland":"FI","France":"FR","Gabon":"GA","Gambia":"GM","Georgia":"GE",
+      "Germany":"DE","Ghana":"GH","Greece":"GR","Grenada":"GD","Guam":"GU","Guatemala":"GT","Guinea":"GN","Guinea-Bissau":"GW",
+      "Guyana":"GY","Haiti":"HT","Honduras":"HN","Hong Kong, China":"HK","Hungary":"HU","Iceland":"IS","India":"IN","Indonesia":"ID",
+      "Iran":"IR","Iraq":"IQ","Ireland":"IE","Israel":"IL","Italy":"IT","Jamaica":"JM","Japan":"JP","Jordan":"JO","Kazakhstan":"KZ",
+      "Kenya":"KE","Kiribati":"KI","Kosovo":"XK","Kuwait":"KW","Kyrgyzstan":"KG","Laos":"LA","Latvia":"LV","Lebanon":"LB","Lesotho":"LS",
+      "Liberia":"LR","Libya":"LY","Liechtenstein":"LI","Lithuania":"LT","Luxembourg":"LU","Madagascar":"MG","Malawi":"MW","Malaysia":"MY",
+      "Maldives":"MV","Mali":"ML","Malta":"MT","Marshall Islands":"MH","Mauritania":"MR","Mauritius":"MU","Mexico":"MX","Micronesia":"FM",
+      "Moldova":"MD","Monaco":"MC","Mongolia":"MN","Montenegro":"ME","Morocco":"MA","Mozambique":"MZ","Myanmar":"MM","Namibia":"NA",
+      "Nauru":"NR","Nepal":"NP","Netherlands":"NL","New Zealand":"NZ","Nicaragua":"NI","Niger":"NE","Nigeria":"NG","North Korea":"KP",
+      "North Macedonia":"MK","Northern Mariana Islands":"MP","Norway":"NO","Oman":"OM","Pakistan":"PK","Palau":"PW","Palestine":"PS",
+      "Panama":"PA","Papua New Guinea":"PG","Paraguay":"PY","Peru":"PE","Philippines":"PH","Poland":"PL","Portugal":"PT","Puerto Rico":"PR",
+      "Qatar":"QA","Romania":"RO","Russia":"RU","Rwanda":"RW","Saint Kitts and Nevis":"KN","Saint Lucia":"LC",
+      "Saint Vincent and the Grenadines":"VC","Samoa":"WS","San Marino":"SM","Sao Tome and Principe":"ST","Saudi Arabia":"SA",
+      "Senegal":"SN","Serbia":"RS","Seychelles":"SC","Sierra Leone":"SL","Singapore":"SG","Slovakia":"SK","Slovenia":"SI",
+      "Solomon Islands":"SB","Somalia":"SO","South Africa":"ZA","South Korea":"KR","South Sudan":"SS","Spain":"ES","Sri Lanka":"LK",
+      "Sudan":"SD","Suriname":"SR","Sweden":"SE","Switzerland":"CH","Syria":"SY","Tajikistan":"TJ","Tanzania":"TZ","Thailand":"TH",
+      "Timor-Leste":"TL","Togo":"TG","Tonga":"TO","Trinidad and Tobago":"TT","Tunisia":"TN","Turkey":"TR","Turkmenistan":"TM",
+      "Tuvalu":"TV","Uganda":"UG","Ukraine":"UA","United Arab Emirates":"AE","United Kingdom":"GB","United States":"US","Uruguay":"UY",
+      "Uzbekistan":"UZ","Vanuatu":"VU","Venezuela":"VE","Vietnam":"VN","Virgin Islands, U.S.":"VI","Yemen":"YE","Zambia":"ZM","Zimbabwe":"ZW"
+    };
+
+    function flagForCountry(countryName){
+      const iso2 = COUNTRY_TO_ISO2[countryName];
+      return iso2 ? iso2ToFlagEmoji(iso2) : "🏳️";
+    }
+
+    function normalizeRow(country, override){
+      const gold = Number(override?.gold ?? 0) || 0;
+      const silver = Number(override?.silver ?? 0) || 0;
+      const bronze = Number(override?.bronze ?? 0) || 0;
+      return { country, gold, silver, bronze, total: gold + silver + bronze };
+    }
+
+    function buildAllRows(){
+      const rows = ALL_COUNTRIES.map(name => normalizeRow(name, MEDAL_OVERRIDES[name]));
+      if(!rows.some(r => r.country === "United States")){
+        rows.push(normalizeRow("United States", MEDAL_OVERRIDES["United States"]));
+      }
+      return rows;
+    }
+
+    function sortRows(rows){
+      const allZero = rows.every(r => r.total === 0);
+      if (allZero) {
+        return rows.slice().sort((a,b) => {
+          if (a.country === "United States") return -1;
+          if (b.country === "United States") return 1;
+          return a.country.localeCompare(b.country);
+        });
+      }
+
+      const keyPrimary = sortMode === "gold" ? "gold" : "total";
+
+      return rows.slice().sort((a,b) => {
+        const p = b[keyPrimary] - a[keyPrimary];
+        if(p) return p;
+
+        const g = b.gold - a.gold; if(g) return g;
+        const s = b.silver - a.silver; if(s) return s;
+        const br = b.bronze - a.bronze; if(br) return br;
+        const t = b.total - a.total; if(t) return t;
+
+        return a.country.localeCompare(b.country);
+      });
+    }
+
+    function applySearch(rows){
+      const q = (els.search.value || "").trim().toLowerCase();
+      if(!q) return rows;
+      return rows.filter(r => r.country.toLowerCase().includes(q));
+    }
+
+    function render(){
+      const all = buildAllRows();
+      const sorted = sortRows(all);
+      const filtered = applySearch(sorted);
+
+      const usa = all.find(r => r.country === "United States") ||
+                  all.find(r => r.country.toLowerCase() === "usa");
+
+      els.usaGold.textContent = usa ? usa.gold : "—";
+      els.usaSilver.textContent = usa ? usa.silver : "—";
+      els.usaBronze.textContent = usa ? usa.bronze : "—";
+      els.usaTotal.textContent = usa ? usa.total : "—";
+
+      els.tableBody.innerHTML = filtered.map((r, i) => {
+        const flag = flagForCountry(r.country);
+        const iso2 = COUNTRY_TO_ISO2[r.country] || "";
+        return `
+        <tr class="${r.country === "United States" ? "usaRow" : ""}">
+          <td class="rank">${i + 1}</td>
+          <td class="country">
+            <div class="countryCell">
+              <span class="flag" aria-hidden="true">${flag}</span>
+              <span class="countryName">
+                <span>${escapeHtml(r.country)}</span>
+                ${iso2 ? `<small>${iso2}</small>` : ``}
+              </span>
+            </div>
+          </td>
+          <td class="num">${r.gold}</td>
+          <td class="num">${r.silver}</td>
+          <td class="num">${r.bronze}</td>
+          <td class="num"><b>${r.total}</b></td>
+        </tr>`;
+      }).join("");
+
+      const now = new Date();
+      els.lastUpdated.textContent = now.toLocaleString();
+    }
+
+    function setSort(mode){
+      sortMode = mode;
+      els.btnSortTotal.classList.toggle("primary", mode === "total");
+      els.btnSortGold.classList.toggle("primary", mode === "gold");
+      render();
+    }
+
+    function init(){
+      els.year.textContent = new Date().getFullYear();
+
+      els.search.addEventListener("input", () => render());
+      els.btnSortTotal.addEventListener("click", () => setSort("total"));
+      els.btnSortGold.addEventListener("click", () => setSort("gold"));
+
+      setSort("gold"); // ✅ DEFAULT GOLD-FIRST
+    }
+
+    init();
+  </script>
 </body>
 </html>
