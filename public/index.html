@@ -3,11 +3,37 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="USA Medals Today — live-style medal count page with clean layout. Fast, mobile-friendly, and easy to update." />
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#0b1220" />
 
-  <title>USA Medals Today</title>
+  <title>USA Medal Count Today | Live Olympic Medals Table</title>
+  <meta name="description" content="USA medal count today with a fast, mobile-friendly Olympic medals table. Track gold, silver, bronze, totals, and rankings across all countries." />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://usamedalstoday.com/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="USA Medal Count Today | Live Olympic Medals Table" />
+  <meta property="og:description" content="Track the USA medal count today plus an Olympic medals table for all countries—fast, mobile-friendly, and SEO-ready." />
+  <meta property="og:url" content="https://usamedalstoday.com/" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="USA Medal Count Today | Live Olympic Medals Table" />
+  <meta name="twitter:description" content="Track the USA medal count today plus an Olympic medals table for all countries—fast, mobile-friendly, and SEO-ready." />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"USA Medals Today",
+    "url":"https://usamedalstoday.com/",
+    "description":"USA medal count today with a fast Olympic medals table for all countries.",
+    "inLanguage":"en"
+  }
+  </script>
 
   <style>
     :root{
@@ -20,11 +46,10 @@
       --accent:#5aa7ff;
       --good:#38d996;
       --warn:#ffcc66;
-      --bad:#ff6b6b;
       --shadow: 0 10px 30px rgba(0,0,0,.35);
       --radius: 18px;
       --radius2: 14px;
-      --max: 980px;
+      --max: 1050px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
@@ -45,7 +70,7 @@
     .wrap{
       max-width: var(--max);
       margin: 0 auto;
-      padding: 22px 16px 56px;
+      padding: 22px 16px 64px;
     }
 
     header{
@@ -53,27 +78,29 @@
       gap:14px;
       align-items:flex-start;
       justify-content:space-between;
-      margin: 8px 0 18px;
+      margin: 8px 0 12px;
     }
+    @media (max-width: 860px){
+      header{flex-direction:column}
+    }
+
     .brand{
       display:flex;
       gap:12px;
       align-items:center;
     }
     .logo{
-      width:44px;
-      height:44px;
-      border-radius: 14px;
+      width:44px;height:44px;border-radius: 14px;
       background: linear-gradient(135deg, rgba(90,167,255,.95), rgba(56,217,150,.85));
       box-shadow: var(--shadow);
-      display:grid;
-      place-items:center;
+      display:grid;place-items:center;
       font-weight:900;
       color:#061026;
+      letter-spacing:.3px;
     }
     .brand h1{
       margin:0;
-      line-height:1.05;
+      line-height:1.1;
       font-size: 22px;
       letter-spacing: .2px;
     }
@@ -81,6 +108,7 @@
       margin: 6px 0 0;
       color: var(--muted);
       font-size: 13px;
+      max-width: 680px;
     }
 
     .chipRow{
@@ -89,6 +117,9 @@
       gap:10px;
       justify-content:flex-end;
       margin-top: 2px;
+    }
+    @media (max-width: 860px){
+      .chipRow{justify-content:flex-start}
     }
     .chip{
       border:1px solid var(--line);
@@ -108,16 +139,71 @@
       box-shadow: 0 0 0 3px rgba(56,217,150,.16);
     }
 
+    .hero{
+      margin: 10px 0 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .heroInner{
+      padding: 14px 16px;
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .heroTitle{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .heroTitle strong{
+      font-size: 14px;
+      letter-spacing:.2px;
+    }
+    .heroTitle span{
+      font-size: 12px;
+      color: var(--muted);
+      line-height:1.35;
+    }
+    .searchRow{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .search{
+      width: min(360px, 74vw);
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      padding: 10px 12px;
+      outline:none;
+      font-size: 13px;
+    }
+    .search:focus{border-color: rgba(90,167,255,.45)}
+    .pill{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 13px;
+      cursor:pointer;
+      transition: transform .04s ease, background .2s ease, border-color .2s ease;
+      color: var(--text);
+    }
+    .pill:hover{background: rgba(255,255,255,.06); border-color: rgba(90,167,255,.35)}
+    .pill:active{transform: translateY(1px)}
+    .pill.primary{background: rgba(90,167,255,.14); border-color: rgba(90,167,255,.35)}
+
     .grid{
       display:grid;
-      grid-template-columns: 1.25fr .75fr;
+      grid-template-columns: 1fr;
       gap: 14px;
-      align-items:stretch;
-    }
-    @media (max-width: 860px){
-      header{flex-direction:column}
-      .chipRow{justify-content:flex-start}
-      .grid{grid-template-columns: 1fr}
     }
 
     .card{
@@ -150,11 +236,14 @@
 
     .kpis{
       display:grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 10px;
       margin-bottom: 12px;
     }
-    @media (max-width: 520px){
+    @media (max-width: 740px){
+      .kpis{grid-template-columns: 1fr 1fr}
+    }
+    @media (max-width: 420px){
       .kpis{grid-template-columns: 1fr}
     }
     .kpi{
@@ -195,6 +284,17 @@
       letter-spacing:.2px;
       text-transform: uppercase;
     }
+
+    /* Sticky header on larger screens */
+    @media (min-width: 900px){
+      thead th{
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        backdrop-filter: blur(10px);
+      }
+    }
+
     tbody td{
       padding: 10px 10px;
       border-bottom: 1px solid rgba(255,255,255,.06);
@@ -202,68 +302,47 @@
     }
     tbody tr:last-child td{border-bottom:none}
     tbody tr:hover td{background: rgba(90,167,255,.06)}
-    .rank{font-variant-numeric: tabular-nums; color: var(--muted); width: 56px}
+    .rank{font-variant-numeric: tabular-nums; color: var(--muted); width: 58px}
     .country{font-weight:700}
     .num{font-variant-numeric: tabular-nums; text-align:right}
     .right{text-align:right}
+
+    .usaRow td{
+      background: rgba(56,217,150,.10);
+    }
+    tbody tr.usaRow:hover td{
+      background: rgba(56,217,150,.14);
+    }
 
     .note{
       margin-top: 12px;
       font-size: 12px;
       color: var(--muted);
-      line-height:1.4;
+      line-height:1.45;
     }
 
-    .btnRow{
-      display:flex;
-      flex-wrap:wrap;
+    .faq{
+      display:grid;
       gap: 10px;
-      margin-top: 12px;
+      margin-top: 14px;
     }
-    button{
-      appearance:none;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.04);
-      color: var(--text);
-      border-radius: 999px;
-      padding: 10px 12px;
-      font-size: 13px;
-      cursor:pointer;
-      transition: transform .04s ease, background .2s ease, border-color .2s ease;
-    }
-    button:hover{
-      background: rgba(255,255,255,.06);
-      border-color: rgba(90,167,255,.35);
-    }
-    button:active{transform: translateY(1px)}
-    .primary{
-      background: rgba(90,167,255,.14);
-      border-color: rgba(90,167,255,.35);
-    }
-
-    .panel{
-      background: rgba(255,255,255,.03);
+    .faq details{
       border: 1px solid var(--line);
       border-radius: var(--radius2);
-      padding: 12px;
+      background: rgba(255,255,255,.03);
+      padding: 10px 12px;
     }
-    .panel h3{margin:0 0 8px;font-size:14px}
-    textarea{
-      width:100%;
-      min-height: 160px;
-      resize: vertical;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.18);
-      color: var(--text);
-      padding: 10px 10px;
-      font-family: var(--mono);
+    .faq summary{
+      cursor:pointer;
+      font-weight:700;
+      font-size: 13px;
+    }
+    .faq p{
+      margin: 8px 0 0;
+      color: var(--muted);
       font-size: 12px;
-      line-height: 1.35;
-      outline:none;
+      line-height:1.5;
     }
-    textarea:focus{border-color: rgba(90,167,255,.45)}
-    .hint{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.35}
 
     footer{
       margin-top: 18px;
@@ -276,17 +355,6 @@
       align-items:center;
     }
     .sep{opacity:.5}
-    .badge{
-      font-size: 12px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      display:flex;
-      gap:8px;
-      align-items:center;
-    }
-    .badge .dot{background: var(--warn); box-shadow: 0 0 0 3px rgba(255,204,102,.12)}
   </style>
 </head>
 
@@ -296,23 +364,39 @@
       <div class="brand">
         <div class="logo">USA</div>
         <div>
-          <h1>USA Medals Today</h1>
-          <p>Fast medal-count page you can update in seconds (manual or JSON paste).</p>
+          <h1>USA Medal Count Today</h1>
+          <p>
+            Track the <strong>USA medal count</strong> plus a fast <strong>Olympic medals table</strong> across all countries.
+            Updated layout built for mobile, speed, and SEO.
+          </p>
         </div>
       </div>
 
       <div class="chipRow">
-        <div class="chip"><span class="dot"></span><span id="statusText">Live layout (data editable)</span></div>
+        <div class="chip"><span class="dot"></span><span id="statusText">Medal table ready</span></div>
         <div class="chip">Last updated: <span id="lastUpdated">—</span></div>
       </div>
     </header>
 
+    <section class="hero" aria-label="Controls">
+      <div class="heroInner">
+        <div class="heroTitle">
+          <strong>Olympic Medal Count (All Countries)</strong>
+          <span>Search any country, sort by totals, and keep USA highlighted.</span>
+        </div>
+        <div class="searchRow">
+          <input id="search" class="search" type="search" placeholder="Search country (e.g., Canada, Japan, Brazil)..." autocomplete="off" />
+          <button class="pill primary" id="btnSortTotal" type="button">Sort: Total</button>
+          <button class="pill" id="btnSortGold" type="button">Sort: Gold</button>
+        </div>
+      </div>
+    </section>
+
     <div class="grid">
-      <!-- LEFT: Medal Table -->
-      <section class="card">
+      <section class="card" aria-label="Medal Count Table">
         <div class="cardHead">
-          <h2>Medal Count</h2>
-          <div class="small">Sort by total (default). Edit the data panel to update.</div>
+          <h2>Medal Count Table</h2>
+          <div class="small">Ranks sort by selected mode (Total or Gold).</div>
         </div>
 
         <div class="cardBody">
@@ -329,9 +413,13 @@
               <div class="label">🥉 USA Bronze</div>
               <div class="value" id="usaBronze">—</div>
             </div>
+            <div class="kpi">
+              <div class="label">🏅 USA Total</div>
+              <div class="value" id="usaTotal">—</div>
+            </div>
           </div>
 
-          <table aria-label="Medal table">
+          <table aria-label="Olympic medal count table">
             <thead>
               <tr>
                 <th class="rank">Rank</th>
@@ -346,54 +434,38 @@
           </table>
 
           <div class="note">
-            Tip: This is intentionally “static-host friendly” (no backend). If you later want true live data,
-            we can wire this to a JSON endpoint or a Google Sheet feed.
+            <strong>Note:</strong> This page is intentionally lightweight for speed and indexing. If you want true automated live updates,
+            we can connect it to a JSON endpoint or Google Sheets without changing the design.
+          </div>
+
+          <div class="faq" aria-label="FAQ">
+            <details>
+              <summary>Is this the live USA medal count today?</summary>
+              <p>
+                The layout is live and SEO-ready. Medal totals can be updated instantly by editing the update map in the code, or later by connecting a live feed.
+              </p>
+            </details>
+            <details>
+              <summary>How is the ranking calculated?</summary>
+              <p>
+                You can sort by <b>Total medals</b> (default) or by <b>Gold medals</b>. Ties break by the next medal type, then alphabetical.
+              </p>
+            </details>
+            <details>
+              <summary>Why include all countries?</summary>
+              <p>
+                Having every country listed helps users search quickly and helps search engines understand the page is a comprehensive Olympic medal table.
+              </p>
+            </details>
           </div>
         </div>
       </section>
-
-      <!-- RIGHT: Data Editor -->
-      <aside class="card">
-        <div class="cardHead">
-          <h2>Quick Update Panel</h2>
-          <div class="small">Paste JSON → Update</div>
-        </div>
-
-        <div class="cardBody">
-          <div class="panel">
-            <h3>Data (JSON)</h3>
-            <textarea id="dataBox" spellcheck="false"></textarea>
-
-            <div class="btnRow">
-              <button class="primary" id="btnUpdate">Update Table</button>
-              <button id="btnReset">Reset Sample</button>
-            </div>
-
-            <div class="hint">
-              Format:
-              <br />
-              <span style="font-family:var(--mono);opacity:.95;">
-                [{"country":"United States","gold":0,"silver":0,"bronze":0}, ...]
-              </span>
-              <br /><br />
-              If you want, you can keep this file updated manually during the Olympics.
-            </div>
-          </div>
-
-          <div style="height:12px"></div>
-
-          <div class="badge">
-            <span class="dot"></span>
-            <span><b>Note:</b> “DNS Change Recommended” in Vercel is optional. Your setup is fine.</span>
-          </div>
-        </div>
-      </aside>
     </div>
 
     <footer>
       <div>
         © <span id="year"></span> USA Medals Today <span class="sep">•</span>
-        Built for speed & SEO.
+        Fast Olympic medal table.
       </div>
       <div>
         <span class="sep">Tip:</span> Keep one canonical domain (root) + redirect www.
@@ -402,65 +474,62 @@
   </div>
 
   <script>
-    // ---------- Sample data (edit anytime) ----------
-    const SAMPLE = [
-      { country: "United States", gold: 0, silver: 0, bronze: 0 },
-      { country: "China",         gold: 0, silver: 0, bronze: 0 },
-      { country: "Japan",         gold: 0, silver: 0, bronze: 0 },
-      { country: "Great Britain", gold: 0, silver: 0, bronze: 0 },
-      { country: "Australia",     gold: 0, silver: 0, bronze: 0 }
+    /**
+     * ✅ Updating medals (simple)
+     * Add updates in MEDAL_OVERRIDES below, like:
+     * "United States": { gold: 10, silver: 8, bronze: 12 },
+     * "Japan": { gold: 7, silver: 4, bronze: 5 },
+     *
+     * This keeps the page clean (no admin panel) while remaining easy to update.
+     */
+
+    // --- All countries list (shown even when medals are 0) ---
+    // Note: These are common Olympic team names + territories used in major medal tables.
+    // If you ever want the official NOC list (206), we can swap this to a maintained JSON feed.
+    const ALL_COUNTRIES = [
+      "Afghanistan","Albania","Algeria","American Samoa","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Aruba",
+      "Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda",
+      "Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso",
+      "Burundi","Cabo Verde","Cambodia","Cameroon","Canada","Cayman Islands","Central African Republic","Chad","Chile","China",
+      "Chinese Taipei","Colombia","Comoros","Congo","Cook Islands","Costa Rica","Croatia","Cuba","Cyprus","Czechia","Denmark",
+      "Djibouti","Dominica","Dominican Republic","DR Congo","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia",
+      "Eswatini","Ethiopia","Fiji","Finland","France","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guam",
+      "Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti","Honduras","Hong Kong, China","Hungary","Iceland","India","Indonesia",
+      "Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait",
+      "Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Madagascar",
+      "Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova",
+      "Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","New Zealand",
+      "Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Northern Mariana Islands","Norway","Oman","Pakistan","Palau",
+      "Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Romania",
+      "Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino",
+      "Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia",
+      "Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden",
+      "Switzerland","Syria","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey",
+      "Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan",
+      "Vanuatu","Venezuela","Vietnam","Virgin Islands, U.S.","Yemen","Zambia","Zimbabwe"
     ];
+
+    // --- Medal updates live here ---
+    const MEDAL_OVERRIDES = {
+      // Example:
+      // "United States": { gold: 0, silver: 0, bronze: 0 }
+    };
 
     const els = {
       tableBody: document.getElementById("tableBody"),
-      dataBox: document.getElementById("dataBox"),
       lastUpdated: document.getElementById("lastUpdated"),
       year: document.getElementById("year"),
       usaGold: document.getElementById("usaGold"),
       usaSilver: document.getElementById("usaSilver"),
       usaBronze: document.getElementById("usaBronze"),
-      btnUpdate: document.getElementById("btnUpdate"),
-      btnReset: document.getElementById("btnReset")
+      usaTotal: document.getElementById("usaTotal"),
+      search: document.getElementById("search"),
+      btnSortTotal: document.getElementById("btnSortTotal"),
+      btnSortGold: document.getElementById("btnSortGold")
     };
 
-    function normalizeRow(row){
-      const country = String(row.country ?? "").trim();
-      const gold = Number(row.gold ?? 0) || 0;
-      const silver = Number(row.silver ?? 0) || 0;
-      const bronze = Number(row.bronze ?? 0) || 0;
-      return { country, gold, silver, bronze, total: gold + silver + bronze };
-    }
-
-    function render(data){
-      // sort by total desc, then gold desc
-      const rows = data
-        .map(normalizeRow)
-        .filter(r => r.country.length > 0)
-        .sort((a,b) => (b.total - a.total) || (b.gold - a.gold) || (b.silver - a.silver) || (b.bronze - a.bronze) || a.country.localeCompare(b.country));
-
-      // USA KPIs
-      const usa = rows.find(r => r.country.toLowerCase() === "united states" || r.country.toLowerCase() === "usa");
-      els.usaGold.textContent = usa ? usa.gold : "—";
-      els.usaSilver.textContent = usa ? usa.silver : "—";
-      els.usaBronze.textContent = usa ? usa.bronze : "—";
-
-      // Table body
-      els.tableBody.innerHTML = rows.map((r, i) => `
-        <tr>
-          <td class="rank">${i + 1}</td>
-          <td class="country">${escapeHtml(r.country)}</td>
-          <td class="num">${r.gold}</td>
-          <td class="num">${r.silver}</td>
-          <td class="num">${r.bronze}</td>
-          <td class="num"><b>${r.total}</b></td>
-        </tr>
-      `).join("");
-
-      // timestamp
-      const now = new Date();
-      els.lastUpdated.textContent = now.toLocaleString();
-      localStorage.setItem("usa_medals_data", JSON.stringify(rows));
-    }
+    let sortMode = "total"; // "total" or "gold"
+    let currentRows = [];
 
     function escapeHtml(str){
       return String(str)
@@ -471,38 +540,95 @@
         .replaceAll("'", "&#039;");
     }
 
-    function load(){
-      els.year.textContent = new Date().getFullYear();
-      const saved = localStorage.getItem("usa_medals_data");
-      if(saved){
-        try{
-          const parsed = JSON.parse(saved);
-          els.dataBox.value = JSON.stringify(parsed.map(({country,gold,silver,bronze}) => ({country,gold,silver,bronze})), null, 2);
-          render(parsed);
-          return;
-        }catch(_){}
-      }
-      // default sample
-      els.dataBox.value = JSON.stringify(SAMPLE, null, 2);
-      render(SAMPLE);
+    function normalizeRow(country, override){
+      const gold = Number(override?.gold ?? 0) || 0;
+      const silver = Number(override?.silver ?? 0) || 0;
+      const bronze = Number(override?.bronze ?? 0) || 0;
+      return { country, gold, silver, bronze, total: gold + silver + bronze };
     }
 
-    els.btnUpdate.addEventListener("click", () => {
-      try{
-        const parsed = JSON.parse(els.dataBox.value);
-        if(!Array.isArray(parsed)) throw new Error("Data must be an array.");
-        render(parsed);
-      }catch(e){
-        alert("Invalid JSON. Please check formatting.\n\n" + e.message);
+    function buildAllRows(){
+      const rows = ALL_COUNTRIES.map(name => normalizeRow(name, MEDAL_OVERRIDES[name]));
+      // Ensure USA always present (in case naming differs)
+      if(!rows.some(r => r.country === "United States")){
+        rows.push(normalizeRow("United States", MEDAL_OVERRIDES["United States"]));
       }
-    });
+      return rows;
+    }
 
-    els.btnReset.addEventListener("click", () => {
-      els.dataBox.value = JSON.stringify(SAMPLE, null, 2);
-      render(SAMPLE);
-    });
+    function sortRows(rows){
+      const keyPrimary = sortMode === "gold" ? "gold" : "total";
 
-    load();
+      return rows.slice().sort((a,b) => {
+        const p = b[keyPrimary] - a[keyPrimary];
+        if(p) return p;
+
+        // Tie-breakers: gold -> silver -> bronze -> total -> alpha
+        const g = b.gold - a.gold; if(g) return g;
+        const s = b.silver - a.silver; if(s) return s;
+        const br = b.bronze - a.bronze; if(br) return br;
+        const t = b.total - a.total; if(t) return t;
+
+        return a.country.localeCompare(b.country);
+      });
+    }
+
+    function applySearch(rows){
+      const q = (els.search.value || "").trim().toLowerCase();
+      if(!q) return rows;
+      return rows.filter(r => r.country.toLowerCase().includes(q));
+    }
+
+    function render(){
+      const all = buildAllRows();
+      const sorted = sortRows(all);
+      const filtered = applySearch(sorted);
+
+      // USA KPIs (prefer "United States")
+      const usa = all.find(r => r.country === "United States") ||
+                  all.find(r => r.country.toLowerCase() === "usa");
+
+      els.usaGold.textContent = usa ? usa.gold : "—";
+      els.usaSilver.textContent = usa ? usa.silver : "—";
+      els.usaBronze.textContent = usa ? usa.bronze : "—";
+      els.usaTotal.textContent = usa ? usa.total : "—";
+
+      els.tableBody.innerHTML = filtered.map((r, i) => `
+        <tr class="${r.country === "United States" ? "usaRow" : ""}">
+          <td class="rank">${i + 1}</td>
+          <td class="country">${escapeHtml(r.country)}</td>
+          <td class="num">${r.gold}</td>
+          <td class="num">${r.silver}</td>
+          <td class="num">${r.bronze}</td>
+          <td class="num"><b>${r.total}</b></td>
+        </tr>
+      `).join("");
+
+      const now = new Date();
+      els.lastUpdated.textContent = now.toLocaleString();
+      currentRows = filtered;
+    }
+
+    function setSort(mode){
+      sortMode = mode;
+      els.btnSortTotal.classList.toggle("primary", mode === "total");
+      els.btnSortGold.classList.toggle("primary", mode === "gold");
+      render();
+    }
+
+    function init(){
+      els.year.textContent = new Date().getFullYear();
+
+      // Events
+      els.search.addEventListener("input", () => render());
+      els.btnSortTotal.addEventListener("click", () => setSort("total"));
+      els.btnSortGold.addEventListener("click", () => setSort("gold"));
+
+      // First render
+      setSort("total");
+    }
+
+    init();
   </script>
 </body>
 </html>
