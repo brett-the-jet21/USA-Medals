@@ -6,22 +6,22 @@
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#0b1220" />
 
-  <title>USA Medal Count Today | Live Olympic Medals Table</title>
-  <meta name="description" content="USA medal count today with a fast, mobile-friendly Olympic medals table. Track gold, silver, bronze, totals, and rankings across all countries." />
+  <title>USA Medal Count Today 🇺🇸 | Milano Cortina 2026 Winter Olympics</title>
+  <meta name="description" content="Live USA medal count for the Milano Cortina 2026 Winter Olympics. Track Team USA gold, silver, bronze and total medals with a fast medal table for all countries." />
 
   <!-- Canonical -->
   <link rel="canonical" href="https://usamedalstoday.com/" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="USA Medal Count Today | Live Olympic Medals Table" />
-  <meta property="og:description" content="Track the USA medal count today plus an Olympic medals table for all countries—fast, mobile-friendly, and SEO-ready." />
+  <meta property="og:title" content="USA Medal Count Today 🇺🇸 | Milano Cortina 2026 Winter Olympics" />
+  <meta property="og:description" content="Live USA medal count for Milano Cortina 2026. Track gold, silver, bronze and total medals, plus a full Winter Olympics medal table by country." />
   <meta property="og:url" content="https://usamedalstoday.com/" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="USA Medal Count Today | Live Olympic Medals Table" />
-  <meta name="twitter:description" content="Track the USA medal count today plus an Olympic medals table for all countries—fast, mobile-friendly, and SEO-ready." />
+  <meta name="twitter:title" content="USA Medal Count Today 🇺🇸 | Milano Cortina 2026 Winter Olympics" />
+  <meta name="twitter:description" content="Live USA medal count for Milano Cortina 2026. Track gold, silver, bronze and total medals, plus a full Winter Olympics medal table by country." />
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -30,8 +30,25 @@
     "@type":"WebSite",
     "name":"USA Medals Today",
     "url":"https://usamedalstoday.com/",
-    "description":"USA medal count today with a fast Olympic medals table for all countries.",
+    "description":"Live USA medal count for the Milano Cortina 2026 Winter Olympics with a fast medal table for all countries.",
     "inLanguage":"en"
+  }
+  </script>
+
+  <!-- Event Structured Data (Milano Cortina 2026) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SportsEvent",
+    "name":"Milano Cortina 2026 Winter Olympics",
+    "startDate":"2026-02-06",
+    "endDate":"2026-02-22",
+    "eventStatus":"https://schema.org/EventScheduled",
+    "location":{
+      "@type":"Place",
+      "name":"Milan & Cortina d'Ampezzo, Italy"
+    },
+    "url":"https://usamedalstoday.com/"
   }
   </script>
 
@@ -69,7 +86,9 @@
         var(--bg);
     }
 
-    a{color:inherit}
+    a{color:inherit; text-decoration:none}
+    a:hover{text-decoration:underline}
+
     .wrap{
       max-width: var(--max);
       margin: 0 auto;
@@ -94,8 +113,7 @@
     }
     .logo{
       width:44px;height:44px;border-radius: 14px;
-      background:
-        linear-gradient(135deg, rgba(90,167,255,.95), rgba(255,77,94,.85));
+      background: linear-gradient(135deg, rgba(90,167,255,.95), rgba(255,77,94,.85));
       box-shadow: var(--shadow);
       display:grid;place-items:center;
       font-weight:900;
@@ -126,6 +144,7 @@
       color: var(--muted);
       font-size: 13px;
       max-width: 680px;
+      line-height:1.45;
     }
 
     .chipRow{
@@ -172,8 +191,7 @@
       position:absolute;
       left:0; right:0; top:0;
       height:3px;
-      background:
-        linear-gradient(90deg, var(--usaBlue), var(--usaWhite), var(--usaRed));
+      background: linear-gradient(90deg, var(--usaBlue), var(--usaWhite), var(--usaRed));
       opacity:.9;
     }
 
@@ -198,6 +216,7 @@
       font-size: 12px;
       color: var(--muted);
       line-height:1.35;
+      max-width: 680px;
     }
     .searchRow{
       display:flex;
@@ -453,10 +472,10 @@
       <div class="brand">
         <div class="logo">USA</div>
         <div>
-          <h1>USA Medal Count Today</h1>
+          <h1>USA Medal Count Today — Milano Cortina 2026</h1>
           <p>
-            Track the <strong>USA medal count</strong> plus a fast <strong>Olympic medals table</strong> across all countries.
-            Updated layout built for mobile, speed, and SEO.
+            Track the <strong>USA medal count</strong> for the <strong>Milano Cortina 2026 Winter Olympics</strong>,
+            plus a fast <strong>Winter Olympics medal table</strong> across all countries. Built for mobile, speed, and SEO.
           </p>
         </div>
       </div>
@@ -470,17 +489,17 @@
     <!-- ✅ Google Ads placeholder (top) -->
     <div class="adSlot" aria-label="Google Ads placeholder top">
       <div>
-        <strong>Ad Slot (Top Banner)</strong>
-        <div class="adHint">Paste your Google AdSense code here next week.</div>
+        <strong>Sponsored Content</strong>
+        <div class="adHint">Ad space reserved for Google AdSense.</div>
       </div>
-      <div class="adBadge">Google Ads</div>
+      <div class="adBadge">Ads</div>
     </div>
 
     <section class="hero" aria-label="Controls">
       <div class="heroInner">
         <div class="heroTitle">
-          <strong>Olympic Medal Count (All Countries)</strong>
-          <span>Search any country, sort by totals, and keep USA highlighted.</span>
+          <strong>Winter Olympics Medal Count (All Countries)</strong>
+          <span>Milano Cortina 2026 runs Feb 6–22, 2026. Search any country, sort by totals or gold, and keep USA highlighted.</span>
         </div>
         <div class="searchRow">
           <input id="search" class="search" type="search" placeholder="Search country (e.g., Canada, Japan, Brazil)..." autocomplete="off" />
@@ -517,7 +536,7 @@
             </div>
           </div>
 
-          <table aria-label="Olympic medal count table">
+          <table aria-label="Winter Olympics medal count table">
             <thead>
               <tr>
                 <th class="rank">Rank</th>
@@ -534,17 +553,16 @@
           <!-- ✅ Google Ads placeholder (in-content / mid) -->
           <div class="adSlot" aria-label="Google Ads placeholder mid">
             <div>
-              <strong>Ad Slot (In-Content)</strong>
-              <div class="adHint">Good spot for a responsive ad unit (e.g., 336×280 / auto).</div>
+              <strong>Sponsored Content</strong>
+              <div class="adHint">Great spot for a responsive ad unit (auto / in-article).</div>
             </div>
-            <div class="adBadge">Google Ads</div>
+            <div class="adBadge">Ads</div>
           </div>
 
           <div class="note">
-            <strong>Note:</strong> This page is intentionally lightweight for speed and indexing. If you want true automated live updates,
-            we can connect it to a JSON endpoint or Google Sheets without changing the design.
+            <strong>Note:</strong> This page is intentionally lightweight for speed and indexing. Medal totals can be updated instantly by editing the update map in the code, or later by connecting a live feed.
             <br><br>
-            <strong>Ranking rules:</strong> Rankings follow Olympic standards: countries are ranked by gold medals first, then silver, then bronze.
+            <strong>Ranking rules:</strong> Use <b>Sort: Gold</b> to follow official Olympic medal table ranking (gold → silver → bronze). Use <b>Sort: Total</b> to rank by total medals.
           </div>
 
           <div class="faqTitle">About the USA Medal Count</div>
@@ -565,20 +583,51 @@
             <details>
               <summary>Why include all countries?</summary>
               <p>
-                Having every country listed helps users search quickly and helps search engines understand the page is a comprehensive Olympic medal table.
+                Having every country listed helps users search quickly and helps search engines understand the page is a comprehensive Winter Olympics medal table.
               </p>
             </details>
           </div>
 
-          <!-- ✅ STEP 1: SEO block (added) -->
-          <h2 class="faqTitle">USA Olympic Medal Count & Olympic Medal Table</h2>
-          <p class="small" style="margin:8px 0 0; line-height:1.55;">
-            The <strong>USA medal count today</strong> shows how the United States ranks on the
-            <strong>Olympic medal table</strong> across all countries. This page tracks the
-            <strong>Olympic medal count</strong> by <strong>gold, silver, bronze</strong>, and
-            <strong>total medals</strong>, so you can follow the full <strong>Olympic medal standings</strong>
-            and <strong>medal rankings by country</strong> throughout the Games.
-          </p>
+          <!-- ✅ SEO block (Milano Cortina 2026) -->
+          <h2 class="faqTitle">USA Medal Count — Milano Cortina 2026 Winter Olympics</h2>
+
+          <div class="small" style="margin:8px 0 0; line-height:1.65;">
+            <p style="margin:0 0 10px;">
+              The <strong>USA medal count today</strong> page tracks <strong>Team USA</strong> across the
+              <strong>Milano Cortina 2026 Winter Olympics</strong>. Use the medal table above to follow
+              <strong>USA gold medals</strong>, <strong>USA silver medals</strong>, <strong>USA bronze medals</strong>, and
+              <strong>total medals</strong>, plus the complete <strong>Winter Olympics medal table by country</strong>.
+            </p>
+
+            <p style="margin:0 0 10px;">
+              During the Games, the medal counts update as events finish and results become official. If you prefer the traditional
+              Olympic standings, tap <strong>Sort: Gold</strong> to rank countries by <strong>gold</strong> first, then
+              <strong>silver</strong>, then <strong>bronze</strong>. If you want to compare overall performance, tap
+              <strong>Sort: Total</strong> to rank by total medals.
+            </p>
+
+            <p style="margin:0 0 10px;">
+              Milano Cortina 2026 features winter sports like <strong>alpine skiing</strong>, <strong>snowboarding</strong>,
+              <strong>cross-country skiing</strong>, <strong>biathlon</strong>, <strong>figure skating</strong>,
+              <strong>speed skating</strong>, <strong>ice hockey</strong>, <strong>curling</strong>, and more. As medals are awarded,
+              this page helps you quickly see how the <strong>United States</strong> compares to countries like
+              <strong>Canada</strong>, <strong>Norway</strong>, <strong>Germany</strong>, <strong>Italy</strong>, and others.
+            </p>
+
+            <p style="margin:0;">
+              Bookmark this page for the fastest way to check the <strong>USA Winter Olympics medal count</strong> and the full
+              <strong>Milano Cortina 2026 medal table</strong> in one place.
+            </p>
+          </div>
+
+          <!-- ✅ Google Ads placeholder (bottom) -->
+          <div class="adSlot" aria-label="Google Ads placeholder bottom">
+            <div>
+              <strong>Sponsored Content</strong>
+              <div class="adHint">Bottom placement typically has strong viewability after scrolling the table.</div>
+            </div>
+            <div class="adBadge">Ads</div>
+          </div>
 
         </div>
       </section>
@@ -587,7 +636,8 @@
     <footer>
       <div>
         © <span id="year"></span> USA Medals Today <span class="sep">•</span>
-        Fast Olympic medal table.
+        Fast Winter Olympics medal table.
+        <span class="sep">•</span> <a href="/privacy-policy.html">Privacy Policy</a>
       </div>
       <div>
         <span class="sep">Tip:</span> Keep one canonical domain (root) + redirect www.
@@ -600,7 +650,7 @@
      * ✅ Updating medals (simple)
      * Add updates in MEDAL_OVERRIDES below, like:
      * "United States": { gold: 10, silver: 8, bronze: 12 },
-     * "Japan": { gold: 7, silver: 4, bronze: 5 },
+     * "Canada": { gold: 7, silver: 4, bronze: 5 },
      */
 
     const ALL_COUNTRIES = [
