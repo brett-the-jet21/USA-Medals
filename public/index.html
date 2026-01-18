@@ -23,6 +23,10 @@
   <meta name="twitter:title" content="USA Medal Count Today 🇺🇸 | Milano Cortina 2026 Winter Olympics" />
   <meta name="twitter:description" content="Live USA medal count for Milano Cortina 2026. Track gold, silver, bronze and total medals, plus a full Winter Olympics medal table by country." />
 
+  <!-- ✅ Google AdSense loader (installed) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8025748227928688"
+     crossorigin="anonymous"></script>
+
   <!-- Structured Data -->
   <script type="application/ld+json">
   {
@@ -287,35 +291,6 @@
     }
     .cardBody{padding: 14px 16px 16px}
 
-    /* --- Google Ads placeholders --- */
-    .adSlot{
-      border: 1px dashed rgba(255,255,255,.18);
-      border-radius: var(--radius2);
-      background: rgba(0,0,0,.18);
-      padding: 14px 12px;
-      color: rgba(255,255,255,.70);
-      font-size: 12px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin: 10px 0 12px;
-    }
-    .adSlot strong{font-size:12px; letter-spacing:.2px}
-    .adBadge{
-      font-size: 11px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(90,167,255,.12);
-      border: 1px solid rgba(90,167,255,.28);
-      color: rgba(233,243,255,.9);
-      white-space:nowrap;
-    }
-    .adHint{
-      color: rgba(255,255,255,.55);
-      line-height:1.35;
-    }
-
     .kpis{
       display:grid;
       grid-template-columns: repeat(4, 1fr);
@@ -463,6 +438,9 @@
       align-items:center;
     }
     .sep{opacity:.5}
+
+    /* Optional spacing for ads */
+    .adWrap{margin: 10px 0 12px}
   </style>
 </head>
 
@@ -486,13 +464,17 @@
       </div>
     </header>
 
-    <!-- ✅ Google Ads placeholder (top) -->
-    <div class="adSlot" aria-label="Google Ads placeholder top">
-      <div>
-        <strong>Sponsored Content</strong>
-        <div class="adHint">Ad space reserved for Google AdSense.</div>
-      </div>
-      <div class="adBadge">Ads</div>
+    <!-- ✅ TOP AD -->
+    <div class="adWrap" aria-label="Top ad">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-8025748227928688"
+           data-ad-slot="1111111111"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </div>
 
     <section class="hero" aria-label="Controls">
@@ -550,13 +532,17 @@
             <tbody id="tableBody"></tbody>
           </table>
 
-          <!-- ✅ Google Ads placeholder (in-content / mid) -->
-          <div class="adSlot" aria-label="Google Ads placeholder mid">
-            <div>
-              <strong>Sponsored Content</strong>
-              <div class="adHint">Great spot for a responsive ad unit (auto / in-article).</div>
-            </div>
-            <div class="adBadge">Ads</div>
+          <!-- ✅ MID AD -->
+          <div class="adWrap" aria-label="Mid content ad">
+            <ins class="adsbygoogle"
+                 style="display:block; margin:16px 0"
+                 data-ad-client="ca-pub-8025748227928688"
+                 data-ad-slot="2222222222"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
           </div>
 
           <div class="note">
@@ -620,13 +606,17 @@
             </p>
           </div>
 
-          <!-- ✅ Google Ads placeholder (bottom) -->
-          <div class="adSlot" aria-label="Google Ads placeholder bottom">
-            <div>
-              <strong>Sponsored Content</strong>
-              <div class="adHint">Bottom placement typically has strong viewability after scrolling the table.</div>
-            </div>
-            <div class="adBadge">Ads</div>
+          <!-- ✅ BOTTOM AD -->
+          <div class="adWrap" aria-label="Bottom ad">
+            <ins class="adsbygoogle"
+                 style="display:block; margin:16px 0"
+                 data-ad-client="ca-pub-8025748227928688"
+                 data-ad-slot="3333333333"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
           </div>
 
         </div>
