@@ -441,6 +441,29 @@
 
     /* Optional spacing for ads */
     .adWrap{margin: 10px 0 12px}
+
+    /* ✅ Editorial content block styling (keeps your look) */
+    .editorial{
+      margin: 10px 0 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+      padding: 14px 16px;
+    }
+    .editorial h2{
+      margin: 0 0 8px;
+      font-size: 15px;
+      letter-spacing:.2px;
+    }
+    .editorial p{
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+      max-width: 900px;
+    }
+    .editorial p:last-child{margin-bottom:0}
   </style>
 </head>
 
@@ -464,7 +487,30 @@
       </div>
     </header>
 
-    <!-- ✅ TOP AD -->
+    <!-- ✅ IDEAL SPOT: Editorial content BEFORE any ads -->
+    <section class="editorial" aria-label="About USA medal count today">
+      <h2>USA Medal Count Today – Milano Cortina 2026 Winter Olympics</h2>
+
+      <p>
+        USA Medals Today provides a live, continuously updated view of the United States Olympic medal count during the
+        Milano Cortina 2026 Winter Olympic Games. This page is designed to be fast, clear, and mobile-friendly so fans can
+        quickly see Team USA’s gold, silver, bronze, and total medals as events finish.
+      </p>
+
+      <p>
+        Olympic medal standings can change throughout the day as competitions conclude across multiple venues and time zones.
+        The medal table below summarizes results across all Winter Olympic sports, and helps you compare the United States to
+        other countries in a single, easy-to-read ranking.
+      </p>
+
+      <p>
+        If you want the traditional Olympic standings, use <strong>Sort: Gold</strong> to rank countries by gold medals first
+        (then silver, then bronze). If you prefer overall performance, use <strong>Sort: Total</strong> to rank by total medals.
+        Bookmark this page to keep up with the latest USA medal totals during Milano Cortina 2026.
+      </p>
+    </section>
+
+    <!-- ✅ TOP AD (now safely below publisher content) -->
     <div class="adWrap" aria-label="Top ad">
       <ins class="adsbygoogle"
            style="display:block"
