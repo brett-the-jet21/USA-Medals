@@ -607,6 +607,51 @@ body:before{
 </style>
 <!-- OLYMPIC_SUPER_THEME_END -->
 
+
+<!-- OLYMPIC_TABLE_STYLE_START -->
+<style>
+/* Broadcast-grade table styling (applies to first table in #root) */
+#root table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  font-size:14px;
+}
+#root thead th{
+  position:sticky;
+  top:0;
+  z-index:2;
+  backdrop-filter: blur(10px);
+  background: rgba(0,0,0,.38);
+  border-bottom:1px solid rgba(255,255,255,.14);
+  padding:12px 10px;
+  text-transform:uppercase;
+  letter-spacing:.18px;
+  font-size:12px;
+  color: rgba(255,255,255,.78);
+}
+#root tbody td{
+  padding:12px 10px;
+  border-bottom:1px solid rgba(255,255,255,.10);
+  color: rgba(255,255,255,.90);
+}
+#root tbody tr:nth-child(odd){
+  background: rgba(255,255,255,.03);
+}
+#root tbody tr:hover{
+  background: rgba(255,255,255,.07);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.10);
+}
+#root table{
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;
+  overflow:hidden;
+}
+#root thead th:first-child{border-top-left-radius:18px;}
+#root thead th:last-child{border-top-right-radius:18px;}
+</style>
+<!-- OLYMPIC_TABLE_STYLE_END -->
+
 </head>
 
 <body>
