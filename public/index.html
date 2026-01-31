@@ -870,6 +870,93 @@ body:before{
 </style>
 <!-- OLYMPIC_BEST_STYLE_END -->
 
+
+<!-- OLYMPIC_FINAL_POLISH_STYLE_START -->
+<style>
+/* Stadium light overlay (subtle) */
+body:after{
+  content:"";
+  position:fixed; inset:-120px;
+  pointer-events:none;
+  opacity:.10;
+  background:
+    radial-gradient(800px 220px at 15% 0%, rgba(255,255,255,.35), transparent 65%),
+    radial-gradient(800px 220px at 85% 0%, rgba(255,255,255,.22), transparent 65%),
+    radial-gradient(900px 260px at 50% 0%, rgba(29,78,216,.16), transparent 68%);
+  filter: blur(1px);
+}
+
+/* Live ticker */
+.ticker{
+  margin-top:12px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.22);
+  border-radius:999px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.ticker .live{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 12px;
+  border-right:1px solid rgba(255,255,255,.14);
+  font-weight:900;
+  letter-spacing:.2px;
+  text-transform:uppercase;
+  font-size:12px;
+}
+.ticker .live .dot{
+  width:9px;height:9px;border-radius:999px;
+  background: #ff2e2e;
+  box-shadow: 0 0 18px rgba(255,46,46,.65);
+}
+.ticker .track{
+  position:relative;
+  flex:1;
+  min-width:0;
+  height:38px;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+}
+.ticker .msg{
+  position:absolute;
+  white-space:nowrap;
+  will-change: transform;
+  color: rgba(255,255,255,.82);
+  font-size:13px;
+  animation: marquee 16s linear infinite;
+}
+@keyframes marquee{
+  0%{ transform: translateX(100%); }
+  100%{ transform: translateX(-120%); }
+}
+
+/* Share button */
+.sharebar{
+  margin-top:10px;
+  display:flex;
+  justify-content:flex-end;
+}
+.btn-share{
+  cursor:pointer;
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.90);
+  padding:10px 12px;
+  border-radius:12px;
+  font-weight:900;
+  letter-spacing:.2px;
+}
+.btn-share:hover{
+  background: rgba(255,255,255,.10);
+}
+</style>
+<!-- OLYMPIC_FINAL_POLISH_STYLE_END -->
+
 </head>
 
 <body>
@@ -955,6 +1042,17 @@ body:before{
   </div>
 </header>
 <!-- OLYMPIC_SUPER_HERO_END -->
+
+<!-- OLYMPIC_FINAL_TICKER_START -->
+<div class="ticker" id="ticker">
+  <div class="live"><span class="dot"></span>LIVE</div>
+  <div class="track"><div class="msg" id="tickerMsg">Loading live updates…</div></div>
+</div>
+<div class="sharebar">
+  <button class="btn-share" id="sharePodiumBtn" type="button">Share Top 3</button>
+</div>
+<!-- OLYMPIC_FINAL_TICKER_END -->
+
 
 
 <div class=\"olympic-shell\">
@@ -1669,6 +1767,85 @@ body:before{
 })();
 </script>
 <!-- OLYMPIC_USA_MEGA_JS_END -->
+
+
+<!-- OLYMPIC_FINAL_POLISH_JS_START -->
+<script>
+(function(){
+  function q(id){ return document.getElementById(id); }
+  function textOf(el){ return (el && el.textContent || "").trim(); }
+
+  function buildTicker(){
+    var body = document.getElementById("tableBody");
+    var msg = q("tickerMsg");
+    if(!body || !msg) return;
+    var rows = Array.from(body.querySelectorAll("tr"));
+    if(rows.length < 1) return;
+
+    function row(i){
+      var tds = rows[i] && rows[i].querySelectorAll("td");
+      if(!tds || tds.length < 6) return null;
+      return {rank:textOf(tds[0]), country:textOf(tds[1]), g:textOf(tds[2]), s:textOf(tds[3]), b:textOf(tds[4]), t:textOf(tds[5])};
+    }
+
+    var top = [row(0), row(1), row(2)].filter(Boolean);
+    var usa = null;
+    rows.forEach(function(r){
+      var tds = r.querySelectorAll("td");
+      if(tds.length < 6) return;
+      var c = textOf(tds[1]).toLowerCase();
+      if(!usa && (c.includes("united states") || c === "usa" || c.includes("usa"))){
+        usa = {rank:textOf(tds[0]), t:textOf(tds[5]), g:textOf(tds[2]), s:textOf(tds[3]), b:textOf(tds[4])};
+      }
+    });
+
+    var now = new Date().toLocaleTimeString();
+    var topText = top.length ? ("Top 3: " + top.map(function(x){ return "#"+x.rank+" "+x.country+" ("+x.t+")"; }).join(" • ")) : "Loading…";
+    var usaText = usa ? (" • USA Rank #"+usa.rank+" — "+usa.g+"G "+usa.s+"S "+usa.b+"B ("+usa.t+" total)") : "";
+    msg.textContent = now + " • " + topText + usaText;
+  }
+
+  // share podium: basic screenshot via SVG foreignObject not reliable across browsers,
+  // so do a simple copy-to-clipboard text fallback + open share prompt.
+  function sharePodium(){
+    var pod = document.getElementById("podium");
+    if(!pod) return;
+
+    var cards = Array.from(pod.querySelectorAll(".podium-card"));
+    var lines = cards.map(function(c){
+      return c.innerText.replace(/\n+/g," • ").trim();
+    }).join("\n");
+
+    var shareText = "Milano Cortina 2026 — Top 3\n" + lines + "\n" + location.href;
+
+    if(navigator.share){
+      navigator.share({ text: shareText }).catch(function(){});
+      return;
+    }
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(shareText).then(function(){
+        alert("Copied Top 3 to clipboard.");
+      }).catch(function(){
+        alert(shareText);
+      });
+    } else {
+      alert(shareText);
+    }
+  }
+
+  var btn = q("sharePodiumBtn");
+  if(btn) btn.addEventListener("click", sharePodium);
+
+  buildTicker();
+  var body = document.getElementById("tableBody");
+  if(body){
+    var obs = new MutationObserver(function(){ buildTicker(); });
+    obs.observe(body, {childList:true, subtree:true});
+  }
+  setInterval(buildTicker, 30000);
+})();
+</script>
+<!-- OLYMPIC_FINAL_POLISH_JS_END -->
 
 </body>
 </html>
