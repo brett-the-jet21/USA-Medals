@@ -610,6 +610,61 @@ body:before{
 </head>
 
 <body>
+
+<!-- OLYMPIC_SUPER_HERO_START -->
+<header class="olympic-hero">
+  <div class="olympic-toprow">
+    <div>
+      <div class="rings-wrap" style="margin-bottom:10px;">
+        <svg class="rings" viewBox="0 0 360 140" aria-label="Olympic rings" role="img">
+          <path class="ring-blue"   d="M80 60a40 40 0 1 1 0 .1"/>
+          <path class="ring-black"  d="M180 60a40 40 0 1 1 0 .1"/>
+          <path class="ring-red"    d="M280 60a40 40 0 1 1 0 .1"/>
+          <path class="ring-yellow" d="M130 95a40 40 0 1 1 0 .1"/>
+          <path class="ring-green"  d="M230 95a40 40 0 1 1 0 .1"/>
+        </svg>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <div style="font-weight:900;font-size:12px;color:rgba(255,255,255,.78);letter-spacing:.25px;text-transform:uppercase;">
+            USA Medals Tracker
+          </div>
+          <div style="font-weight:950;font-size:14px;">
+            Milano Cortina 2026 • Live Medal Table
+          </div>
+        </div>
+      </div>
+
+      <h1 class="olympic-title">USA Medal Count Today 🇺🇸</h1>
+      <p class="olympic-sub">Live medal standings built for speed, readability, and sharing.</p>
+    </div>
+
+    <div class="olympic-badge"><span class="olympic-dot"></span> Live updates</div>
+  </div>
+
+  <div class="olympic-cards">
+    <div class="olympic-card">
+      <h3>Team USA</h3>
+      <div class="big">Medals at a glance</div>
+      <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+        <span class="medal-chip"><span class="medal gold"></span> Gold</span>
+        <span class="medal-chip"><span class="medal silver"></span> Silver</span>
+        <span class="medal-chip"><span class="medal bronze"></span> Bronze</span>
+      </div>
+    </div>
+    <div class="olympic-card">
+      <h3>Refresh</h3>
+      <div class="big" id="olympic-last-updated">Loading…</div>
+      <div style="margin-top:6px;color:var(--muted);font-size:12px;">Auto-updates every 30 seconds.</div>
+    </div>
+    <div class="olympic-card">
+      <h3>Share</h3>
+      <div class="big">Post the table</div>
+      <div style="margin-top:6px;color:var(--muted);font-size:12px;">Use the share buttons below.</div>
+    </div>
+  </div>
+</header>
+<!-- OLYMPIC_SUPER_HERO_END -->
+
+
 <div class=\"olympic-shell\">
 
   <div class="wrap">
