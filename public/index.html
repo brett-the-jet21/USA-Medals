@@ -497,9 +497,121 @@
     ]
   }
   </script>
+
+<!-- OLYMPIC_SUPER_THEME_START -->
+<style>
+:root{
+  --bg0:#070b16;
+  --bg1:#0b1220;
+  --card:rgba(255,255,255,.06);
+  --text:rgba(255,255,255,.92);
+  --muted:rgba(255,255,255,.72);
+  --line:rgba(255,255,255,.14);
+}
+html,body{height:100%}
+body{
+  margin:0;
+  color:var(--text);
+  background:
+    radial-gradient(900px 420px at 22% 10%, rgba(29,78,216,.22), transparent 60%),
+    radial-gradient(900px 420px at 78% 16%, rgba(185,28,28,.18), transparent 60%),
+    radial-gradient(700px 360px at 50% -10%, rgba(255,255,255,.10), transparent 60%),
+    linear-gradient(180deg, var(--bg0), var(--bg1));
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+}
+body:before{
+  content:"";
+  position:fixed; inset:0;
+  pointer-events:none;
+  opacity:.18;
+  background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.06) 0, rgba(255,255,255,.06) 1px, transparent 1px, transparent 10px);
+  mix-blend-mode: overlay;
+}
+
+.olympic-shell{max-width:1120px;margin:0 auto;padding:18px 16px 28px;}
+
+.olympic-hero{
+  position:relative;
+  border:1px solid var(--line);
+  background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+  box-shadow:0 18px 60px rgba(0,0,0,.40);
+  border-radius:22px;
+  overflow:hidden;
+  padding:18px;
+}
+.olympic-hero:before{
+  content:"";
+  position:absolute; inset:-2px;
+  background:
+    radial-gradient(700px 240px at 14% 0%, rgba(29,78,216,.30), transparent 62%),
+    radial-gradient(700px 240px at 86% 0%, rgba(185,28,28,.24), transparent 62%),
+    radial-gradient(900px 340px at 50% 0%, rgba(255,255,255,.12), transparent 58%);
+  opacity:.95;
+}
+.olympic-hero:after{
+  content:"";
+  position:absolute; inset:-80px;
+  background: radial-gradient(480px 160px at 10% 0%, rgba(255,255,255,.22), transparent 70%);
+  transform: rotate(8deg);
+  opacity:.16;
+  pointer-events:none;
+  animation: sheen 6s ease-in-out infinite;
+}
+@keyframes sheen{
+  0%{transform:translateX(-50px) rotate(8deg); opacity:.12;}
+  50%{transform:translateX(50px) rotate(8deg); opacity:.20;}
+  100%{transform:translateX(-50px) rotate(8deg); opacity:.12;}
+}
+.olympic-hero > *{position:relative}
+
+.olympic-toprow{display:flex;gap:16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;}
+.olympic-title{font-size:36px;line-height:1.05;font-weight:900;letter-spacing:.2px;margin:0;}
+.olympic-sub{margin:8px 0 0;color:var(--muted);font-size:15px;max-width:720px;}
+.olympic-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--line);
+  background:rgba(0,0,0,.18);
+  padding:10px 12px;border-radius:999px;
+  font-size:12px;color:var(--muted);
+}
+.olympic-dot{width:9px;height:9px;border-radius:999px;background:linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.25)); box-shadow:0 0 0 2px rgba(255,255,255,.10);}
+
+.rings-wrap{display:flex;align-items:center;gap:14px;}
+.rings{width:170px;height:auto;filter:drop-shadow(0 12px 20px rgba(0,0,0,.35));}
+.rings path{fill:none;stroke-width:10;stroke-linecap:round;opacity:.98;}
+.ring-blue{stroke:#0085C7;}
+.ring-yellow{stroke:#F4C300;}
+.ring-black{stroke:#000000;}
+.ring-green{stroke:#009F3D;}
+.ring-red{stroke:#DF0024;}
+
+.olympic-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px;}
+@media (max-width: 860px){.olympic-cards{grid-template-columns:1fr}}
+.olympic-card{border:1px solid var(--line);background:rgba(255,255,255,.06);border-radius:18px;padding:14px;}
+.olympic-card h3{margin:0 0 8px;font-size:12px;color:var(--muted);font-weight:800;letter-spacing:.25px;text-transform:uppercase;}
+.olympic-card .big{font-size:24px;font-weight:900;}
+.medal-chip{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border-radius:999px;border:1px solid var(--line);background:rgba(0,0,0,.18);font-size:12px;color:var(--muted);}
+.medal{width:10px;height:10px;border-radius:999px;display:inline-block;box-shadow:0 0 0 2px rgba(255,255,255,.10);}
+.medal.gold{background:linear-gradient(180deg, rgba(212,175,55,.95), rgba(212,175,55,.35));}
+.medal.silver{background:linear-gradient(180deg, rgba(191,199,213,.95), rgba(191,199,213,.35));}
+.medal.bronze{background:linear-gradient(180deg, rgba(184,115,51,.95), rgba(184,115,51,.35));}
+
+#root{
+  margin-top:14px;
+  border:1px solid var(--line);
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+  border-radius:22px;
+  box-shadow:0 18px 60px rgba(0,0,0,.40);
+  overflow:hidden;
+}
+</style>
+<!-- OLYMPIC_SUPER_THEME_END -->
+
 </head>
 
 <body>
+<div class=\"olympic-shell\">
+
   <div class="wrap">
     <header>
       <div class="brand">
@@ -1028,6 +1140,19 @@
 
   refreshMedals();
   setInterval(refreshMedals, POLL_MS);
+})();
+</script>
+
+
+</div>
+
+<script>
+(function(){
+  var el = document.getElementById('olympic-last-updated');
+  if(!el) return;
+  function tick(){ el.textContent = 'Last updated: ' + (new Date()).toLocaleString(); }
+  tick();
+  setInterval(tick, 30000);
 })();
 </script>
 
