@@ -1,0 +1,10 @@
+{
+  "country": "United States",
+  "code": "USA",
+  "gold": 2,
+  "silver": 1,
+  "bronze": 3,
+  "total": 6,
+  "lastUpdatedISO": "2026-02-06T19:12:00Z",
+  "source": "manual-json"
+}
