@@ -762,6 +762,114 @@ body:before{
 </style>
 <!-- OLYMPIC_PODIUM_STYLE_END -->
 
+
+<!-- OLYMPIC_BEST_STYLE_START -->
+<style>
+/* Hero layout upgrade */
+.hero-grid{
+  display:grid;
+  grid-template-columns: 1.35fr .65fr;
+  gap:14px;
+  margin-top:14px;
+}
+@media (max-width: 860px){ .hero-grid{ grid-template-columns:1fr; } }
+
+.usa-mega{
+  border:1px solid rgba(255,255,255,.16);
+  background: linear-gradient(90deg, rgba(29,78,216,.16), rgba(185,28,28,.12));
+  border-radius:18px;
+  padding:14px;
+  position:relative;
+  overflow:hidden;
+}
+.usa-mega:before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  opacity:.35;
+  background:
+    radial-gradient(600px 200px at 10% 0%, rgba(255,255,255,.20), transparent 60%),
+    radial-gradient(600px 200px at 90% 0%, rgba(255,255,255,.10), transparent 60%);
+}
+.usa-mega > *{ position:relative; }
+
+.usa-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.usa-title{
+  font-weight:950;
+  font-size:14px;
+  letter-spacing:.25px;
+  text-transform:uppercase;
+  color: rgba(255,255,255,.78);
+}
+.usa-total{
+  font-size:44px;
+  font-weight:980;
+  line-height:1;
+  margin-top:6px;
+}
+.usa-sub{
+  color: rgba(255,255,255,.72);
+  font-size:12px;
+  margin-top:6px;
+}
+
+.usa-medals{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+.usa-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.18);
+  font-size:12px;
+  color: rgba(255,255,255,.78);
+}
+.usa-pill b{ color: rgba(255,255,255,.95); font-weight:950; }
+
+.pulse{
+  animation: pulse 700ms ease-out 1;
+}
+@keyframes pulse{
+  0%{ transform:scale(1); filter:brightness(1); }
+  40%{ transform:scale(1.02); filter:brightness(1.15); }
+  100%{ transform:scale(1); filter:brightness(1); }
+}
+
+/* Podium: make it featured */
+.podium-card{
+  transform: translateZ(0);
+}
+.podium-card:hover{
+  transform: translateY(-2px);
+}
+
+/* Table: stronger scanability */
+#root td:nth-child(2){
+  font-weight:800;
+  letter-spacing:.1px;
+}
+#root td:nth-child(1){
+  color: rgba(255,255,255,.70);
+  font-variant-numeric: tabular-nums;
+}
+#root td:nth-child(n+3){
+  font-variant-numeric: tabular-nums;
+}
+</style>
+<!-- OLYMPIC_BEST_STYLE_END -->
+
 </head>
 
 <body>
@@ -793,6 +901,35 @@ body:before{
     </div>
 
     <div class="olympic-badge"><span class="olympic-dot"></span> Live updates</div>
+
+<!-- OLYMPIC_USA_MEGA_START -->
+<div class="hero-grid">
+  <div class="usa-mega" id="usaMega">
+    <div class="usa-top">
+      <div>
+        <div class="usa-title">Team USA — Live Total</div>
+        <div class="usa-total" id="usaTotal">—</div>
+        <div class="usa-sub" id="usaMeta">Reading from medal table…</div>
+      </div>
+      <div style="text-align:right; color:rgba(255,255,255,.70); font-size:12px;">
+        <div style="font-weight:900;">Updated</div>
+        <div id="usaUpdated">—</div>
+      </div>
+    </div>
+
+    <div class="usa-medals">
+      <span class="usa-pill"><span class="medal gold"></span><b id="usaGold">—</b> Gold</span>
+      <span class="usa-pill"><span class="medal silver"></span><b id="usaSilver">—</b> Silver</span>
+      <span class="usa-pill"><span class="medal bronze"></span><b id="usaBronze">—</b> Bronze</span>
+      <span class="usa-pill"><span class="m total"></span><b id="usaTotal2">—</b> Total</span>
+    </div>
+  </div>
+  <div>
+    <!-- Keep your existing three cards area visually compact by letting podium carry weight -->
+  </div>
+</div>
+<!-- OLYMPIC_USA_MEGA_END -->
+
   </div>
 
   <div class="olympic-cards">
@@ -1459,6 +1596,79 @@ body:before{
 })();
 </script>
 <!-- OLYMPIC_PODIUM_JS_END -->
+
+
+<!-- OLYMPIC_USA_MEGA_JS_START -->
+<script>
+(function(){
+  function textOf(el){ return (el && el.textContent || "").trim(); }
+  function numOfText(t){ var n = parseInt(String(t).replace(/[^0-9]/g,''),10); return isNaN(n)?0:n; }
+
+  var prev = {g:null,s:null,b:null,t:null};
+
+  function findUSARow(){
+    var body = document.getElementById("tableBody");
+    if(!body) return null;
+    var rows = Array.from(body.querySelectorAll("tr"));
+    for (var i=0;i<rows.length;i++){
+      var tds = rows[i].querySelectorAll("td");
+      if(tds.length < 6) continue;
+      var country = textOf(tds[1]).toLowerCase();
+      if(country.includes("united states") || country === "usa" || country.includes("usa")){
+        return {tr: rows[i], tds: tds};
+      }
+    }
+    return null;
+  }
+
+  function setText(id, v){
+    var el = document.getElementById(id);
+    if(el) el.textContent = v;
+  }
+
+  function pulseIfChanged(el, changed){
+    if(!el || !changed) return;
+    el.classList.remove("pulse");
+    void el.offsetWidth;
+    el.classList.add("pulse");
+  }
+
+  function tick(){
+    var u = findUSARow();
+    if(!u) return;
+
+    var gold = numOfText(textOf(u.tds[2]));
+    var silver = numOfText(textOf(u.tds[3]));
+    var bronze = numOfText(textOf(u.tds[4]));
+    var total = numOfText(textOf(u.tds[5]));
+
+    setText("usaGold", gold);
+    setText("usaSilver", silver);
+    setText("usaBronze", bronze);
+    setText("usaTotal", total);
+    setText("usaTotal2", total);
+
+    var now = new Date();
+    setText("usaUpdated", now.toLocaleTimeString());
+    setText("usaMeta", "Pulled from live table • Rank " + textOf(u.tds[0]));
+
+    // pulse on change
+    var mega = document.getElementById("usaMega");
+    var changed = (prev.g !== null) && (gold!==prev.g || silver!==prev.s || bronze!==prev.b || total!==prev.t);
+    pulseIfChanged(mega, changed);
+    prev = {g:gold,s:silver,b:bronze,t:total};
+  }
+
+  tick();
+  var body = document.getElementById("tableBody");
+  if(body){
+    var obs = new MutationObserver(function(){ tick(); });
+    obs.observe(body, {childList:true, subtree:true});
+  }
+  setInterval(tick, 30000);
+})();
+</script>
+<!-- OLYMPIC_USA_MEGA_JS_END -->
 
 </body>
 </html>
