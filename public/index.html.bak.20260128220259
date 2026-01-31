@@ -507,12 +507,6 @@
         <div>
           <h1>USA Medal Count Today — Milano Cortina 2026</h1>
           <p style="margin-top:8px;font-weight:700;color:#d32f2f;">🔴 Live medal tracker — auto-updated as events finish</p>
-          <div id="shareRow" style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-            <a id="shareX" href="#" target="_blank" rel="noopener" style="padding:8px 12px;border:1px solid rgba(255,255,255,.2);border-radius:999px;text-decoration:none;display:inline-flex;gap:8px;align-items:center;">Share on X</a>
-            <a id="shareReddit" href="#" target="_blank" rel="noopener" style="padding:8px 12px;border:1px solid rgba(255,255,255,.2);border-radius:999px;text-decoration:none;display:inline-flex;gap:8px;align-items:center;">Share on Reddit</a>
-            <button id="copyLink" type="button" style="padding:8px 12px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:transparent;color:inherit;cursor:pointer;">Copy link</button>
-            <span id="copyStatus" style="font-size:12px;opacity:.8;"></span>
-          </div>
           <p>
             Track the <strong>USA medal count</strong> for the <strong>Milano Cortina 2026 Winter Olympics</strong>,
             plus a fast <strong>Winter Olympics medal table</strong> across all countries. Built for mobile, speed, and SEO.
@@ -932,104 +926,5 @@
 
     init();
   </script>
-  <script>
-  function setupShareButtons() {
-    var url = window.location.href;
-    var text = "USA medal count today 🇺🇸🔥 Live Milano Cortina 2026 tracker";
-
-    var x = document.getElementById("shareX");
-    var r = document.getElementById("shareReddit");
-    var copyBtn = document.getElementById("copyLink");
-    var status = document.getElementById("copyStatus");
-
-    if (x) x.href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text) + "&url=" + encodeURIComponent(url);
-    if (r) r.href = "https://www.reddit.com/submit?url=" + encodeURIComponent(url) + "&title=" + encodeURIComponent(text);
-
-    if (copyBtn) {
-      copyBtn.addEventListener("click", async function () {
-        try {
-          await navigator.clipboard.writeText(url);
-          if (status) status.textContent = "Copied ✅";
-          setTimeout(function(){ if (status) status.textContent = ""; }, 1500);
-        } catch (e) {
-          var ta = document.createElement("textarea");
-          ta.value = url;
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand("copy");
-          document.body.removeChild(ta);
-          if (status) status.textContent = "Copied ✅";
-          setTimeout(function(){ if (status) status.textContent = ""; }, 1500);
-        }
-      });
-    }
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", setupShareButtons);
-  } else {
-    setupShareButtons();
-  }
-  </script>
-
-<script>
-(() => {
-  const MEDALS_URL = "REPLACE_WITH_APPS_SCRIPT_URL";
-  const POLL_MS = 60_000;
-
-  function findLeaf(exact) {
-    return Array.from(document.querySelectorAll("*"))
-      .find(el => el.children.length === 0 && (el.textContent || "").trim() === exact) || null;
-  }
-
-  function findNearestNumberEl(fromEl) {
-    if (!fromEl) return null;
-    const root = fromEl.closest("div") || fromEl.parentElement || document.body;
-    const leaves = Array.from(root.querySelectorAll("*")).filter(el => el.children.length === 0);
-    const num = leaves.find(el => /^[0-9]+$/.test((el.textContent || "").trim()));
-    return num || null;
-  }
-
-  function setStat(label, value) {
-    const labelEl = findLeaf(label);
-    if (!labelEl) return;
-    const numEl = findNearestNumberEl(labelEl);
-    if (!numEl) return;
-    numEl.textContent = String(Number(value || 0));
-  }
-
-  function setPageRefreshed(iso) {
-    const leaf = Array.from(document.querySelectorAll("*")).find(el =>
-      el.children.length === 0 && (el.textContent || "").includes("Page refreshed:")
-    );
-    if (!leaf) return;
-    const dt = new Date(iso || Date.now());
-    leaf.textContent = "Page refreshed: " + dt.toLocaleString();
-  }
-
-  async function refreshMedals() {
-    try {
-      const res = await fetch(MEDALS_URL + "?t=" + Date.now(), { cache: "no-store" });
-      if (!res.ok) return;
-      const data = await res.json();
-      const gold = Number(data.gold || 0);
-      const silver = Number(data.silver || 0);
-      const bronze = Number(data.bronze || 0);
-      const total = ("total" in data) ? Number(data.total || 0) : (gold + silver + bronze);
-
-      setStat("USA Gold", gold);
-      setStat("USA Silver", silver);
-      setStat("USA Bronze", bronze);
-      setStat("USA Total", total);
-
-      setPageRefreshed(data.lastUpdatedISO || new Date().toISOString());
-    } catch {}
-  }
-
-  refreshMedals();
-  setInterval(refreshMedals, POLL_MS);
-})();
-</script>
-
 </body>
 </html>
