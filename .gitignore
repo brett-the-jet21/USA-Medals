@@ -6,3 +6,4 @@
 # editor swap files
 *.swp
 .*.swp
+public/index.html.bak.*
