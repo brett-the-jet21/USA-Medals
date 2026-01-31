@@ -652,6 +652,116 @@ body:before{
 </style>
 <!-- OLYMPIC_TABLE_STYLE_END -->
 
+
+<!-- OLYMPIC_PODIUM_STYLE_START -->
+<style>
+/* Podium strip */
+.podium{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap:12px;
+  margin:14px 0 14px;
+}
+@media (max-width: 860px){ .podium{ grid-template-columns:1fr; } }
+
+.podium-card{
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  border-radius:18px;
+  padding:14px;
+  box-shadow: 0 18px 60px rgba(0,0,0,.25);
+  position:relative;
+  overflow:hidden;
+}
+.podium-card:before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  opacity:.35;
+  background: radial-gradient(500px 180px at 30% 0%, rgba(255,255,255,.22), transparent 60%);
+}
+.podium-card > *{ position:relative; }
+
+.podium-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.podium-place{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-weight:900;
+  letter-spacing:.2px;
+}
+.podium-medal{
+  width:12px;height:12px;border-radius:999px;
+  box-shadow:0 0 0 2px rgba(255,255,255,.10);
+}
+.podium-medal.gold{ background:linear-gradient(180deg, rgba(212,175,55,.95), rgba(212,175,55,.35)); }
+.podium-medal.silver{ background:linear-gradient(180deg, rgba(191,199,213,.95), rgba(191,199,213,.35)); }
+.podium-medal.bronze{ background:linear-gradient(180deg, rgba(184,115,51,.95), rgba(184,115,51,.35)); }
+
+.podium-country{
+  font-size:18px;
+  font-weight:950;
+  margin-top:10px;
+}
+.podium-sub{
+  margin-top:6px;
+  color: rgba(255,255,255,.72);
+  font-size:12px;
+}
+.podium-stats{
+  margin-top:10px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.podium-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 11px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.18);
+  font-size:12px;
+  color: rgba(255,255,255,.72);
+}
+.podium-chip b{ color: rgba(255,255,255,.92); }
+
+/* Medal icons in table headers */
+#root thead th.medalHead{
+  white-space:nowrap;
+}
+#root thead th.medalHead .m{
+  display:inline-block;
+  width:10px;height:10px;border-radius:999px;
+  margin-right:8px;
+  vertical-align:middle;
+  box-shadow:0 0 0 2px rgba(255,255,255,.10);
+}
+#root thead th.medalHead .m.gold{ background:linear-gradient(180deg, rgba(212,175,55,.95), rgba(212,175,55,.35)); }
+#root thead th.medalHead .m.silver{ background:linear-gradient(180deg, rgba(191,199,213,.95), rgba(191,199,213,.35)); }
+#root thead th.medalHead .m.bronze{ background:linear-gradient(180deg, rgba(184,115,51,.95), rgba(184,115,51,.35)); }
+#root thead th.medalHead .m.total{ background:linear-gradient(180deg, rgba(255,255,255,.70), rgba(255,255,255,.20)); }
+
+/* USA highlight row */
+#root tbody tr.usa-row{
+  background: linear-gradient(90deg, rgba(29,78,216,.14), rgba(185,28,28,.10)) !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.14);
+}
+#root tbody tr.usa-row:hover{
+  background: linear-gradient(90deg, rgba(29,78,216,.18), rgba(185,28,28,.14)) !important;
+}
+#root tbody tr.usa-row td{
+  font-weight:800;
+}
+</style>
+<!-- OLYMPIC_PODIUM_STYLE_END -->
+
 </head>
 
 <body>
@@ -817,15 +927,19 @@ body:before{
             </div>
           </div>
 
-          <table aria-label="Winter Olympics medal count table">
+          <!-- OLYMPIC_PODIUM_MARKUP_START -->
+<div class="podium" id="podium"></div>
+<!-- OLYMPIC_PODIUM_MARKUP_END -->
+<table aria-label="Winter Olympics medal count table">
             <thead>
+<!-- OLYMPIC_MEDAL_HEADS_START -->
               <tr>
                 <th class="rank">Rank</th>
                 <th>Country</th>
-                <th class="right">Gold</th>
-                <th class="right">Silver</th>
-                <th class="right">Bronze</th>
-                <th class="right">Total</th>
+                <th class="right medalHead"><span class="m gold"></span>Gold</th>
+                <th class="right medalHead"><span class="m silver"></span>Silver</th>
+                <th class="right medalHead"><span class="m bronze"></span>Bronze</th>
+                <th class="right medalHead"><span class="m total"></span>Total</th>
               </tr>
             </thead>
             <tbody id="tableBody"></tbody>
@@ -1255,6 +1369,96 @@ body:before{
   setInterval(tick, 30000);
 })();
 </script>
+
+
+<!-- OLYMPIC_PODIUM_JS_START -->
+<script>
+(function(){
+  function textOf(el){ return (el && el.textContent || "").trim(); }
+  function numOf(el){ var n = parseInt(textOf(el).replace(/[^0-9]/g,''),10); return isNaN(n)?0:n; }
+
+  function buildPodiumFromTable(){
+    var body = document.getElementById("tableBody");
+    var podium = document.getElementById("podium");
+    if(!body || !podium) return;
+
+    var rows = Array.from(body.querySelectorAll("tr"));
+    if(rows.length < 3) return;
+
+    // Determine indexes based on header: Rank, Country, Gold, Silver, Bronze, Total
+    function readRow(tr){
+      var tds = tr.querySelectorAll("td");
+      if(tds.length < 6) return null;
+      return {
+        tr: tr,
+        rank: textOf(tds[0]),
+        country: textOf(tds[1]),
+        gold: numOf(tds[2]),
+        silver: numOf(tds[3]),
+        bronze: numOf(tds[4]),
+        total: numOf(tds[5])
+      };
+    }
+
+    var top = rows.slice(0,3).map(readRow).filter(Boolean);
+    if(top.length < 3) return;
+
+    // USA highlight: match country text contains "United States" or "USA"
+    rows.forEach(function(r){
+      var d = readRow(r);
+      if(!d) return;
+      var c = d.country.toLowerCase();
+      if(c.includes("united states") || c === "usa" || c.includes("usa")) {
+        d.tr.classList.add("usa-row");
+      }
+    });
+
+    var places = [
+      {label:"1st", cls:"gold"},
+      {label:"2nd", cls:"silver"},
+      {label:"3rd", cls:"bronze"}
+    ];
+
+    podium.innerHTML = top.map(function(d,i){
+      var meta = places[i];
+      return (
+        '<div class="podium-card">' +
+          '<div class="podium-top">' +
+            '<div class="podium-place"><span class="podium-medal '+meta.cls+'"></span>'+meta.label+'</div>' +
+            '<div style="color:rgba(255,255,255,.72);font-size:12px;">Rank '+d.rank+'</div>' +
+          '</div>' +
+          '<div class="podium-country">'+escapeHtml(d.country)+'</div>' +
+          '<div class="podium-sub">Gold '+d.gold+' • Silver '+d.silver+' • Bronze '+d.bronze+' • Total '+d.total+'</div>' +
+          '<div class="podium-stats">' +
+            '<span class="podium-chip"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:linear-gradient(180deg, rgba(212,175,55,.95), rgba(212,175,55,.35));box-shadow:0 0 0 2px rgba(255,255,255,.10);"></span><b>'+d.gold+'</b> Gold</span>' +
+            '<span class="podium-chip"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:linear-gradient(180deg, rgba(191,199,213,.95), rgba(191,199,213,.35));box-shadow:0 0 0 2px rgba(255,255,255,.10);"></span><b>'+d.silver+'</b> Silver</span>' +
+            '<span class="podium-chip"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:linear-gradient(180deg, rgba(184,115,51,.95), rgba(184,115,51,.35));box-shadow:0 0 0 2px rgba(255,255,255,.10);"></span><b>'+d.bronze+'</b> Bronze</span>' +
+            '<span class="podium-chip"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:linear-gradient(180deg, rgba(255,255,255,.70), rgba(255,255,255,.20));box-shadow:0 0 0 2px rgba(255,255,255,.10);"></span><b>'+d.total+'</b> Total</span>' +
+          '</div>' +
+        '</div>'
+      );
+    }).join("");
+
+    function escapeHtml(s){
+      return String(s)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+  }
+
+  // Try immediately, then observe for table updates
+  buildPodiumFromTable();
+  var body = document.getElementById("tableBody");
+  if(body){
+    var obs = new MutationObserver(function(){ buildPodiumFromTable(); });
+    obs.observe(body, {childList:true, subtree:true});
+  }
+})();
+</script>
+<!-- OLYMPIC_PODIUM_JS_END -->
 
 </body>
 </html>
