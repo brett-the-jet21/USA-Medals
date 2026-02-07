@@ -1729,5 +1729,60 @@ body:after{
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8025748227928688"
      crossorigin="anonymous"></script>
+<!-- MANUAL_MEDAL_OVERRIDE_START -->
+<script>
+(function () {
+  const OVERRIDES = {
+    "USA": { g: 0, s: 0, b: 0 },
+    "United States": { g: 0, s: 0, b: 0 },
+
+    "Sweden": { g: 1, s: 1, b: 0 },
+    "SWE": { g: 1, s: 1, b: 0 },
+
+    "Italy": { g: 0, s: 1, b: 1 },
+    "ITA": { g: 0, s: 1, b: 1 },
+
+    "Switzerland": { g: 1, s: 0, b: 0 },
+    "SUI": { g: 1, s: 0, b: 0 },
+
+    "Norway": { g: 0, s: 0, b: 1 },
+    "NOR": { g: 0, s: 0, b: 1 }
+  };
+
+  function apply() {
+    const rows = Array.from(document.querySelectorAll("table tr"));
+    if (!rows.length) return;
+
+    let hit = false;
+
+    for (const tr of rows) {
+      const tds = tr.querySelectorAll("td");
+      if (tds.length < 4) continue;
+
+      const label = (tds[0].textContent || "").trim();
+      const o = OVERRIDES[label];
+      if (!o) continue;
+
+      // layout: [Country, Gold, Silver, Bronze, Total?]
+      tds[1].textContent = String(o.g);
+      tds[2].textContent = String(o.s);
+      tds[3].textContent = String(o.b);
+      if (tds[4]) tds[4].textContent = String(o.g + o.s + o.b);
+
+      hit = true;
+    }
+
+    if (!hit) setTimeout(apply, 400);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", apply);
+  } else {
+    apply();
+  }
+  setTimeout(apply, 800);
+})();
+</script>
+<!-- MANUAL_MEDAL_OVERRIDE_END -->
 </body>
 </html>
