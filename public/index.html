@@ -1818,128 +1818,75 @@ setInterval(loadMedals, 30000);
 
 
 
+
+
 <!-- LIVE_MEDALS_START -->
 <script>
 (() => {
   const WIKI_URL = "https://en.wikipedia.org/w/api.php?action=parse&page=2026_Winter_Olympics_medal_table&prop=wikitext&format=json&origin=*";
 
-  // Debug badge so you ALWAYS know if fetch works
-  function badge(status, note="") {
-    let b = document.getElementById("medalDebugBadge");
-    if (!b) {
-      b = document.createElement("div");
-      b.id = "medalDebugBadge";
-      b.style.cssText = "position:fixed;z-index:99999;left:12px;bottom:12px;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.65);color:#fff;font:12px/1.35 system-ui;max-width:360px";
-      b.innerHTML = '<div style="font-weight:700;margin-bottom:4px">Live Medals</div><div id="medalDbgStatus"></div><div id="medalDbgNote" style="opacity:.85"></div>';
-      document.body.appendChild(b);
-    }
-    const s = document.getElementById("medalDbgStatus");
-    const n = document.getElementById("medalDbgNote");
-    if (s) s.textContent = status + " • " + new Date().toLocaleString();
-    if (n) n.textContent = note;
-  }
+  function normalize(s){ return (s||"").replace(/\s+/g," ").trim().toLowerCase(); }
 
-  function parseMedalsFromWikitext(wt) {
-    // returns: { "Italy":{g,s,b,t}, ... }
+  // Overlay
+  const box = document.createElement("div");
+  box.id = "rowDebug";
+  box.style.cssText = "position:fixed;z-index:99999;right:12px;bottom:12px;max-width:420px;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.75);color:#fff;font:12px/1.35 system-ui;white-space:pre-wrap";
+  box.textContent = "medals debug booting...";
+  document.addEventListener("DOMContentLoaded", () => document.body.appendChild(box));
+
+  function setBox(t){ box.textContent = t; }
+
+  async function fetchByCountry(){
+    const r = await fetch(WIKI_URL, { cache:"no-store" });
+    if (!r.ok) throw new Error("HTTP "+r.status);
+    const j = await r.json();
+    const wt = j?.parse?.wikitext?.["*"] || "";
     const by = Object.create(null);
     const re = /\|\-\s*\n\|\s*([^\n\|]+?)\s*\|\|\s*(\d+)\s*\|\|\s*(\d+)\s*\|\|\s*(\d+)\s*\|\|\s*(\d+)/g;
     let m;
     while ((m = re.exec(wt)) !== null) {
-      const country = m[1].replace(/\[\[|\]\]/g, "").trim();
-      by[country] = { gold:+m[2], silver:+m[3], bronze:+m[4], total:+m[5] };
+      const country = m[1].replace(/\[\[|\]\]/g,"").trim();
+      by[normalize(country)] = { gold:+m[2], silver:+m[3], bronze:+m[4], total:+m[5], name:country };
     }
     return by;
   }
 
-  function normalize(s) {
-    return (s||"")
-      .replace(/\s+/g," ")
-      .replace(/\u00A0/g," ")
-      .trim()
-      .toLowerCase();
-  }
-
-  // This updates EXISTING rows on your page:
-  // Find a leaf node that equals the country name,
-  // go up to a "row-ish" container, then replace the 4 numeric leaf nodes in that container.
-  function updateExistingCountryRows(byCountry) {
+  function scanPageCountryLabels(by){
     const leafs = Array.from(document.querySelectorAll("*"))
       .filter(e => e.childElementCount === 0)
-      .filter(e => (e.textContent||"").trim().length > 0);
+      .map(e => (e.textContent||"").trim())
+      .filter(t => t.length > 0 && t.length < 40);
 
-    // Build a fast map from normalized country label -> medal obj
-    const keyToMedals = Object.create(null);
-    for (const [name, medals] of Object.entries(byCountry)) keyToMedals[normalize(name)] = medals;
-
-    // Some pages use short forms
-    if (keyToMedals["united states"]) keyToMedals["usa"] = keyToMedals["united states"];
-
-    let touched = 0;
-
-    for (const el of leafs) {
-      const label = normalize(el.textContent);
-      if (!keyToMedals[label]) continue;
-
-      const medals = keyToMedals[label];
-
-      // pick a container that looks like a row
-      const row = el.closest("tr") || el.closest("[role='row']") || el.closest("li") || el.closest("div");
-      if (!row) continue;
-
-      // Find numeric leafs inside this row (candidates to replace)
-      const nums = Array.from(row.querySelectorAll("*"))
-        .filter(x => x.childElementCount === 0)
-        .filter(x => {
-          const t = (x.textContent||"").trim();
-          return t === "—" || t === "-" || t === "0" || /^\d+$/.test(t);
-        });
-
-      // We need 4 slots: gold, silver, bronze, total
-      if (nums.length < 4) continue;
-
-      // Replace the LAST 4 numeric cells in the row (usually safest)
-      const last4 = nums.slice(-4);
-      last4[0].textContent = String(medals.gold);
-      last4[1].textContent = String(medals.silver);
-      last4[2].textContent = String(medals.bronze);
-      last4[3].textContent = String(medals.total);
-
-      touched++;
+    const hits = [];
+    for (const t of leafs) {
+      const k = normalize(t);
+      if (by[k]) hits.push(t);
     }
-
-    return touched;
+    // unique
+    return Array.from(new Set(hits));
   }
 
-  let cache = Object.create(null);
-  let lastStatus = "BOOT";
+  async function run(){
+    try{
+      const by = await fetchByCountry();
+      const labels = scanPageCountryLabels(by);
 
-  async function refresh() {
-    try {
-      const r = await fetch(WIKI_URL, { cache:"no-store" });
-      if (!r.ok) throw new Error("HTTP " + r.status);
-      const j = await r.json();
-      const wt = j?.parse?.wikitext?.["*"] || "";
-      cache = parseMedalsFromWikitext(wt);
+      // show top 15 labels we matched on the page
+      const sample = labels.slice(0, 15).join(", ");
 
-      const touched = updateExistingCountryRows(cache);
-      lastStatus = "OK";
-      badge("OK", "Updated rows: " + touched);
-    } catch (e) {
-      lastStatus = "ERR";
-      badge("ERR", String(e?.message || e));
-      console.warn("medals refresh failed", e);
+      setBox(
+        "FETCH: OK\n" +
+        "Matched country labels on page: " + labels.length + "\n" +
+        "Sample: " + sample + "\n\n" +
+        "If Matched=0 -> your DOM doesn’t contain plain country text nodes (or CSP blocks fetch)."
+      );
+    }catch(e){
+      setBox("FETCH: ERR\n" + (e?.message || e));
+      console.warn(e);
     }
   }
 
-  // Keep winning if your page re-renders its placeholders
-  const mo = new MutationObserver(() => {
-    if (lastStatus === "OK") updateExistingCountryRows(cache);
-  });
-  mo.observe(document.documentElement, { childList:true, subtree:true });
-
-  refresh();
-  setInterval(refresh, 30000);
-  setInterval(() => { if (lastStatus === "OK") updateExistingCountryRows(cache); }, 1000);
+  run();
 })();
 </script>
 <!-- LIVE_MEDALS_END -->
