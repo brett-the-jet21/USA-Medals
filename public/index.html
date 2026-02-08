@@ -1916,5 +1916,36 @@ setInterval(loadMedals, 30000);
 </script>
 <!-- LIVE_MEDALS_END -->
 
-</body>
+
+<script>
+(() => {
+  const show = /[?&]debug=1\b/.test(location.search) || location.hostname === "localhost";
+  if (show) return;
+
+  // Hide common debug panels/overlays
+  const ids = ["debug","debugPanel","devPanel","statsPanel","telemetry","overlay","panel"];
+  ids.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = "none"; });
+
+  // Hide by class/data-attr
+  document.querySelectorAll("[data-debug], .debug, .debug-panel, #debug, #debugPanel, #devPanel, #statsPanel")
+    .forEach(el => el.style.display = "none");
+
+  // Hard CSS kill-switch
+  const style = document.createElement("style");
+  style.textContent = `
+    .debug,.debug-panel,[data-debug],
+    #debug,#debugPanel,#devPanel,#statsPanel,#telemetry,#overlay,#panel{
+      display:none !important;
+      visibility:hidden !important;
+      pointer-events:none !important;
+    }`;
+  document.head.appendChild(style);
+
+  // Optional: silence debug console spam in prod
+  console.log = () => {};
+  console.info = () => {};
+  console.debug = () => {};
+})();
+</script>
+\n</body>
 </html>
