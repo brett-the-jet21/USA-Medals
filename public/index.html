@@ -1814,106 +1814,146 @@ async function loadMedals() {
 loadMedals();
 setInterval(loadMedals, 30000);
 </script>
+
 <!-- LIVE_MEDALS_START -->
 <script>
 (() => {
-  function parseRowsFromWikitext(wt) {
+  const WIKI_URL = "https://en.wikipedia.org/w/api.php?action=parse&page=2026_Winter_Olympics_medal_table&prop=wikitext&format=json&origin=*";
+
+  function parseRows(wt) {
     const rows = [];
     const re = /\|\-\s*\n\|\s*([^\n\|]+?)\s*\|\|\s*(\d+)\s*\|\|\s*(\d+)\s*\|\|\s*(\d+)\s*\|\|\s*(\d+)/g;
     let m;
     while ((m = re.exec(wt)) !== null) {
-      const country = m[1].replace(/\[\[|\]\]/g, "").trim();
-      rows.push({ country, gold:+m[2], silver:+m[3], bronze:+m[4], total:+m[5] });
+      rows.push({
+        country: m[1].replace(/\[\[|\]\]/g, "").trim(),
+        gold: +m[2], silver: +m[3], bronze: +m[4], total: +m[5]
+      });
     }
-    return rows;
+    const by = Object.create(null);
+    for (const r of rows) by[r.country] = r;
+    return by;
   }
 
-  async function fetchMedals() {
-    const url = "https://en.wikipedia.org/w/api.php?action=parse&page=2026_Winter_Olympics_medal_table&prop=wikitext&format=json&origin=*";
-    const r = await fetch(url, { cache: "no-store" });
+  async function getUSA() {
+    const r = await fetch(WIKI_URL, { cache: "no-store" });
     if (!r.ok) throw new Error("wiki fetch failed: " + r.status);
     const j = await r.json();
     const wt = j?.parse?.wikitext?.["*"] || "";
-    const rows = parseRowsFromWikitext(wt);
-    const by = Object.create(null);
-    for (const row of rows) by[row.country] = row;
-    return { rows, by, updatedAt: new Date().toISOString() };
+    const by = parseRows(wt);
+    return by["United States"] || by["United States of America"] || by["USA"] || { gold:0, silver:0, bronze:0, total:0 };
   }
 
-  function setTextById(id, val) {
+  function setById(id, v) {
     const el = document.getElementById(id);
-    if (el) el.textContent = String(val);
+    if (el) el.textContent = String(v);
   }
 
-  function setTextNearLabel(labelText, val) {
-    // Find an element that exactly contains the label text, then update the nearest "—" / number in same section.
-    const all = Array.from(document.querySelectorAll("*"));
-    const labelEl = all.find(e => e.childElementCount === 0 && (e.textContent || "").trim() === labelText);
-    if (!labelEl) return;
+  function setValueAfterLabel(labelText, v) {
+    // Find exact label leaf, then set its next sibling’s text
+    const leafs = Array.from(document.querySelectorAll("*"))
+      .filter(e => e.childElementCount === 0);
 
-    // Walk up to a reasonable container
-    const container = labelEl.closest("section, div, article") || labelEl.parentElement;
-    if (!container) return;
+    const labelEl = leafs.find(e => (e.textContent || "").trim() === labelText);
+    if (!labelEl) return false;
 
-    // Find a nearby leaf node that is just a dash/emdash or a number and replace it
-    const leafs = Array.from(container.querySelectorAll("*"))
+    // Prefer immediate sibling
+    let sib = labelEl.nextElementSibling;
+    if (sib && sib.childElementCount === 0) {
+      sib.textContent = String(v);
+      return true;
+    }
+
+    // Otherwise, try within the same parent
+    const parent = labelEl.parentElement;
+    if (!parent) return false;
+
+    const kids = Array.from(parent.children);
+    const idx = kids.indexOf(labelEl);
+    if (idx >= 0 && kids[idx+1]) {
+      kids[idx+1].textContent = String(v);
+      return true;
+    }
+
+    // Last resort: find first dash/number within same parent
+    const candidates = Array.from(parent.querySelectorAll("*"))
       .filter(e => e.childElementCount === 0)
-      .slice(0, 80);
+      .filter(e => {
+        const t = (e.textContent || "").trim();
+        return t === "—" || t === "-" || t === "Loading…" || /^\d+.test(t);
+      });
 
-    const target = leafs.find(e => {
-      const t = (e.textContent || "").trim();
-      return t === "—" || t === "-" || t === "Loading…" || /^\d+.test(t);
-    });
-
-    if (target) target.textContent = String(val);
-  }
-
-  function updateUSA(usa, updatedAt) {
-    // If your page already has IDs, this will hit.
-    setTextById("usaGold", usa.gold);
-    setTextById("usaSilver", usa.silver);
-    setTextById("usaBronze", usa.bronze);
-    setTextById("usaTotal", usa.total);
-    setTextById("lastUpdated", new Date(updatedAt).toLocaleString());
-
-    // If not, we update based on labels found in the DOM.
-    setTextNearLabel("USA Gold", usa.gold);
-    setTextNearLabel("USA Silver", usa.silver);
-    setTextNearLabel("USA Bronze", usa.bronze);
-    setTextNearLabel("USA Total", usa.total);
-    setTextNearLabel("Updated", new Date(updatedAt).toLocaleString());
-
-    // Also try to update the top "Team USA — Live Total" number if it exists
-    const liveTotalLabel = Array.from(document.querySelectorAll("*"))
-      .find(e => e.childElementCount === 0 && (e.textContent || "").includes("Team USA — Live Total"));
-    if (liveTotalLabel) {
-      const container = liveTotalLabel.closest("section, div, article") || liveTotalLabel.parentElement;
-      if (container) {
-        const leafs = Array.from(container.querySelectorAll("*"))
-          .filter(e => e.childElementCount === 0)
-          .slice(0, 80);
-        const target = leafs.find(e => {
-          const t = (e.textContent || "").trim();
-          return t === "—" || t === "-" || /^\d+.test(t);
-        });
-        if (target) target.textContent = String(usa.total);
-      }
+    if (candidates[0]) {
+      candidates[0].textContent = String(v);
+      return true;
     }
+
+    return false;
   }
 
-  async function tick() {
+  function applyUSA(usa, statusText) {
+    // If you have IDs, hit them
+    setById("usaGold", usa.gold);
+    setById("usaSilver", usa.silver);
+    setById("usaBronze", usa.bronze);
+    setById("usaTotal", usa.total);
+    setById("lastUpdated", statusText);
+
+    // Hit the SEO section labels you definitely have
+    setValueAfterLabel("USA Gold", usa.gold);
+    setValueAfterLabel("USA Silver", usa.silver);
+    setValueAfterLabel("USA Bronze", usa.bronze);
+    setValueAfterLabel("USA Total", usa.total);
+
+    // The top box: "Team USA — Live Total" then value is nearby
+    const leafs = Array.from(document.querySelectorAll("*"))
+      .filter(e => e.childElementCount === 0);
+    const top = leafs.find(e => (e.textContent || "").includes("Team USA — Live Total"));
+    if (top) {
+      // try sibling dash
+      const sib = top.nextElementSibling;
+      if (sib && sib.childElementCount === 0) sib.textContent = String(usa.total);
+    }
+
+    // "Updated" label in the live box
+    setValueAfterLabel("Updated", statusText);
+  }
+
+  let cachedUSA = { gold:0, silver:0, bronze:0, total:0 };
+  let lastStatus = "OK";
+
+  async function refresh() {
     try {
-      const { by, updatedAt } = await fetchMedals();
-      const usa = by["United States"] || by["United States of America"] || by["USA"] || { gold:0, silver:0, bronze:0, total:0 };
-      updateUSA(usa, updatedAt);
+      cachedUSA = await getUSA();
+      lastStatus = "OK " + new Date().toLocaleString();
+      applyUSA(cachedUSA, lastStatus);
     } catch (e) {
-      // leave UI as-is if fetch fails
-      console.warn("medals update failed", e);
+      lastStatus = "ERR " + new Date().toLocaleString();
+      applyUSA(cachedUSA, lastStatus);
+      console.warn("medals fetch failed", e);
     }
   }
 
-  tick();
-  setInterval(tick, 30000);
+  // Keep winning against any re-render
+  function startAggressiveReapply() {
+    applyUSA(cachedUSA, lastStatus);
+    setInterval(() => applyUSA(cachedUSA, lastStatus), 1000);
+
+    const mo = new MutationObserver(() => applyUSA(cachedUSA, lastStatus));
+    mo.observe(document.documentElement, { childList: true, subtree: true });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      refresh();
+      setInterval(refresh, 30000);
+      startAggressiveReapply();
+    });
+  } else {
+    refresh();
+    setInterval(refresh, 30000);
+    startAggressiveReapply();
+  }
 })();
 </script>
 <!-- LIVE_MEDALS_END -->
