@@ -1828,104 +1828,86 @@ setInterval(loadMedals, 30000);
 
 
 
+
+
 <!-- LIVE_MEDALS_START -->
 <script>
 (() => {
-  // SAME-ORIGIN fetch so CORS cannot block
-  const API_URL = "/api/medals";
+  const API = "/api/medals";
 
-  function badge(line1, line2="") {
-    let b = document.getElementById("medalFixBadge");
+  const norm = (s) => (s||"")
+    .replace(/[\u{1F1E6}-\u{1F1FF}]/gu, "")   // flags
+    .replace(/\b[A-Z]{2}\b/g, " ")           // ISO2
+    .replace(/[^A-Za-z\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+
+  function badge(lines) {
+    let b = document.getElementById("liveMedalsDebug");
     if (!b) {
       b = document.createElement("div");
-      b.id = "medalFixBadge";
+      b.id = "liveMedalsDebug";
       b.style.cssText =
-        "position:fixed;z-index:99999;right:12px;bottom:12px;max-width:560px;" +
-        "padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.18);" +
-        "background:rgba(0,0,0,.75);color:#fff;font:12px/1.35 system-ui;white-space:pre-wrap";
+        "position:fixed;right:16px;bottom:16px;max-width:560px;padding:12px 14px;" +
+        "background:rgba(0,0,0,.70);color:#fff;font:12px/1.35 ui-monospace,Menlo,monospace;" +
+        "border-radius:12px;z-index:99999;white-space:pre-wrap;box-shadow:0 10px 30px rgba(0,0,0,.35)";
       document.body.appendChild(b);
     }
-    b.textContent = line1 + "\n" + line2;
+    b.textContent = lines.join("\n");
   }
 
-  function stripFlagsAndTrim(s) {
-    return (s||"")
-      .replace(/[\uD83C\uDDE6-\uDDFF]{2}/g, " ")
-      .replace(/[\u{1F1E6}-\u{1F1FF}]/gu, " ")
-      .replace(/[\u{1F300}-\u{1FAFF}]/gu, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-  }
-
-  function extractNameFromDomCountryCell(raw) {
-    // e.g. "🇺🇸 United States US" -> "United States"
-    const cleaned = stripFlagsAndTrim(raw);
-    const parts = cleaned.split(" ").filter(Boolean);
-    if (parts.length >= 2 && /^[A-Z]{2,3}$/.test(parts[parts.length - 1])) parts.pop(); // drop ISO2/short code
-    return parts.join(" ").trim();
-  }
-
-  function updateMainTable(byName) {
+  function updateTable(rows) {
+    const map = new Map(rows.map(r => [norm(r.name), r]));
     const trs = Array.from(document.querySelectorAll("table tbody tr"));
+
     let scanned = 0, updated = 0;
     const missing = [];
 
     for (const tr of trs) {
       const tds = Array.from(tr.querySelectorAll("td"));
       if (tds.length < 6) continue;
-
       scanned++;
 
-      const rawCountry = tds[1].innerText || tds[1].textContent || "";
-      const name = extractNameFromDomCountryCell(rawCountry);
-      if (!name) continue;
+      const key = norm(tds[1].textContent || "");
+      const hit = map.get(key);
 
-      const m = byName[name];
-      if (!m) {
-        if (missing.length < 12) missing.push(name);
+      if (!hit) {
+        if (missing.length < 12) missing.push((tds[1].textContent||"").trim().slice(0,60));
         continue;
       }
 
-      tds[2].textContent = String(m.gold);
-      tds[3].textContent = String(m.silver);
-      tds[4].textContent = String(m.bronze);
-      tds[5].textContent = String(m.total);
+      tds[2].textContent = String(hit.gold);
+      tds[3].textContent = String(hit.silver);
+      tds[4].textContent = String(hit.bronze);
+      tds[5].textContent = String(hit.total);
       updated++;
     }
 
-    return { scanned, updated, missing };
+    badge([
+      "SOURCE: /api/medals (wikipedia) • OK • " + new Date().toLocaleString(),
+      "Rows in API: " + rows.length,
+      "Table rows scanned: " + scanned,
+      "Table rows updated: " + updated,
+      missing.length ? ("Missing examples: " + missing.join(", ")) : "Missing examples: (none)"
+    ]);
   }
 
-  async function refresh() {
+  async function tick() {
     try {
-      const r = await fetch(API_URL, { cache: "no-store" });
-      if (!r.ok) throw new Error("API HTTP " + r.status);
+      const r = await fetch(API, { cache:"no-store" });
+      if (!r.ok) throw new Error("HTTP " + r.status);
       const j = await r.json();
       if (j.error) throw new Error(j.error);
-
-      // Build name -> medals map from API
-      const byName = Object.create(null);
-      for (const row of (j.rows || [])) {
-        byName[row.name] = row;
-      }
-
-      const { scanned, updated, missing } = updateMainTable(byName);
-
-      badge(
-        "SOURCE: /api/medals (olympics.com) • OK • " + new Date().toLocaleString(),
-        "Rows in API: " + (j.count || 0) +
-        "\nTable rows scanned: " + scanned +
-        "\nTable rows updated: " + updated +
-        (missing.length ? "\nMissing examples: " + missing.join(", ") : "")
-      );
+      updateTable(j.rows || []);
     } catch (e) {
-      badge("FETCH ERR", String(e?.message || e));
+      badge(["FETCH ERR", String(e?.message || e)]);
       console.warn(e);
     }
   }
 
-  refresh();
-  setInterval(refresh, 30000);
+  tick();
+  setInterval(tick, 30000);
 })();
 </script>
 <!-- LIVE_MEDALS_END -->
