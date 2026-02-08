@@ -1784,5 +1784,34 @@ body:after{
 })();
 </script>
 <!-- MANUAL_MEDAL_OVERRIDE_END -->
-</body>
+<script>
+async function loadMedals() {
+  const r = await fetch("/api/medals", { cache: "no-store" });
+  if (!r.ok) return;
+  const d = await r.json();
+
+  const keys = ["United States", "United States of America", "USA"];
+  let usa = null;
+  for (const k of keys) if (d.byCountry[k]) usa = d.byCountry[k];
+  if (!usa) usa = { gold:0, silver:0, bronze:0, total:0 };
+
+  const map = {
+    usaGold: usa.gold,
+    usaSilver: usa.silver,
+    usaBronze: usa.bronze,
+    usaTotal: usa.total
+  };
+
+  for (const id in map) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = map[id];
+  }
+
+  const u = document.getElementById("lastUpdated");
+  if (u) u.textContent = new Date(d.updatedAt).toLocaleString();
+}
+
+loadMedals();
+setInterval(loadMedals, 30000);
+</script></body>
 </html>
