@@ -1820,69 +1820,84 @@ setInterval(loadMedals, 30000);
 
 
 
+
+
 <!-- LIVE_MEDALS_START -->
 <script>
 (() => {
   const WIKI_URL = "https://en.wikipedia.org/w/api.php?action=parse&page=2026_Winter_Olympics_medal_table&prop=wikitext&format=json&origin=*";
 
-  function normalize(s){ return (s||"").replace(/\s+/g," ").trim().toLowerCase(); }
+  // Hard-coded ISO2 map (extendable)
+  const ISO_MAP = {
+    "United States": "US",
+    "Japan": "JP",
+    "Italy": "IT",
+    "Norway": "NO",
+    "Sweden": "SE",
+    "Switzerland": "CH",
+    "Slovenia": "SI",
+    "Canada": "CA",
+    "China": "CN",
+    "Afghanistan": "AF",
+    "Albania": "AL",
+    "Algeria": "DZ"
+  };
 
-  // Overlay
-  const box = document.createElement("div");
-  box.id = "rowDebug";
-  box.style.cssText = "position:fixed;z-index:99999;right:12px;bottom:12px;max-width:420px;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.75);color:#fff;font:12px/1.35 system-ui;white-space:pre-wrap";
-  box.textContent = "medals debug booting...";
-  document.addEventListener("DOMContentLoaded", () => document.body.appendChild(box));
-
-  function setBox(t){ box.textContent = t; }
-
-  async function fetchByCountry(){
-    const r = await fetch(WIKI_URL, { cache:"no-store" });
-    if (!r.ok) throw new Error("HTTP "+r.status);
-    const j = await r.json();
-    const wt = j?.parse?.wikitext?.["*"] || "";
-    const by = Object.create(null);
+  function parseWiki(wt) {
+    const rows = [];
     const re = /\|\-\s*\n\|\s*([^\n\|]+?)\s*\|\|\s*(\d+)\s*\|\|\s*(\d+)\s*\|\|\s*(\d+)\s*\|\|\s*(\d+)/g;
     let m;
     while ((m = re.exec(wt)) !== null) {
-      const country = m[1].replace(/\[\[|\]\]/g,"").trim();
-      by[normalize(country)] = { gold:+m[2], silver:+m[3], bronze:+m[4], total:+m[5], name:country };
+      const name = m[1].replace(/\[\[|\]\]/g,"").trim();
+      const iso = ISO_MAP[name];
+      if (!iso) continue;
+      rows.push({
+        iso,
+        gold:+m[2],
+        silver:+m[3],
+        bronze:+m[4],
+        total:+m[5]
+      });
     }
-    return by;
+    return rows;
   }
 
-  function scanPageCountryLabels(by){
-    const leafs = Array.from(document.querySelectorAll("*"))
-      .filter(e => e.childElementCount === 0)
-      .map(e => (e.textContent||"").trim())
-      .filter(t => t.length > 0 && t.length < 40);
+  function updateRows(data) {
+    let updated = 0;
+    document.querySelectorAll("tr, div").forEach(row => {
+      const text = row.textContent || "";
+      for (const d of data) {
+        if (!text.includes(" " + d.iso)) continue;
 
-    const hits = [];
-    for (const t of leafs) {
-      const k = normalize(t);
-      if (by[k]) hits.push(t);
-    }
-    // unique
-    return Array.from(new Set(hits));
+        const nums = Array.from(row.querySelectorAll("*"))
+          .filter(e => e.childElementCount === 0 && /^\d+$/.test(e.textContent.trim()));
+
+        if (nums.length >= 4) {
+          nums.slice(-4)[0].textContent = d.gold;
+          nums.slice(-4)[1].textContent = d.silver;
+          nums.slice(-4)[2].textContent = d.bronze;
+          nums.slice(-4)[3].textContent = d.total;
+          updated++;
+        }
+      }
+    });
+    return updated;
   }
 
-  async function run(){
-    try{
-      const by = await fetchByCountry();
-      const labels = scanPageCountryLabels(by);
+  async function run() {
+    try {
+      const r = await fetch(WIKI_URL,{cache:"no-store"});
+      const j = await r.json();
+      const wt = j?.parse?.wikitext?.["*"] || "";
+      const data = parseWiki(wt);
+      const count = updateRows(data);
 
-      // show top 15 labels we matched on the page
-      const sample = labels.slice(0, 15).join(", ");
-
-      setBox(
-        "FETCH: OK\n" +
-        "Matched country labels on page: " + labels.length + "\n" +
-        "Sample: " + sample + "\n\n" +
-        "If Matched=0 -> your DOM doesn’t contain plain country text nodes (or CSP blocks fetch)."
-      );
-    }catch(e){
-      setBox("FETCH: ERR\n" + (e?.message || e));
-      console.warn(e);
+      const dbg = document.createElement("div");
+      dbg.style.cssText="position:fixed;bottom:10px;right:10px;background:#000a;color:#fff;padding:8px;border-radius:8px;z-index:9999;font-size:12px";
+      dbg.textContent = "Medals updated: " + count;
+      document.body.appendChild(dbg);
+    } catch(e) {
+      console.error(e);
     }
   }
 
