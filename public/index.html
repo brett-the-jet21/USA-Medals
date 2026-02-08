@@ -1947,5 +1947,45 @@ setInterval(loadMedals, 30000);
   console.debug = () => {};
 })();
 </script>
-\n</body>
+\n
+<script>
+/* KILL_DEBUG_OVERLAY_BY_TEXT */
+(() => {
+  const show = /[?&]debug=1\b/.test(location.search) || location.hostname === "localhost";
+  if (show) return;
+
+  const NEEDLE = "Rows in API:";
+  const kill = () => {
+    const nodes = Array.from(document.querySelectorAll("body *"));
+    for (const el of nodes) {
+      try {
+        const t = (el.innerText || "").trim();
+        if (t && t.includes(NEEDLE)) {
+          // remove the smallest container that still includes the needle
+          // (walk up until parent no longer contains the text)
+          let target = el;
+          while (target.parentElement && (target.parentElement.innerText||"").includes(NEEDLE)) {
+            target = target.parentElement;
+          }
+          target.remove();
+          return true;
+        }
+      } catch (e) {}
+    }
+    return false;
+  };
+
+  // try immediately + after a tick (in case it mounts late)
+  kill();
+  setTimeout(kill, 250);
+  setTimeout(kill, 1000);
+  setInterval(kill, 3000);
+
+  // if something keeps re-injecting it, nuke on mutation
+  const mo = new MutationObserver(() => kill());
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+})();
+</script>
+</body>
+
 </html>
