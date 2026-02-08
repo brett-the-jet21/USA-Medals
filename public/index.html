@@ -1947,5 +1947,44 @@ setInterval(loadMedals, 30000);
   console.debug = () => {};
 })();
 </script>
-\n</body>
+\n
+<script>
+/* SAFE_HIDE_ROWS_IN_API_OVERLAY */
+(() => {
+  const show = /[?&]debug=1\b/.test(location.search) || location.hostname === "localhost";
+  if (show) return;
+
+  const NEEDLE = "Rows in API:";
+  const hideMatches = () => {
+    // Target likely containers only (avoid scanning everything endlessly)
+    const candidates = document.querySelectorAll("pre, div, aside, section, code, span");
+    let did = false;
+    for (const el of candidates) {
+      try {
+        const t = (el.innerText || "");
+        if (t.includes(NEEDLE)) {
+          // Hide ONLY this element (do not remove, do not climb)
+          el.style.display = "none";
+          el.style.visibility = "hidden";
+          el.style.pointerEvents = "none";
+          did = true;
+        }
+      } catch (e) {}
+    }
+    return did;
+  };
+
+  // run now + later
+  hideMatches();
+  setTimeout(hideMatches, 250);
+  setTimeout(hideMatches, 1000);
+  setInterval(hideMatches, 2000);
+
+  // if it gets re-inserted
+  const mo = new MutationObserver(() => hideMatches());
+  mo.observe(document.documentElement, { childList: true, subtree: true });
+})();
+</script>
+
+</body>
 </html>
