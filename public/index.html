@@ -1815,5 +1815,121 @@ loadMedals();
 setInterval(loadMedals, 30000);
 </script>
 
+
+<!-- LIVE_MEDALS_START -->
+<div id="medalDebugBadge" style="position:fixed;z-index:99999;right:12px;bottom:12px;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.65);color:#fff;font:12px/1.35 system-ui;max-width:320px">
+  <div style="font-weight:700;margin-bottom:4px">Medal Feed Debug</div>
+  <div>Status: <span id="medalDebugStatus">BOOT</span></div>
+  <div>USA: G <span id="dbgG">-</span> S <span id="dbgS">-</span> B <span id="dbgB">-</span> T <span id="dbgT">-</span></div>
+  <div style="opacity:.8">Last: <span id="medalDebugTime">-</span></div>
+</div>
+
+<script>
+(() => {
+  const WIKI_URL = "https://en.wikipedia.org/w/api.php?action=parse&page=2026_Winter_Olympics_medal_table&prop=wikitext&format=json&origin=*";
+
+  const ids = { gold:"usaGold", silver:"usaSilver", bronze:"usaBronze", total:"usaTotal" };
+
+  function setDebug(status, usa) {
+    const s = document.getElementById("medalDebugStatus");
+    const t = document.getElementById("medalDebugTime");
+    if (s) s.textContent = status;
+    if (t) t.textContent = new Date().toLocaleString();
+    if (usa) {
+      const g=document.getElementById("dbgG"); if(g) g.textContent = usa.gold;
+      const si=document.getElementById("dbgS"); if(si) si.textContent = usa.silver;
+      const b=document.getElementById("dbgB"); if(b) b.textContent = usa.bronze;
+      const to=document.getElementById("dbgT"); if(to) to.textContent = usa.total;
+    }
+  }
+
+  function parseUSAFromWikitext(wt) {
+    const re = /\|\-\s*\n\|\s*([^\n\|]+?)\s*\|\|\s*(\d+)\s*\|\|\s*(\d+)\s*\|\|\s*(\d+)\s*\|\|\s*(\d+)/g;
+    let m;
+    while ((m = re.exec(wt)) !== null) {
+      const country = m[1].replace(/\[\[|\]\]/g, "").trim();
+      if (country === "United States" || country === "United States of America" || country === "USA") {
+        return { gold:+m[2], silver:+m[3], bronze:+m[4], total:+m[5] };
+      }
+    }
+    return { gold:0, silver:0, bronze:0, total:0 };
+  }
+
+  function setText(el, v) {
+    if (!el) return;
+    el.textContent = String(v);
+    el.setAttribute("data-live-medal", "1"); // mark as managed
+  }
+
+  function applyUSA(usa) {
+    // 1) Update by ID if present
+    setText(document.getElementById(ids.gold), usa.gold);
+    setText(document.getElementById(ids.silver), usa.silver);
+    setText(document.getElementById(ids.bronze), usa.bronze);
+    setText(document.getElementById(ids.total), usa.total);
+
+    // 2) Update common label/value patterns (label then next sibling)
+    const map = [
+      ["USA Gold", usa.gold],
+      ["USA Silver", usa.silver],
+      ["USA Bronze", usa.bronze],
+      ["USA Total", usa.total],
+    ];
+
+    const leafs = Array.from(document.querySelectorAll("*")).filter(e => e.childElementCount === 0);
+
+    for (const [label, val] of map) {
+      const labelEl = leafs.find(e => (e.textContent||"").trim() === label);
+      if (!labelEl) continue;
+      // next element sibling
+      let target = labelEl.nextElementSibling;
+      if (!target) target = labelEl.parentElement?.children?.[Array.from(labelEl.parentElement.children).indexOf(labelEl)+1] || null;
+      if (target && target.childElementCount === 0) setText(target, val);
+    }
+
+    // 3) If your top card says "Team USA — Live Total", update the nearest number after it
+    const top = leafs.find(e => (e.textContent||"").includes("Team USA — Live Total"));
+    if (top) {
+      let target = top.nextElementSibling;
+      if (target && target.childElementCount === 0) setText(target, usa.total);
+    }
+  }
+
+  let lastUSA = { gold:0, silver:0, bronze:0, total:0 };
+  let lastStatus = "BOOT";
+
+  async function refresh() {
+    try {
+      const r = await fetch(WIKI_URL, { cache:"no-store" });
+      if (!r.ok) throw new Error("HTTP "+r.status);
+      const j = await r.json();
+      const wt = j?.parse?.wikitext?.["*"] || "";
+      lastUSA = parseUSAFromWikitext(wt);
+      lastStatus = "OK";
+      setDebug(lastStatus, lastUSA);
+      applyUSA(lastUSA);
+    } catch (e) {
+      lastStatus = "ERR: " + (e?.message || e);
+      setDebug(lastStatus, lastUSA);
+      // still apply last known values
+      applyUSA(lastUSA);
+      console.warn("medal fetch failed", e);
+    }
+  }
+
+  // If your site JS keeps overwriting values, we win by re-applying after any DOM change.
+  const mo = new MutationObserver(() => {
+    applyUSA(lastUSA);
+    setDebug(lastStatus, lastUSA);
+  });
+  mo.observe(document.documentElement, { childList:true, subtree:true });
+
+  refresh();
+  setInterval(refresh, 30000);
+  setInterval(() => applyUSA(lastUSA), 1000); // brute force: re-apply every second
+})();
+</script>
+<!-- LIVE_MEDALS_END -->
+
 </body>
 </html>
