@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
   try {
-    const WIKI = "https://en.wikipedia.org/w/api.php?action=parse&page=2026_Winter_Olympics_medal_table&prop=wikitext&format=json&origin=*";
+    const WIKI = "https://en.wikipedia.org/w/api.php?action=parse&page=2026_Winter_Olympics&prop=wikitext&format=json&origin=*";
     const r = await fetch(WIKI, { headers: { "user-agent": "Mozilla/5.0 usamedalstoday.com" } });
     if (!r.ok) throw new Error(`wiki HTTP ${r.status}`);
     const j = await r.json();
