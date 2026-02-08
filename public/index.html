@@ -1826,81 +1826,100 @@ setInterval(loadMedals, 30000);
 
 
 
+
+
 <!-- LIVE_MEDALS_START -->
 <script>
 (() => {
-  const OLYMPICS_URL =
-    "https://olympics.com/en/olympic-games/olympic-medal-tally.json";
+  // SAME-ORIGIN fetch so CORS cannot block
+  const API_URL = "/api/medals";
 
-  function badge(msg) {
+  function badge(line1, line2="") {
     let b = document.getElementById("medalFixBadge");
     if (!b) {
       b = document.createElement("div");
       b.id = "medalFixBadge";
       b.style.cssText =
-        "position:fixed;right:12px;bottom:12px;z-index:99999;" +
-        "background:rgba(0,0,0,.8);color:#fff;padding:10px 12px;" +
-        "border-radius:12px;font:12px/1.4 system-ui;white-space:pre";
+        "position:fixed;z-index:99999;right:12px;bottom:12px;max-width:560px;" +
+        "padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.18);" +
+        "background:rgba(0,0,0,.75);color:#fff;font:12px/1.35 system-ui;white-space:pre-wrap";
       document.body.appendChild(b);
     }
-    b.textContent = msg;
+    b.textContent = line1 + "\n" + line2;
   }
 
-  function cleanCountry(raw) {
-    return (raw || "")
-      .replace(/[\u{1F1E6}-\u{1F1FF}]/gu, "") // flags
-      .replace(/\b[A-Z]{2}\b$/, "")           // ISO
+  function stripFlagsAndTrim(s) {
+    return (s||"")
+      .replace(/[\uD83C\uDDE6-\uDDFF]{2}/g, " ")
+      .replace(/[\u{1F1E6}-\u{1F1FF}]/gu, " ")
+      .replace(/[\u{1F300}-\u{1FAFF}]/gu, " ")
       .replace(/\s+/g, " ")
       .trim();
   }
 
-  function updateTable(byName) {
-    const rows = Array.from(document.querySelectorAll("table tbody tr"));
-    let updated = 0;
+  function extractNameFromDomCountryCell(raw) {
+    // e.g. "🇺🇸 United States US" -> "United States"
+    const cleaned = stripFlagsAndTrim(raw);
+    const parts = cleaned.split(" ").filter(Boolean);
+    if (parts.length >= 2 && /^[A-Z]{2,3}$/.test(parts[parts.length - 1])) parts.pop(); // drop ISO2/short code
+    return parts.join(" ").trim();
+  }
 
-    for (const tr of rows) {
-      const tds = tr.querySelectorAll("td");
+  function updateMainTable(byName) {
+    const trs = Array.from(document.querySelectorAll("table tbody tr"));
+    let scanned = 0, updated = 0;
+    const missing = [];
+
+    for (const tr of trs) {
+      const tds = Array.from(tr.querySelectorAll("td"));
       if (tds.length < 6) continue;
 
-      const name = cleanCountry(tds[1].innerText);
-      const m = byName[name];
-      if (!m) continue;
+      scanned++;
 
-      tds[2].textContent = m.gold;
-      tds[3].textContent = m.silver;
-      tds[4].textContent = m.bronze;
-      tds[5].textContent = m.total;
+      const rawCountry = tds[1].innerText || tds[1].textContent || "";
+      const name = extractNameFromDomCountryCell(rawCountry);
+      if (!name) continue;
+
+      const m = byName[name];
+      if (!m) {
+        if (missing.length < 12) missing.push(name);
+        continue;
+      }
+
+      tds[2].textContent = String(m.gold);
+      tds[3].textContent = String(m.silver);
+      tds[4].textContent = String(m.bronze);
+      tds[5].textContent = String(m.total);
       updated++;
     }
-    return updated;
+
+    return { scanned, updated, missing };
   }
 
   async function refresh() {
     try {
-      const r = await fetch(OLYMPICS_URL, { cache: "no-store" });
-      if (!r.ok) throw new Error("HTTP " + r.status);
+      const r = await fetch(API_URL, { cache: "no-store" });
+      if (!r.ok) throw new Error("API HTTP " + r.status);
       const j = await r.json();
+      if (j.error) throw new Error(j.error);
 
-      // Build name → medals map
-      const byName = {};
-      for (const c of j.medalTally) {
-        byName[c.description] = {
-          gold: c.gold,
-          silver: c.silver,
-          bronze: c.bronze,
-          total: c.total
-        };
+      // Build name -> medals map from API
+      const byName = Object.create(null);
+      for (const row of (j.rows || [])) {
+        byName[row.name] = row;
       }
 
-      const updated = updateTable(byName);
+      const { scanned, updated, missing } = updateMainTable(byName);
+
       badge(
-        "SOURCE: Olympics.com\n" +
-        "FETCH: OK\n" +
-        "Rows updated: " + updated + "\n" +
-        new Date().toLocaleString()
+        "SOURCE: /api/medals (olympics.com) • OK • " + new Date().toLocaleString(),
+        "Rows in API: " + (j.count || 0) +
+        "\nTable rows scanned: " + scanned +
+        "\nTable rows updated: " + updated +
+        (missing.length ? "\nMissing examples: " + missing.join(", ") : "")
       );
     } catch (e) {
-      badge("FETCH ERR\n" + (e?.message || e));
+      badge("FETCH ERR", String(e?.message || e));
       console.warn(e);
     }
   }
