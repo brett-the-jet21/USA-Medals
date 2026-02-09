@@ -1198,7 +1198,7 @@ body:after{
 
   async function refreshMedals() {
     try {
-      const res = await fetch((window.MEDALS_URL||"/medals.json")+"?t="+Date.now(),{cache:"no-store"});
+      const res = // await fetch((window.MEDALS_URL||"/medals.json")+"?t="+Date.now(),{cache:"no-store"});
       if (!res.ok) return;
       const data = await res.json();
       const gold = Number(data.gold || 0);
@@ -1786,7 +1786,7 @@ body:after{
 <!-- MANUAL_MEDAL_OVERRIDE_END -->
 <script>
 async function loadMedals() {
-  const r = await fetch("/api/medals", { cache: "no-store" });
+  // const r = await fetch("/api/medals", { cache: "no-store" });
   if (!r.ok) return;
   const d = await r.json();
 
