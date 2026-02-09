@@ -744,9 +744,7 @@ body:after{
            data-ad-slot="7778609511"
            data-ad-format="auto"
            data-full-width-responsive="true"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
+      
     </div>
 
     <section class="hero" aria-label="Controls">
@@ -827,9 +825,7 @@ body:after{
                  data-ad-slot="3373472404"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
-            <script>
-              (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+            
           </div>
 
           <div class="note">
@@ -901,9 +897,7 @@ body:after{
                  data-ad-slot="7397118526"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
-            <script>
-              (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+            
           </div>
 
         </div>
@@ -922,909 +916,43 @@ body:after{
     </footer>
   </div>
 
-  <script>
-    /**
-     * ✅ Updating medals (simple)
-     * Add updates in MEDAL_OVERRIDES below, like:
-     * "United States": { gold: 10, silver: 8, bronze: 12 },
-     * "Canada": { gold: 7, silver: 4, bronze: 5 },
-     */
+  
+  
 
-    const ALL_COUNTRIES = [
-      "Afghanistan","Albania","Algeria","American Samoa","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Aruba",
-      "Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda",
-      "Bhutan","Bolivia","Bosnia and Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso",
-      "Burundi","Cabo Verde","Cambodia","Cameroon","Canada","Cayman Islands","Central African Republic","Chad","Chile","China",
-      "Chinese Taipei","Colombia","Comoros","Congo","Cook Islands","Costa Rica","Croatia","Cuba","Cyprus","Czechia","Denmark",
-      "Djibouti","Dominica","Dominican Republic","DR Congo","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia",
-      "Eswatini","Ethiopia","Fiji","Finland","France","Gabon","Gambia","Georgia","Germany","Ghana","Greece","Grenada","Guam",
-      "Guatemala","Guinea","Guinea-Bissau","Guyana","Haiti","Honduras","Hong Kong, China","Hungary","Iceland","India","Indonesia",
-      "Iran","Iraq","Ireland","Israel","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait",
-      "Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Madagascar",
-      "Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova",
-      "Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar","Namibia","Nauru","Nepal","Netherlands","New Zealand",
-      "Nicaragua","Niger","Nigeria","North Korea","North Macedonia","Northern Mariana Islands","Norway","Oman","Pakistan","Palau",
-      "Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Romania",
-      "Russia","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Samoa","San Marino",
-      "Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia",
-      "Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","Sudan","Suriname","Sweden",
-      "Switzerland","Syria","Tajikistan","Tanzania","Thailand","Timor-Leste","Togo","Tonga","Trinidad and Tobago","Tunisia","Turkey",
-      "Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States","Uruguay","Uzbekistan",
-      "Vanuatu","Venezuela","Vietnam","Virgin Islands, U.S.","Yemen","Zambia","Zimbabwe"
-    ];
 
-    const MEDAL_OVERRIDES = {
-      // Example:
-      // "United States": { gold: 10, silver: 8, bronze: 12 }
-    };
-
-    const els = {
-      tableBody: document.getElementById("tableBody"),
-      lastUpdated: document.getElementById("lastUpdated"),
-      year: document.getElementById("year"),
-      usaGold: document.getElementById("usaGold"),
-      usaSilver: document.getElementById("usaSilver"),
-      usaBronze: document.getElementById("usaBronze"),
-      usaTotal: document.getElementById("usaTotal"),
-      search: document.getElementById("search"),
-      btnSortTotal: document.getElementById("btnSortTotal"),
-      btnSortGold: document.getElementById("btnSortGold")
-    };
-
-    let sortMode = "total";
-
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
-    function iso2ToFlagEmoji(iso2){
-      if(!iso2 || iso2.length !== 2) return "🏳️";
-      const code = iso2.toUpperCase();
-      const A = 0x1F1E6;
-      const base = "A".charCodeAt(0);
-      const first = code.charCodeAt(0) - base + A;
-      const second = code.charCodeAt(1) - base + A;
-      return String.fromCodePoint(first, second);
-    }
-
-    const COUNTRY_TO_ISO2 = {
-      "Afghanistan":"AF","Albania":"AL","Algeria":"DZ","American Samoa":"AS","Andorra":"AD","Angola":"AO",
-      "Antigua and Barbuda":"AG","Argentina":"AR","Armenia":"AM","Aruba":"AW","Australia":"AU","Austria":"AT",
-      "Azerbaijan":"AZ","Bahamas":"BS","Bahrain":"BH","Bangladesh":"BD","Barbados":"BB","Belarus":"BY","Belgium":"BE",
-      "Belize":"BZ","Benin":"BJ","Bermuda":"BM","Bhutan":"BT","Bolivia":"BO","Bosnia and Herzegovina":"BA","Botswana":"BW",
-      "Brazil":"BR","British Virgin Islands":"VG","Brunei":"BN","Bulgaria":"BG","Burkina Faso":"BF","Burundi":"BI",
-      "Cabo Verde":"CV","Cambodia":"KH","Cameroon":"CM","Canada":"CA","Cayman Islands":"KY","Central African Republic":"CF",
-      "Chad":"TD","Chile":"CL","China":"CN","Chinese Taipei":"TW","Colombia":"CO","Comoros":"KM","Congo":"CG","Cook Islands":"CK",
-      "Costa Rica":"CR","Croatia":"HR","Cuba":"CU","Cyprus":"CY","Czechia":"CZ","Denmark":"DK","Djibouti":"DJ","Dominica":"DM",
-      "Dominican Republic":"DO","DR Congo":"CD","Ecuador":"EC","Egypt":"EG","El Salvador":"SV","Equatorial Guinea":"GQ","Eritrea":"ER",
-      "Estonia":"EE","Eswatini":"SZ","Ethiopia":"ET","Fiji":"FJ","Finland":"FI","France":"FR","Gabon":"GA","Gambia":"GM","Georgia":"GE",
-      "Germany":"DE","Ghana":"GH","Greece":"GR","Grenada":"GD","Guam":"GU","Guatemala":"GT","Guinea":"GN","Guinea-Bissau":"GW",
-      "Guyana":"GY","Haiti":"HT","Honduras":"HN","Hong Kong, China":"HK","Hungary":"HU","Iceland":"IS","India":"IN","Indonesia":"ID",
-      "Iran":"IR","Iraq":"IQ","Ireland":"IE","Israel":"IL","Italy":"IT","Jamaica":"JM","Japan":"JP","Jordan":"JO","Kazakhstan":"KZ",
-      "Kenya":"KE","Kiribati":"KI","Kosovo":"XK","Kuwait":"KW","Kyrgyzstan":"KG","Laos":"LA","Latvia":"LV","Lebanon":"LB","Lesotho":"LS",
-      "Liberia":"LR","Libya":"LY","Liechtenstein":"LI","Lithuania":"LT","Luxembourg":"LU","Madagascar":"MG","Malawi":"MW","Malaysia":"MY",
-      "Maldives":"MV","Mali":"ML","Malta":"MT","Marshall Islands":"MH","Mauritania":"MR","Mauritius":"MU","Mexico":"MX","Micronesia":"FM",
-      "Moldova":"MD","Monaco":"MC","Mongolia":"MN","Montenegro":"ME","Morocco":"MA","Mozambique":"MZ","Myanmar":"MM","Namibia":"NA",
-      "Nauru":"NR","Nepal":"NP","Netherlands":"NL","New Zealand":"NZ","Nicaragua":"NI","Niger":"NE","Nigeria":"NG","North Korea":"KP",
-      "North Macedonia":"MK","Northern Mariana Islands":"MP","Norway":"NO","Oman":"OM","Pakistan":"PK","Palau":"PW","Palestine":"PS",
-      "Panama":"PA","Papua New Guinea":"PG","Paraguay":"PY","Peru":"PE","Philippines":"PH","Poland":"PL","Portugal":"PT","Puerto Rico":"PR",
-      "Qatar":"QA","Romania":"RO","Russia":"RU","Rwanda":"RW","Saint Kitts and Nevis":"KN","Saint Lucia":"LC",
-      "Saint Vincent and the Grenadines":"VC","Samoa":"WS","San Marino":"SM","Sao Tome and Principe":"ST","Saudi Arabia":"SA",
-      "Senegal":"SN","Serbia":"RS","Seychelles":"SC","Sierra Leone":"SL","Singapore":"SG","Slovakia":"SK","Slovenia":"SI",
-      "Solomon Islands":"SB","Somalia":"SO","South Africa":"ZA","South Korea":"KR","South Sudan":"SS","Spain":"ES","Sri Lanka":"LK",
-      "Sudan":"SD","Suriname":"SR","Sweden":"SE","Switzerland":"CH","Syria":"SY","Tajikistan":"TJ","Tanzania":"TZ","Thailand":"TH",
-      "Timor-Leste":"TL","Togo":"TG","Tonga":"TO","Trinidad and Tobago":"TT","Tunisia":"TN","Turkey":"TR","Turkmenistan":"TM",
-      "Tuvalu":"TV","Uganda":"UG","Ukraine":"UA","United Arab Emirates":"AE","United Kingdom":"GB","United States":"US","Uruguay":"UY",
-      "Uzbekistan":"UZ","Vanuatu":"VU","Venezuela":"VE","Vietnam":"VN","Virgin Islands, U.S.":"VI","Yemen":"YE","Zambia":"ZM","Zimbabwe":"ZW"
-    };
-
-    function flagForCountry(countryName){
-      const iso2 = COUNTRY_TO_ISO2[countryName];
-      return iso2 ? iso2ToFlagEmoji(iso2) : "🏳️";
-    }
-
-    function normalizeRow(country, override){
-      const gold = Number(override?.gold ?? 0) || 0;
-      const silver = Number(override?.silver ?? 0) || 0;
-      const bronze = Number(override?.bronze ?? 0) || 0;
-      return { country, gold, silver, bronze, total: gold + silver + bronze };
-    }
-
-    function buildAllRows(){
-      const rows = ALL_COUNTRIES.map(name => normalizeRow(name, MEDAL_OVERRIDES[name]));
-      if(!rows.some(r => r.country === "United States")){
-        rows.push(normalizeRow("United States", MEDAL_OVERRIDES["United States"]));
-      }
-      return rows;
-    }
-
-    function sortRows(rows){
-      const allZero = rows.every(r => r.total === 0);
-      if (allZero) {
-        return rows.slice().sort((a,b) => {
-          if (a.country === "United States") return -1;
-          if (b.country === "United States") return 1;
-          return a.country.localeCompare(b.country);
-        });
-      }
-
-      const keyPrimary = sortMode === "gold" ? "gold" : "total";
-
-      return rows.slice().sort((a,b) => {
-        const p = b[keyPrimary] - a[keyPrimary];
-        if(p) return p;
-
-        const g = b.gold - a.gold; if(g) return g;
-        const s = b.silver - a.silver; if(s) return s;
-        const br = b.bronze - a.bronze; if(br) return br;
-        const t = b.total - a.total; if(t) return t;
-
-        return a.country.localeCompare(b.country);
-      });
-    }
-
-    function applySearch(rows){
-      const q = (els.search.value || "").trim().toLowerCase();
-      if(!q) return rows;
-      return rows.filter(r => r.country.toLowerCase().includes(q));
-    }
-
-    function render(){
-      const all = buildAllRows();
-      const sorted = sortRows(all);
-      const filtered = applySearch(sorted);
-
-      const usa = all.find(r => r.country === "United States") ||
-                  all.find(r => r.country.toLowerCase() === "usa");
-
-      els.usaGold.textContent = usa ? usa.gold : "—";
-      els.usaSilver.textContent = usa ? usa.silver : "—";
-      els.usaBronze.textContent = usa ? usa.bronze : "—";
-      els.usaTotal.textContent = usa ? usa.total : "—";
-
-      els.tableBody.innerHTML = filtered.map((r, i) => {
-        const flag = flagForCountry(r.country);
-        const iso2 = COUNTRY_TO_ISO2[r.country] || "";
-        return `
-        <tr class="${r.country === "United States" ? "usaRow" : ""}">
-          <td class="rank">${i + 1}</td>
-          <td class="country">
-            <div class="countryCell">
-              <span class="flag" aria-hidden="true">${flag}</span>
-              <span class="countryName">
-                <span>${escapeHtml(r.country)}</span>
-                ${iso2 ? `<small>${iso2}</small>` : ``}
-              </span>
-            </div>
-          </td>
-          <td class="num">${r.gold}</td>
-          <td class="num">${r.silver}</td>
-          <td class="num">${r.bronze}</td>
-          <td class="num"><b>${r.total}</b></td>
-        </tr>`;
-      }).join("");
-
-      const now = new Date();
-      els.lastUpdated.textContent = now.toLocaleString();
-    }
-
-    function setSort(mode){
-      sortMode = mode;
-      els.btnSortTotal.classList.toggle("primary", mode === "total");
-      els.btnSortGold.classList.toggle("primary", mode === "gold");
-      render();
-    }
-
-    function init(){
-      els.year.textContent = new Date().getFullYear();
-
-      els.search.addEventListener("input", () => render());
-      els.btnSortTotal.addEventListener("click", () => setSort("total"));
-      els.btnSortGold.addEventListener("click", () => setSort("gold"));
-
-      setSort("total");
-    }
-
-    init();
-  </script>
-  <script>
-  function setupShareButtons() {
-    var url = window.location.href;
-    var text = "USA medal count today 🇺🇸🔥 Live Milano Cortina 2026 tracker";
-
-    var x = document.getElementById("shareX");
-    var r = document.getElementById("shareReddit");
-    var copyBtn = document.getElementById("copyLink");
-    var status = document.getElementById("copyStatus");
-
-    if (x) x.href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text) + "&url=" + encodeURIComponent(url);
-    if (r) r.href = "https://www.reddit.com/submit?url=" + encodeURIComponent(url) + "&title=" + encodeURIComponent(text);
-
-    if (copyBtn) {
-      copyBtn.addEventListener("click", async function () {
-        try {
-          await navigator.clipboard.writeText(url);
-          if (status) status.textContent = "Copied ✅";
-          setTimeout(function(){ if (status) status.textContent = ""; }, 1500);
-        } catch (e) {
-          var ta = document.createElement("textarea");
-          ta.value = url;
-          document.body.appendChild(ta);
-          ta.select();
-          document.execCommand("copy");
-          document.body.removeChild(ta);
-          if (status) status.textContent = "Copied ✅";
-          setTimeout(function(){ if (status) status.textContent = ""; }, 1500);
-        }
-      });
-    }
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", setupShareButtons);
-  } else {
-    setupShareButtons();
-  }
-  </script>
-
-<script>
-(() => {
-  const MEDALS_URL = "undefined";
-  const POLL_MS = 60_000;
-
-  function findLeaf(exact) {
-    return Array.from(document.querySelectorAll("*"))
-      .find(el => el.children.length === 0 && (el.textContent || "").trim() === exact) || null;
-  }
-
-  function findNearestNumberEl(fromEl) {
-    if (!fromEl) return null;
-    const root = fromEl.closest("div") || fromEl.parentElement || document.body;
-    const leaves = Array.from(root.querySelectorAll("*")).filter(el => el.children.length === 0);
-    const num = leaves.find(el => /^[0-9]+$/.test((el.textContent || "").trim()));
-    return num || null;
-  }
-
-  function setStat(label, value) {
-    const labelEl = findLeaf(label);
-    if (!labelEl) return;
-    const numEl = findNearestNumberEl(labelEl);
-    if (!numEl) return;
-    numEl.textContent = String(Number(value || 0));
-  }
-
-  function setPageRefreshed(iso) {
-    const leaf = Array.from(document.querySelectorAll("*")).find(el =>
-      el.children.length === 0 && (el.textContent || "").includes("Page refreshed:")
-    );
-    if (!leaf) return;
-    const dt = new Date(iso || Date.now());
-    leaf.textContent = "Page refreshed: " + dt.toLocaleString();
-  }
-
-  async function refreshMedals() {
-    try {
-      const res = // await fetch((window.MEDALS_URL||"/medals.json")+"?t="+Date.now(),{cache:"no-store"});
-      if (!res.ok) return;
-      const data = await res.json();
-      const gold = Number(data.gold || 0);
-      const silver = Number(data.silver || 0);
-      const bronze = Number(data.bronze || 0);
-      const total = ("total" in data) ? Number(data.total || 0) : (gold + silver + bronze);
-
-      setStat("USA Gold", gold);
-      setStat("USA Silver", silver);
-      setStat("USA Bronze", bronze);
-      setStat("USA Total", total);
-
-      setPageRefreshed(data.lastUpdatedISO || new Date().toISOString());
-    } catch {}
-  }
-
-  refreshMedals();
-  // setInterval(refreshMedals, POLL_MS);
-})();
-</script>
 
 
 </div>
 
-<script>
-(function(){
-  var el = document.getElementById('olympic-last-updated');
-  if(!el) return;
-  function tick(){ el.textContent = 'Last updated: ' + (new Date()).toLocaleString(); }
-  tick();
-  setInterval(tick, 30000);
-})();
-</script>
+
 
 
 <!-- OLYMPIC_PODIUM_JS_START -->
-<script>
-(function(){
-  function textOf(el){ return (el && el.textContent || "").trim(); }
-  function numOf(el){ var n = parseInt(textOf(el).replace(/[^0-9]/g,''),10); return isNaN(n)?0:n; }
 
-  function buildPodiumFromTable(){
-    var body = document.getElementById("tableBody");
-    var podium = document.getElementById("podium");
-    if(!body || !podium) return;
-
-    var rows = Array.from(body.querySelectorAll("tr"));
-    if(rows.length < 3) return;
-
-    // Determine indexes based on header: Rank, Country, Gold, Silver, Bronze, Total
-    function readRow(tr){
-      var tds = tr.querySelectorAll("td");
-      if(tds.length < 6) return null;
-      return {
-        tr: tr,
-        rank: textOf(tds[0]),
-        country: textOf(tds[1]),
-        gold: numOf(tds[2]),
-        silver: numOf(tds[3]),
-        bronze: numOf(tds[4]),
-        total: numOf(tds[5])
-      };
-    }
-
-    var top = rows.slice(0,3).map(readRow).filter(Boolean);
-    if(top.length < 3) return;
-
-    // USA highlight: match country text contains "United States" or "USA"
-    rows.forEach(function(r){
-      var d = readRow(r);
-      if(!d) return;
-      var c = d.country.toLowerCase();
-      if(c.includes("united states") || c === "usa" || c.includes("usa")) {
-        d.tr.classList.add("usa-row");
-      }
-    });
-
-    var places = [
-      {label:"1st", cls:"gold"},
-      {label:"2nd", cls:"silver"},
-      {label:"3rd", cls:"bronze"}
-    ];
-
-    podium.innerHTML = top.map(function(d,i){
-      var meta = places[i];
-      return (
-        '<div class="podium-card">' +
-          '<div class="podium-top">' +
-            '<div class="podium-place"><span class="podium-medal '+meta.cls+'"></span>'+meta.label+'</div>' +
-            '<div style="color:rgba(255,255,255,.72);font-size:12px;">Rank '+d.rank+'</div>' +
-          '</div>' +
-          '<div class="podium-country">'+escapeHtml(d.country)+'</div>' +
-          '<div class="podium-sub">Gold '+d.gold+' • Silver '+d.silver+' • Bronze '+d.bronze+' • Total '+d.total+'</div>' +
-          '<div class="podium-stats">' +
-            '<span class="podium-chip"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:linear-gradient(180deg, rgba(212,175,55,.95), rgba(212,175,55,.35));box-shadow:0 0 0 2px rgba(255,255,255,.10);"></span><b>'+d.gold+'</b> Gold</span>' +
-            '<span class="podium-chip"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:linear-gradient(180deg, rgba(191,199,213,.95), rgba(191,199,213,.35));box-shadow:0 0 0 2px rgba(255,255,255,.10);"></span><b>'+d.silver+'</b> Silver</span>' +
-            '<span class="podium-chip"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:linear-gradient(180deg, rgba(184,115,51,.95), rgba(184,115,51,.35));box-shadow:0 0 0 2px rgba(255,255,255,.10);"></span><b>'+d.bronze+'</b> Bronze</span>' +
-            '<span class="podium-chip"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:linear-gradient(180deg, rgba(255,255,255,.70), rgba(255,255,255,.20));box-shadow:0 0 0 2px rgba(255,255,255,.10);"></span><b>'+d.total+'</b> Total</span>' +
-          '</div>' +
-        '</div>'
-      );
-    }).join("");
-
-    function escapeHtml(s){
-      return String(s)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
-  }
-
-  // Try immediately, then observe for table updates
-  buildPodiumFromTable();
-  var body = document.getElementById("tableBody");
-  if(body){
-    var obs = new MutationObserver(function(){ buildPodiumFromTable(); });
-    obs.observe(body, {childList:true, subtree:true});
-  }
-})();
-</script>
 <!-- OLYMPIC_PODIUM_JS_END -->
 
 
 <!-- OLYMPIC_USA_MEGA_JS_START -->
-<script>
-(function(){
-  function textOf(el){ return (el && el.textContent || "").trim(); }
-  function numOfText(t){ var n = parseInt(String(t).replace(/[^0-9]/g,''),10); return isNaN(n)?0:n; }
 
-  var prev = {g:null,s:null,b:null,t:null};
-
-  function findUSARow(){
-    var body = document.getElementById("tableBody");
-    if(!body) return null;
-    var rows = Array.from(body.querySelectorAll("tr"));
-    for (var i=0;i<rows.length;i++){
-      var tds = rows[i].querySelectorAll("td");
-      if(tds.length < 6) continue;
-      var country = textOf(tds[1]).toLowerCase();
-      if(country.includes("united states") || country === "usa" || country.includes("usa")){
-        return {tr: rows[i], tds: tds};
-      }
-    }
-    return null;
-  }
-
-  function setText(id, v){
-    var el = document.getElementById(id);
-    if(el) el.textContent = v;
-  }
-
-  function pulseIfChanged(el, changed){
-    if(!el || !changed) return;
-    el.classList.remove("pulse");
-    void el.offsetWidth;
-    el.classList.add("pulse");
-  }
-
-  function tick(){
-    var u = findUSARow();
-    if(!u) return;
-
-    var gold = numOfText(textOf(u.tds[2]));
-    var silver = numOfText(textOf(u.tds[3]));
-    var bronze = numOfText(textOf(u.tds[4]));
-    var total = numOfText(textOf(u.tds[5]));
-
-    setText("usaGold", gold);
-    setText("usaSilver", silver);
-    setText("usaBronze", bronze);
-    setText("usaTotal", total);
-    setText("usaTotal2", total);
-
-    var now = new Date();
-    setText("usaUpdated", now.toLocaleTimeString());
-    setText("usaMeta", "Pulled from live table • Rank " + textOf(u.tds[0]));
-
-    // pulse on change
-    var mega = document.getElementById("usaMega");
-    var changed = (prev.g !== null) && (gold!==prev.g || silver!==prev.s || bronze!==prev.b || total!==prev.t);
-    pulseIfChanged(mega, changed);
-    prev = {g:gold,s:silver,b:bronze,t:total};
-  }
-
-  tick();
-  var body = document.getElementById("tableBody");
-  if(body){
-    var obs = new MutationObserver(function(){ tick(); });
-    obs.observe(body, {childList:true, subtree:true});
-  }
-  setInterval(tick, 30000);
-})();
-</script>
 <!-- OLYMPIC_USA_MEGA_JS_END -->
 
 
 <!-- OLYMPIC_FINAL_POLISH_JS_START -->
-<script>
-(function(){
-  function q(id){ return document.getElementById(id); }
-  function textOf(el){ return (el && el.textContent || "").trim(); }
 
-  function buildTicker(){
-    var body = document.getElementById("tableBody");
-    var msg = q("tickerMsg");
-    if(!body || !msg) return;
-    var rows = Array.from(body.querySelectorAll("tr"));
-    if(rows.length < 1) return;
-
-    function row(i){
-      var tds = rows[i] && rows[i].querySelectorAll("td");
-      if(!tds || tds.length < 6) return null;
-      return {rank:textOf(tds[0]), country:textOf(tds[1]), g:textOf(tds[2]), s:textOf(tds[3]), b:textOf(tds[4]), t:textOf(tds[5])};
-    }
-
-    var top = [row(0), row(1), row(2)].filter(Boolean);
-    var usa = null;
-    rows.forEach(function(r){
-      var tds = r.querySelectorAll("td");
-      if(tds.length < 6) return;
-      var c = textOf(tds[1]).toLowerCase();
-      if(!usa && (c.includes("united states") || c === "usa" || c.includes("usa"))){
-        usa = {rank:textOf(tds[0]), t:textOf(tds[5]), g:textOf(tds[2]), s:textOf(tds[3]), b:textOf(tds[4])};
-      }
-    });
-
-    var now = new Date().toLocaleTimeString();
-    var topText = top.length ? ("Top 3: " + top.map(function(x){ return "#"+x.rank+" "+x.country+" ("+x.t+")"; }).join(" • ")) : "Loading…";
-    var usaText = usa ? (" • USA Rank #"+usa.rank+" — "+usa.g+"G "+usa.s+"S "+usa.b+"B ("+usa.t+" total)") : "";
-    msg.textContent = now + " • " + topText + usaText;
-  }
-
-  // share podium: basic screenshot via SVG foreignObject not reliable across browsers,
-  // so do a simple copy-to-clipboard text fallback + open share prompt.
-  function sharePodium(){
-    var pod = document.getElementById("podium");
-    if(!pod) return;
-
-    var cards = Array.from(pod.querySelectorAll(".podium-card"));
-    var lines = cards.map(function(c){
-      return c.innerText.replace(/\n+/g," • ").trim();
-    }).join("\n");
-
-    var shareText = "Milano Cortina 2026 — Top 3\n" + lines + "\n" + location.href;
-
-    if(navigator.share){
-      navigator.share({ text: shareText }).catch(function(){});
-      return;
-    }
-    if(navigator.clipboard){
-      navigator.clipboard.writeText(shareText).then(function(){
-        alert("Copied Top 3 to clipboard.");
-      }).catch(function(){
-        alert(shareText);
-      });
-    } else {
-      alert(shareText);
-    }
-  }
-
-  var btn = q("sharePodiumBtn");
-  if(btn) btn.addEventListener("click", sharePodium);
-
-  buildTicker();
-  var body = document.getElementById("tableBody");
-  if(body){
-    var obs = new MutationObserver(function(){ buildTicker(); });
-    obs.observe(body, {childList:true, subtree:true});
-  }
-  setInterval(buildTicker, 30000);
-})();
-</script>
 <!-- OLYMPIC_FINAL_POLISH_JS_END -->
 
 
 <!-- OLYMPIC_SHARE_IMAGE_JS_START -->
-<script>
-(function(){
-  function $(id){ return document.getElementById(id); }
-  function textOf(el){ return (el && el.textContent || "").trim(); }
-  function safeNum(t){ var n = parseInt(String(t).replace(/[^0-9]/g,''),10); return isNaN(n)?0:n; }
 
-  function readTop3(){
-    var body = document.getElementById("tableBody");
-    if(!body) return [];
-    var rows = Array.from(body.querySelectorAll("tr")).slice(0,3);
-    return rows.map(function(r){
-      var tds = r.querySelectorAll("td");
-      if(tds.length < 6) return null;
-      return {
-        rank: textOf(tds[0]),
-        country: textOf(tds[1]),
-        gold: safeNum(textOf(tds[2])),
-        silver: safeNum(textOf(tds[3])),
-        bronze: safeNum(textOf(tds[4])),
-        total: safeNum(textOf(tds[5]))
-      };
-    }).filter(Boolean);
-  }
-
-  function readUSA(){
-    var body = document.getElementById("tableBody");
-    if(!body) return null;
-    var rows = Array.from(body.querySelectorAll("tr"));
-    for(var i=0;i<rows.length;i++){
-      var tds = rows[i].querySelectorAll("td");
-      if(tds.length < 6) continue;
-      var c = textOf(tds[1]).toLowerCase();
-      if(c.includes("united states") || c === "usa" || c.includes("usa")){
-        return {
-          rank: textOf(tds[0]),
-          gold: safeNum(textOf(tds[2])),
-          silver: safeNum(textOf(tds[3])),
-          bronze: safeNum(textOf(tds[4])),
-          total: safeNum(textOf(tds[5]))
-        };
-      }
-    }
-    return null;
-  }
-
-  function roundRect(ctx, x, y, w, h, r){
-    var rr = Math.min(r, w/2, h/2);
-    ctx.beginPath();
-    ctx.moveTo(x+rr, y);
-    ctx.arcTo(x+w, y, x+w, y+h, rr);
-    ctx.arcTo(x+w, y+h, x, y+h, rr);
-    ctx.arcTo(x, y+h, x, y, rr);
-    ctx.arcTo(x, y, x+w, y, rr);
-    ctx.closePath();
-  }
-
-  function drawRing(ctx, x, y, color){
-    ctx.lineWidth = 10;
-    ctx.strokeStyle = color;
-    ctx.beginPath();
-    ctx.arc(x, y, 22, 0, Math.PI*2);
-    ctx.stroke();
-  }
-
-  async function buildShareImage(){
-    var top = readTop3();
-    var usa = readUSA();
-
-    // 1200x630 is perfect for social cards
-    var W = 1200, H = 630;
-    var canvas = document.createElement("canvas");
-    canvas.width = W; canvas.height = H;
-    var ctx = canvas.getContext("2d");
-
-    // Background gradient
-    var g = ctx.createLinearGradient(0,0,W,H);
-    g.addColorStop(0, "#070b16");
-    g.addColorStop(1, "#0b1220");
-    ctx.fillStyle = g;
-    ctx.fillRect(0,0,W,H);
-
-    // Subtle stadium light
-    var rg = ctx.createRadialGradient(200,0,10, 200,0,520);
-    rg.addColorStop(0, "rgba(255,255,255,0.18)");
-    rg.addColorStop(1, "rgba(255,255,255,0)");
-    ctx.fillStyle = rg;
-    ctx.fillRect(0,0,W,H);
-
-    // Title
-    ctx.fillStyle = "rgba(255,255,255,0.95)";
-    ctx.font = "900 46px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-    ctx.fillText("USA Medal Count Today", 60, 88);
-
-    ctx.fillStyle = "rgba(255,255,255,0.75)";
-    ctx.font = "700 22px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-    ctx.fillText("Milano Cortina 2026 • Live medal table", 60, 126);
-
-    // Rings
-    drawRing(ctx, 930, 76, "#0085C7"); // blue
-    drawRing(ctx, 990, 76, "#000000"); // black
-    drawRing(ctx, 1050, 76, "#DF0024"); // red
-    drawRing(ctx, 960, 115, "#F4C300"); // yellow
-    drawRing(ctx, 1020, 115, "#009F3D"); // green
-
-    // Cards area
-    var cardY = 170;
-    var cardH = 280;
-    var gap = 22;
-    var cardW = Math.floor((W - 60*2 - gap*2) / 3);
-
-    function medalColor(place){
-      if(place===1) return "rgba(212,175,55,0.95)";
-      if(place===2) return "rgba(191,199,213,0.95)";
-      return "rgba(184,115,51,0.95)";
-    }
-
-    function drawCard(i, data){
-      var x = 60 + i*(cardW+gap);
-      // card background
-      ctx.fillStyle = "rgba(255,255,255,0.06)";
-      ctx.strokeStyle = "rgba(255,255,255,0.14)";
-      ctx.lineWidth = 2;
-      roundRect(ctx, x, cardY, cardW, cardH, 22);
-      ctx.fill(); ctx.stroke();
-
-      // place medal dot
-      ctx.fillStyle = medalColor(i+1);
-      ctx.beginPath();
-      ctx.arc(x+28, cardY+34, 10, 0, Math.PI*2);
-      ctx.fill();
-
-      // place label
-      ctx.fillStyle = "rgba(255,255,255,0.85)";
-      ctx.font = "900 20px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-      ctx.fillText((i+1)+"st".replace("1st","1st").replace("2st","2nd").replace("3st","3rd"), x+48, cardY+42);
-
-      // country
-      ctx.fillStyle = "rgba(255,255,255,0.95)";
-      ctx.font = "950 30px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-      var country = data ? data.country : "—";
-      ctx.fillText(country.slice(0, 20), x+24, cardY+92);
-
-      // stats
-      ctx.fillStyle = "rgba(255,255,255,0.78)";
-      ctx.font = "800 20px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-      var line = data ? ("G "+data.gold+" • S "+data.silver+" • B "+data.bronze+" • T "+data.total) : "Loading…";
-      ctx.fillText(line, x+24, cardY+128);
-
-      // footer
-      ctx.fillStyle = "rgba(255,255,255,0.65)";
-      ctx.font = "700 16px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-      ctx.fillText("Top 3 overall", x+24, cardY+cardH-24);
-    }
-
-    for(var i=0;i<3;i++){
-      drawCard(i, top[i]);
-    }
-
-    // USA strip
-    var stripY = 480;
-    ctx.fillStyle = "rgba(255,255,255,0.06)";
-    ctx.strokeStyle = "rgba(255,255,255,0.14)";
-    ctx.lineWidth = 2;
-    roundRect(ctx, 60, stripY, W-120, 110, 22);
-    ctx.fill(); ctx.stroke();
-
-    ctx.fillStyle = "rgba(255,255,255,0.92)";
-    ctx.font = "950 24px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-    ctx.fillText("USA snapshot", 84, stripY+40);
-
-    ctx.fillStyle = "rgba(255,255,255,0.75)";
-    ctx.font = "800 18px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-    var usaLine = usa
-      ? ("Rank #"+usa.rank+" • "+usa.gold+"G  "+usa.silver+"S  "+usa.bronze+"B  •  Total "+usa.total)
-      : "USA row not found yet";
-    ctx.fillText(usaLine, 84, stripY+74);
-
-    // Timestamp + URL
-    ctx.fillStyle = "rgba(255,255,255,0.55)";
-    ctx.font = "700 16px system-ui, -apple-system, Segoe UI, Roboto, Arial";
-    var now = new Date();
-    ctx.fillText("Generated " + now.toLocaleString(), 84, stripY+100);
-    ctx.fillText(location.href, 620, stripY+100);
-
-    return canvas;
-  }
-
-  async function canvasToPngBlob(canvas){
-    return await new Promise(function(resolve){
-      canvas.toBlob(function(b){ resolve(b); }, "image/png", 1.0);
-    });
-  }
-
-  async function copyImage(){
-    var btn = $("copyPodiumImgBtn");
-    if(btn) btn.disabled = true;
-  }
-
-  async function onCopy(){
-    var btn = $("copyPodiumImgBtn");
-    if(btn){ btn.disabled = true; btn.textContent = "Copying…"; }
-    try{
-      var canvas = await buildShareImage();
-      var blob = await canvasToPngBlob(canvas);
-
-      if(navigator.clipboard && window.ClipboardItem){
-        await navigator.clipboard.write([ new ClipboardItem({ "image/png": blob }) ]);
-        if(btn) btn.textContent = "Copied!";
-        setTimeout(function(){ if(btn){ btn.textContent="Copy Image"; btn.disabled=false; } }, 1200);
-      } else {
-        // fallback: download if copy unsupported
-        await onDownload(true);
-        if(btn) btn.textContent = "Downloaded";
-        setTimeout(function(){ if(btn){ btn.textContent="Copy Image"; btn.disabled=false; } }, 1200);
-      }
-    } catch(e){
-      if(btn){ btn.textContent="Copy failed"; }
-      setTimeout(function(){ if(btn){ btn.textContent="Copy Image"; btn.disabled=false; } }, 1400);
-    }
-  }
-
-  async function onDownload(silent){
-    var btn = $("downloadPodiumImgBtn");
-    if(btn && !silent){ btn.disabled = true; btn.textContent = "Preparing…"; }
-    try{
-      var canvas = await buildShareImage();
-      var blob = await canvasToPngBlob(canvas);
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement("a");
-      a.href = url;
-      a.download = "usa-medals-top3.png";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-      if(btn && !silent){ btn.textContent = "Downloaded"; setTimeout(function(){ btn.textContent="Download PNG"; btn.disabled=false; }, 1200); }
-    } catch(e){
-      if(btn && !silent){ btn.textContent="Download failed"; setTimeout(function(){ btn.textContent="Download PNG"; btn.disabled=false; }, 1400); }
-    }
-  }
-
-  var copyBtn = $("copyPodiumImgBtn");
-  var dlBtn = $("downloadPodiumImgBtn");
-  if(copyBtn) copyBtn.addEventListener("click", onCopy);
-  if(dlBtn) dlBtn.addEventListener("click", function(){ onDownload(false); });
-})();
-</script>
 <!-- OLYMPIC_SHARE_IMAGE_JS_END -->
 
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8025748227928688"
      crossorigin="anonymous"></script>
 <!-- MANUAL_MEDAL_OVERRIDE_START -->
-<script>
-(function () {
-  const OVERRIDES = {
-    "USA": { g: 0, s: 0, b: 0 },
-    "United States": { g: 0, s: 0, b: 0 },
 
-    "Sweden": { g: 1, s: 1, b: 0 },
-    "SWE": { g: 1, s: 1, b: 0 },
-
-    "Italy": { g: 0, s: 1, b: 1 },
-    "ITA": { g: 0, s: 1, b: 1 },
-
-    "Switzerland": { g: 1, s: 0, b: 0 },
-    "SUI": { g: 1, s: 0, b: 0 },
-
-    "Norway": { g: 0, s: 0, b: 1 },
-    "NOR": { g: 0, s: 0, b: 1 }
-  };
-
-  function apply() {
-    const rows = Array.from(document.querySelectorAll("table tr"));
-    if (!rows.length) return;
-
-    let hit = false;
-
-    for (const tr of rows) {
-      const tds = tr.querySelectorAll("td");
-      if (tds.length < 4) continue;
-
-      const label = (tds[0].textContent || "").trim();
-      const o = OVERRIDES[label];
-      if (!o) continue;
-
-      // layout: [Country, Gold, Silver, Bronze, Total?]
-      tds[1].textContent = String(o.g);
-      tds[2].textContent = String(o.s);
-      tds[3].textContent = String(o.b);
-      if (tds[4]) tds[4].textContent = String(o.g + o.s + o.b);
-
-      hit = true;
-    }
-
-    if (!hit) setTimeout(apply, 400);
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", apply);
-  } else {
-    apply();
-  }
-  setTimeout(apply, 800);
-})();
-</script>
 <!-- MANUAL_MEDAL_OVERRIDE_END -->
-<script>
-async function loadMedals() {
-  // const r = await fetch("/api/medals", { cache: "no-store" });
-  if (!r.ok) return;
-  const d = await r.json();
 
-  const keys = ["United States", "United States of America", "USA"];
-  let usa = null;
-  for (const k of keys) if (d.byCountry[k]) usa = d.byCountry[k];
-  if (!usa) usa = { gold:0, silver:0, bronze:0, total:0 };
-
-  const map = {
-    usaGold: usa.gold,
-    usaSilver: usa.silver,
-    usaBronze: usa.bronze,
-    usaTotal: usa.total
-  };
-
-  for (const id in map) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = map[id];
-  }
-
-  const u = document.getElementById("lastUpdated");
-  if (u) u.textContent = new Date(d.updatedAt).toLocaleString();
-}
-
-loadMedals();
-setInterval(loadMedals, 30000);
-</script>
 
 
 
@@ -1846,138 +974,50 @@ setInterval(loadMedals, 30000);
 
 
 <!-- LIVE_MEDALS_START -->
-<script>
-(() => {
-  const API = "/api/medals";
 
-  const norm = (s) => (s||"")
-    .replace(/[\u{1F1E6}-\u{1F1FF}]/gu, "")   // flags
-    .replace(/\b[A-Z]{2}\b/g, " ")           // ISO2
-    .replace(/[^A-Za-z\s]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim()
-    .toLowerCase();
-
-  function badge(lines) {
-    let b = document.getElementById("liveMedalsDebug");
-    if (!b) {
-      b = document.createElement("div");
-      b.id = "liveMedalsDebug";
-      b.style.cssText =
-        "position:fixed;right:16px;bottom:16px;max-width:560px;padding:12px 14px;" +
-        "background:rgba(0,0,0,.70);color:#fff;font:12px/1.35 ui-monospace,Menlo,monospace;" +
-        "border-radius:12px;z-index:99999;white-space:pre-wrap;box-shadow:0 10px 30px rgba(0,0,0,.35)";
-      document.body.appendChild(b);
-    }
-    b.textContent = lines.join("\n");
-  }
-
-  // updateTable disabled
-
-      tds[2].textContent = String(hit.gold);
-      tds[3].textContent = String(hit.silver);
-      tds[4].textContent = String(hit.bronze);
-      tds[5].textContent = String(hit.total);
-      updated++;
-    }
-
-    badge([
-      "SOURCE: /api/medals (wikipedia) • OK • " + new Date().toLocaleString(),
-      "Rows in API: " + rows.length,
-      "Table rows scanned: " + scanned,
-      "Table rows updated: " + updated,
-      missing.length ? ("Missing examples: " + missing.join(", ")) : "Missing examples: (none)"
-    ]);
-  }
-
-  async function tick() {
-    try {
-      // const r = await fetch(API, { cache:"no-store" });
-      if (!r.ok) throw new Error("HTTP " + r.status);
-      const j = await r.json();
-      if (j.error) throw new Error(j.error);
-      updateTable(j.rows || []);
-    } catch (e) {
-      badge(["FETCH ERR", String(e?.message || e)]);
-      console.warn(e);
-    }
-  }
-
-  tick();
-  setInterval(tick, 30000);
-})();
-</script>
 <!-- LIVE_MEDALS_END -->
 
 
-<script>
-(() => {
-  const show = /[?&]debug=1\b/.test(location.search) || location.hostname === "localhost";
-  if (show) return;
 
-  // Hide common debug panels/overlays
-  const ids = ["debug","debugPanel","devPanel","statsPanel","telemetry","overlay","panel"];
-  ids.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = "none"; });
-
-  // Hide by class/data-attr
-  document.querySelectorAll("[data-debug], .debug, .debug-panel, #debug, #debugPanel, #devPanel, #statsPanel")
-    .forEach(el => el.style.display = "none");
-
-  // Hard CSS kill-switch
-  const style = document.createElement("style");
-  style.textContent = `
-    .debug,.debug-panel,[data-debug],
-    #debug,#debugPanel,#devPanel,#statsPanel,#telemetry,#overlay,#panel{
-      display:none !important;
-      visibility:hidden !important;
-      pointer-events:none !important;
-    }`;
-  document.head.appendChild(style);
-
-  // Optional: silence debug console spam in prod
-  console.log = () => {};
-  console.info = () => {};
-  console.debug = () => {};
-})();
-</script>
 \n
+
+
 <script>
-/* SAFE_HIDE_ROWS_IN_API_OVERLAY */
-(() => {
-  const show = /[?&]debug=1\b/.test(location.search) || location.hostname === "localhost";
-  if (show) return;
-
-  const NEEDLE = "Rows in API:";
-  const hideMatches = () => {
-    // Target likely containers only (avoid scanning everything endlessly)
-    const candidates = document.querySelectorAll("pre, div, aside, section, code, span");
-    let did = false;
-    for (const el of candidates) {
-      try {
-        const t = (el.innerText || "");
-        if (t.includes(NEEDLE)) {
-          // Hide ONLY this element (do not remove, do not climb)
-          el.style.display = "none";
-          el.style.visibility = "hidden";
-          el.style.pointerEvents = "none";
-          did = true;
-        }
-      } catch (e) {}
-    }
-    return did;
-  };
-
-  // run now + later
-  hideMatches();
-  setTimeout(hideMatches, 250);
-  setTimeout(hideMatches, 1000);
-  setInterval(hideMatches, 2000);
-
-  // if it gets re-inserted
-  const mo = new MutationObserver(() => hideMatches());
-  mo.observe(document.documentElement, { childList: true, subtree: true });
-})();
+// HARDCODED DATA - NO FETCHING
+document.addEventListener('DOMContentLoaded', function() {
+  // Update USA stats
+  const stats = document.querySelectorAll('.stat-num');
+  if (stats[0]) stats[0].textContent = '2';
+  if (stats[1]) stats[1].textContent = '0';
+  if (stats[2]) stats[2].textContent = '0';
+  if (stats[3]) stats[3].textContent = '2';
+  
+  // Update podium
+  const podiums = document.querySelectorAll('.podium-sub');
+  if (podiums[0]) podiums[0].innerHTML = 'Gold 2 • Silver 0 • Bronze 0 • Total 2';
+  
+  // Update table
+  const tbody = document.getElementById('tableBody');
+  if (tbody) {
+    tbody.innerHTML = `
+<tr class="usa-row"><td>1</td><td>🇺🇸 United States US</td><td>2</td><td>0</td><td>0</td><td>2</td></tr>
+<tr><td>2</td><td>🇳🇴 Norway</td><td>3</td><td>1</td><td>2</td><td>6</td></tr>
+<tr><td>3</td><td>🇮🇹 Italy</td><td>1</td><td>2</td><td>6</td><td>9</td></tr>
+<tr><td>4</td><td>🇯🇵 Japan</td><td>1</td><td>2</td><td>1</td><td>4</td></tr>
+<tr><td>5</td><td>🇦🇹 Austria</td><td>1</td><td>2</td><td>0</td><td>3</td></tr>
+<tr><td>6</td><td>🇩🇪 Germany</td><td>1</td><td>1</td><td>1</td><td>3</td></tr>
+<tr><td>7</td><td>🇨🇿 Czechia</td><td>1</td><td>1</td><td>0</td><td>2</td></tr>
+<tr><td>8</td><td>🇫🇷 France</td><td>1</td><td>1</td><td>0</td><td>2</td></tr>
+<tr><td>9</td><td>🇸🇪 Sweden</td><td>1</td><td>1</td><td>0</td><td>2</td></tr>
+<tr><td>10</td><td>🇨🇭 Switzerland</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>11</td><td>🇰🇷 South Korea</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>12</td><td>🇸🇮 Slovenia</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>13</td><td>🇧🇬 Bulgaria</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>14</td><td>🇨🇦 Canada</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>15</td><td>🇨🇳 China</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+    `;
+  }
+});
 </script>
-
 </body>
 </html>
