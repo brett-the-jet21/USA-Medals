@@ -1,6 +1,8 @@
 const https = require('https');
 const fs = require('fs');
+
 const url = 'https://www.olympics.com/en/milano-cortina-2026/medals';
+
 https.get(url, (res) => {
   let data = '';
   res.on('data', (chunk) => data += chunk);
@@ -25,10 +27,12 @@ https.get(url, (res) => {
       updated: new Date().toISOString(),
       lastUpdated: new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles', dateStyle: 'short', timeStyle: 'short' })
     };
-    fs.writeFileSync('medals-data.json', JSON.stringify(output, null, 2));
-    console.log('Updated ' + medals.length + ' countries at ' + output.lastUpdated);
-    console.log('USA:', medals.find(m => m.code === 'USA'));
+    
+    // Write to both files
+    fs.writeFileSync('public/medals-data.json', JSON.stringify(output, null, 2));
+    fs.writeFileSync('public/medals.json', JSON.stringify(output, null, 2));
+    console.log('Updated ' + medals.length + ' countries');
   });
 }).on('error', (err) => {
-  console.error('Error fetching medals:', err.message);
+  console.error('Error:', err.message);
 });
