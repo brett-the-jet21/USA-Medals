@@ -1227,7 +1227,7 @@ body:after{
   }
 
   refreshMedals();
-  setInterval(refreshMedals, POLL_MS);
+  // setInterval(refreshMedals, POLL_MS);
 })();
 </script>
 
@@ -1872,25 +1872,7 @@ setInterval(loadMedals, 30000);
     b.textContent = lines.join("\n");
   }
 
-  function updateTable(rows) {
-    const map = new Map(rows.map(r => [norm(r.name), r]));
-    const trs = Array.from(document.querySelectorAll("table tbody tr"));
-
-    let scanned = 0, updated = 0;
-    const missing = [];
-
-    for (const tr of trs) {
-      const tds = Array.from(tr.querySelectorAll("td"));
-      if (tds.length < 6) continue;
-      scanned++;
-
-      const key = norm(tds[1].textContent || "");
-      const hit = map.get(key);
-
-      if (!hit) {
-        if (missing.length < 12) missing.push((tds[1].textContent||"").trim().slice(0,60));
-        continue;
-      }
+  // updateTable disabled
 
       tds[2].textContent = String(hit.gold);
       tds[3].textContent = String(hit.silver);
