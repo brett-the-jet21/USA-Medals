@@ -2,60 +2,221 @@
   const API = "/api/medals";
   const POLL_MS = 30000;
 
+  const css = `
+  :root{
+    --lm-bg: rgba(10,14,25,.72);
+    --lm-border: rgba(255,255,255,.10);
+    --lm-text: rgba(255,255,255,.92);
+    --lm-muted: rgba(255,255,255,.65);
+    --lm-soft: rgba(255,255,255,.06);
+    --lm-soft2: rgba(255,255,255,.04);
+    --lm-shadow: 0 18px 60px rgba(0,0,0,.45);
+  }
+  .lm-wrap{
+    margin: 16px auto;
+    max-width: 980px;
+    padding: 14px 16px;
+    border: 1px solid var(--lm-border);
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)) , var(--lm-bg);
+    box-shadow: var(--lm-shadow);
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    color: var(--lm-text);
+  }
+  .lm-row{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  }
+  .lm-title{
+    font-weight: 900;
+    letter-spacing: .2px;
+    font-size: 16px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .lm-chip{
+    font-size: 12px;
+    padding: 6px 10px;
+    border: 1px solid var(--lm-border);
+    border-radius: 999px;
+    background: rgba(0,0,0,.18);
+    color: var(--lm-muted);
+  }
+  .lm-metrics{
+    display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;
+  }
+  .lm-pill{
+    display:inline-flex;align-items:center;gap:8px;
+    padding: 10px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--lm-border);
+    background: rgba(255,255,255,.05);
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .lm-pill b{font-weight: 900;}
+  .lm-note{
+    margin-top:10px;
+    font-size:12px;
+    color: var(--lm-muted);
+  }
+  .lm-tableWrap{
+    overflow:auto;
+    border-radius: 14px;
+    border: 1px solid var(--lm-border);
+    background: rgba(0,0,0,.15);
+    margin-top: 12px;
+  }
+  .lm-table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+    min-width: 760px;
+    font-size: 14px;
+  }
+  .lm-th{
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    text-align:left;
+    padding: 12px 12px;
+    background: rgba(0,0,0,.35);
+    backdrop-filter: blur(8px);
+    color: rgba(255,255,255,.75);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    border-bottom: 1px solid var(--lm-border);
+  }
+  .lm-td{
+    padding: 12px 12px;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    color: rgba(255,255,255,.88);
+    white-space: nowrap;
+  }
+  .lm-tdNum{ text-align:right; font-variant-numeric: tabular-nums; }
+  .lm-tr:nth-child(odd){ background: rgba(255,255,255,.02); }
+  .lm-tr:hover{ background: rgba(255,255,255,.06); }
+  .lm-usa{
+    background: linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+    outline: 1px solid rgba(255,255,255,.10);
+  }
+  .lm-flag{
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    display:inline-flex;align-items:center;justify-content:center;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.10);
+  }
+  .lm-country{
+    display:flex;align-items:center;gap:10px;
+  }
+  .lm-code{
+    font-weight: 900;
+    opacity: .95;
+    padding: 4px 8px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(0,0,0,.18);
+    font-size: 12px;
+    letter-spacing: .04em;
+  }
+  @media (max-width: 760px){
+    .lm-wrap{ border-radius: 16px; padding: 12px 12px; margin: 12px auto; }
+    .lm-title{ font-size: 15px; }
+    .lm-pill{ padding: 9px 10px; font-size: 13px; }
+    .lm-table{ min-width: 640px; }
+  }`;
+
+  function ensureStyle() {
+    if (document.getElementById("lm-style")) return;
+    const s = document.createElement("style");
+    s.id = "lm-style";
+    s.textContent = css;
+    document.head.appendChild(s);
+  }
+
+  function el(tag, attrs = {}, html = "") {
+    const e = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === "class") e.className = v;
+      else if (k === "style") e.setAttribute("style", v);
+      else e.setAttribute(k, v);
+    }
+    if (html) e.innerHTML = html;
+    return e;
+  }
+
   function ensureTopBox() {
     if (document.getElementById("usa-live-box")) return;
-    const box = document.createElement("div");
-    box.id = "usa-live-box";
-    box.style.cssText =
-      "margin:12px auto;max-width:980px;padding:12px 14px;border:1px solid rgba(0,0,0,0.15);border-radius:12px;background:rgba(255,255,255,0.78);backdrop-filter:saturate(150%) blur(6px);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif";
-    box.innerHTML = `
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
-        <div style="font-weight:900;font-size:16px">🇺🇸 Team USA — Live Medals</div>
-        <div style="opacity:0.7;font-size:12px">Live from <b>/api/medals</b></div>
-      </div>
-      <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:14px">
-        <div>🥇 <span id="usa-gold">—</span></div>
-        <div>🥈 <span id="usa-silver">—</span></div>
-        <div>🥉 <span id="usa-bronze">—</span></div>
-        <div><b>Total:</b> <span id="usa-total">—</span></div>
-      </div>
-    `;
-    document.body.insertBefore(box, document.body.firstChild);
+
+    const wrap = el("div", { id: "usa-live-box", class: "lm-wrap" });
+    const header = el("div", { class: "lm-row" });
+
+    const title = el(
+      "div",
+      { class: "lm-title" },
+      `<span class="lm-flag">🏅</span><span>Team USA — Live Medals</span>`
+    );
+
+    const chip = el("div", { class: "lm-chip" }, `Live from <b>/api/medals</b> • ${POLL_MS / 1000}s`);
+
+    header.appendChild(title);
+    header.appendChild(chip);
+
+    const metrics = el("div", { class: "lm-metrics" }, `
+      <span class="lm-pill">🥇 <b id="usa-gold">—</b></span>
+      <span class="lm-pill">🥈 <b id="usa-silver">—</b></span>
+      <span class="lm-pill">🥉 <b id="usa-bronze">—</b></span>
+      <span class="lm-pill">Total <b id="usa-total">—</b></span>
+    `);
+
+    wrap.appendChild(header);
+    wrap.appendChild(metrics);
+    wrap.appendChild(el("div", { class: "lm-note" }, `Auto-refreshes every ${POLL_MS / 1000}s.`));
+
+    document.body.insertBefore(wrap, document.body.firstChild);
   }
 
   function ensureLiveTableContainer() {
     if (document.getElementById("live-medal-table")) return;
 
-    const wrap = document.createElement("div");
-    wrap.id = "live-medal-table";
-    wrap.style.cssText =
-      "margin:12px auto;max-width:980px;padding:12px 14px;border:1px solid rgba(0,0,0,0.12);border-radius:12px;background:rgba(255,255,255,0.72);backdrop-filter:saturate(150%) blur(6px);font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif";
+    const wrap = el("div", { id: "live-medal-table", class: "lm-wrap" });
+    const header = el("div", { class: "lm-row" });
 
-    wrap.innerHTML = `
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
-        <div style="font-weight:900;font-size:16px">🏅 Live Medal Table</div>
-        <div style="opacity:0.7;font-size:12px">Auto-refresh: ${POLL_MS / 1000}s</div>
-      </div>
-      <div style="overflow:auto;margin-top:10px">
-        <table style="width:100%;border-collapse:collapse;font-size:14px">
-          <thead>
-            <tr>
-              <th style="text-align:left;padding:8px;border-bottom:1px solid rgba(0,0,0,0.12)">#</th>
-              <th style="text-align:left;padding:8px;border-bottom:1px solid rgba(0,0,0,0.12)">Country</th>
-              <th style="text-align:right;padding:8px;border-bottom:1px solid rgba(0,0,0,0.12)">Gold</th>
-              <th style="text-align:right;padding:8px;border-bottom:1px solid rgba(0,0,0,0.12)">Silver</th>
-              <th style="text-align:right;padding:8px;border-bottom:1px solid rgba(0,0,0,0.12)">Bronze</th>
-              <th style="text-align:right;padding:8px;border-bottom:1px solid rgba(0,0,0,0.12)">Total</th>
-            </tr>
-          </thead>
-          <tbody id="live-medal-tbody"></tbody>
-        </table>
-      </div>
+    header.appendChild(
+      el("div", { class: "lm-title" }, `<span class="lm-flag">🏆</span><span>Live Medal Table</span>`)
+    );
+    header.appendChild(el("div", { class: "lm-chip" }, `Auto-refresh: ${POLL_MS / 1000}s`));
+
+    const tableWrap = el("div", { class: "lm-tableWrap" });
+    const table = el("table", { class: "lm-table" });
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th class="lm-th">#</th>
+          <th class="lm-th">Country</th>
+          <th class="lm-th" style="text-align:right">Gold</th>
+          <th class="lm-th" style="text-align:right">Silver</th>
+          <th class="lm-th" style="text-align:right">Bronze</th>
+          <th class="lm-th" style="text-align:right">Total</th>
+        </tr>
+      </thead>
+      <tbody id="live-medal-tbody"></tbody>
     `;
+    tableWrap.appendChild(table);
 
+    wrap.appendChild(header);
+    wrap.appendChild(tableWrap);
+    wrap.appendChild(el("div", { class: "lm-note" }, `Tip: the USA row is highlighted.`));
+
+    // place it right under the USA box
     const top = document.getElementById("usa-live-box");
     if (top && top.parentNode) top.parentNode.insertBefore(wrap, top.nextSibling);
     else document.body.insertBefore(wrap, document.body.firstChild);
+
+    // hide old static table if present
+    hideOldStaticMedalTable();
   }
 
   function hideOldStaticMedalTable() {
@@ -71,8 +232,8 @@
   }
 
   function set(id, v) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = String(v);
+    const e = document.getElementById(id);
+    if (e) e.textContent = String(v);
   }
 
   function renderTable(rows) {
@@ -81,21 +242,27 @@
     tb.innerHTML = "";
 
     for (const r of rows) {
-      const tr = document.createElement("tr");
       const isUSA =
         String(r.code || "").toUpperCase() === "USA" ||
         /united states/i.test(String(r.country || ""));
 
-      tr.style.background = isUSA ? "rgba(0,0,0,0.06)" : "transparent";
+      const tr = el("tr", { class: "lm-tr" + (isUSA ? " lm-usa" : "") });
 
-      tr.innerHTML = `
-        <td style="padding:8px;border-bottom:1px solid rgba(0,0,0,0.08)">${r.rank ?? ""}</td>
-        <td style="padding:8px;border-bottom:1px solid rgba(0,0,0,0.08)"><b>${r.code ? r.code + " " : ""}</b>${r.country ?? ""}</td>
-        <td style="padding:8px;text-align:right;border-bottom:1px solid rgba(0,0,0,0.08)">${r.gold ?? 0}</td>
-        <td style="padding:8px;text-align:right;border-bottom:1px solid rgba(0,0,0,0.08)">${r.silver ?? 0}</td>
-        <td style="padding:8px;text-align:right;border-bottom:1px solid rgba(0,0,0,0.08)">${r.bronze ?? 0}</td>
-        <td style="padding:8px;text-align:right;border-bottom:1px solid rgba(0,0,0,0.08)"><b>${r.total ?? 0}</b></td>
-      `;
+      tr.appendChild(el("td", { class: "lm-td" }, `${r.rank ?? ""}`));
+
+      const countryCell = el("td", { class: "lm-td" });
+      countryCell.appendChild(
+        el("div", { class: "lm-country" },
+          `<span class="lm-code">${r.code || ""}</span><span>${r.country || ""}</span>`
+        )
+      );
+      tr.appendChild(countryCell);
+
+      tr.appendChild(el("td", { class: "lm-td lm-tdNum" }, `${r.gold ?? 0}`));
+      tr.appendChild(el("td", { class: "lm-td lm-tdNum" }, `${r.silver ?? 0}`));
+      tr.appendChild(el("td", { class: "lm-td lm-tdNum" }, `${r.bronze ?? 0}`));
+      tr.appendChild(el("td", { class: "lm-td lm-tdNum" }, `<b>${r.total ?? 0}</b>`));
+
       tb.appendChild(tr);
     }
   }
@@ -118,13 +285,11 @@
       }
 
       renderTable(rows);
-      hideOldStaticMedalTable();
-    } catch (e) {
-      // silent
-    }
+    } catch (e) {}
   }
 
   function start() {
+    ensureStyle();
     ensureTopBox();
     ensureLiveTableContainer();
     tick();
