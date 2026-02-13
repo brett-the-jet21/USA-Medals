@@ -4,69 +4,119 @@
 
   const css = `
   :root{
-    --lm-bg: rgba(10,14,25,.72);
-    --lm-border: rgba(255,255,255,.10);
-    --lm-text: rgba(255,255,255,.92);
-    --lm-muted: rgba(255,255,255,.65);
-    --lm-soft: rgba(255,255,255,.06);
-    --lm-soft2: rgba(255,255,255,.04);
-    --lm-shadow: 0 18px 60px rgba(0,0,0,.45);
+    --ice-0: rgba(235,245,255,.08);
+    --ice-1: rgba(235,245,255,.12);
+    --ice-2: rgba(235,245,255,.18);
+    --ice-line: rgba(210,235,255,.22);
+    --ice-text: rgba(245,250,255,.94);
+    --ice-muted: rgba(245,250,255,.72);
+    --ice-muted2: rgba(245,250,255,.55);
+    --shadow: 0 18px 70px rgba(0,0,0,.55);
   }
+
+  /* subtle snow grain overlay */
+  .lm-snow:before{
+    content:"";
+    position:absolute; inset:0;
+    pointer-events:none;
+    opacity:.22;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,.25) 0 1px, transparent 2px),
+      radial-gradient(circle at 70% 20%, rgba(255,255,255,.20) 0 1px, transparent 2px),
+      radial-gradient(circle at 40% 80%, rgba(255,255,255,.18) 0 1px, transparent 2px),
+      radial-gradient(circle at 85% 70%, rgba(255,255,255,.16) 0 1px, transparent 2px);
+    background-size: 120px 120px, 160px 160px, 200px 200px, 240px 240px;
+    filter: blur(.2px);
+    mix-blend-mode: screen;
+  }
+
   .lm-wrap{
+    position:relative;
     margin: 16px auto;
     max-width: 980px;
-    padding: 14px 16px;
-    border: 1px solid var(--lm-border);
-    border-radius: 18px;
-    background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03)) , var(--lm-bg);
-    box-shadow: var(--lm-shadow);
-    backdrop-filter: blur(10px) saturate(140%);
-    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    padding: 16px 16px;
+    border: 1px solid var(--ice-line);
+    border-radius: 20px;
+
+    /* icy glass */
+    background:
+      linear-gradient(180deg, rgba(180,220,255,.16), rgba(20,40,70,.25)),
+      radial-gradient(1200px 220px at 20% 0%, rgba(120,200,255,.25), transparent 55%),
+      radial-gradient(900px 260px at 90% 10%, rgba(160,220,255,.16), transparent 60%),
+      rgba(8,14,26,.68);
+
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+
     font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-    color: var(--lm-text);
+    color: var(--ice-text);
   }
-  .lm-row{
-    display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
-  }
+
+  .lm-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
   .lm-title{
-    font-weight: 900;
-    letter-spacing: .2px;
+    font-weight: 950;
+    letter-spacing: .3px;
     font-size: 16px;
     display:flex;align-items:center;gap:10px;
   }
-  .lm-chip{
-    font-size: 12px;
-    padding: 6px 10px;
-    border: 1px solid var(--lm-border);
-    border-radius: 999px;
-    background: rgba(0,0,0,.18);
-    color: var(--lm-muted);
-  }
-  .lm-metrics{
-    display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;
-  }
-  .lm-pill{
+
+  .lm-badge{
     display:inline-flex;align-items:center;gap:8px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--ice-line);
+    background: rgba(0,0,0,.18);
+    color: var(--ice-muted);
+    font-size: 12px;
+  }
+
+  .lm-flag{
+    width: 26px; height: 26px;
+    border-radius: 10px;
+    display:inline-flex;align-items:center;justify-content:center;
+    border: 1px solid var(--ice-line);
+    background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
+    box-shadow: 0 8px 22px rgba(0,0,0,.35);
+  }
+
+  .lm-metrics{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+
+  .lm-pill{
+    display:inline-flex;align-items:center;gap:10px;
     padding: 10px 12px;
     border-radius: 999px;
-    border: 1px solid var(--lm-border);
-    background: rgba(255,255,255,.05);
-    font-weight: 700;
+    border: 1px solid var(--ice-line);
+    background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+    font-weight: 800;
     font-size: 13px;
   }
-  .lm-pill b{font-weight: 900;}
+  .lm-pill b{
+    font-weight: 950;
+    font-variant-numeric: tabular-nums;
+    letter-spacing:.2px;
+  }
+
+  /* medal glow accents */
+  .lm-gold{ box-shadow: 0 0 0 1px rgba(255,215,120,.18) inset, 0 10px 28px rgba(255,215,120,.10); }
+  .lm-silver{ box-shadow: 0 0 0 1px rgba(220,235,255,.18) inset, 0 10px 28px rgba(220,235,255,.10); }
+  .lm-bronze{ box-shadow: 0 0 0 1px rgba(255,185,120,.16) inset, 0 10px 28px rgba(255,185,120,.10); }
+  .lm-total{ box-shadow: 0 0 0 1px rgba(140,210,255,.18) inset, 0 10px 28px rgba(140,210,255,.10); }
+
   .lm-note{
     margin-top:10px;
     font-size:12px;
-    color: var(--lm-muted);
+    color: var(--ice-muted2);
   }
+
   .lm-tableWrap{
     overflow:auto;
-    border-radius: 14px;
-    border: 1px solid var(--lm-border);
-    background: rgba(0,0,0,.15);
+    border-radius: 16px;
+    border: 1px solid var(--ice-line);
+    background: rgba(0,0,0,.18);
     margin-top: 12px;
   }
+
   .lm-table{
     width:100%;
     border-collapse:separate;
@@ -74,55 +124,55 @@
     min-width: 760px;
     font-size: 14px;
   }
+
   .lm-th{
     position: sticky;
     top: 0;
     z-index: 2;
     text-align:left;
     padding: 12px 12px;
-    background: rgba(0,0,0,.35);
-    backdrop-filter: blur(8px);
-    color: rgba(255,255,255,.75);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04)),
+      rgba(0,0,0,.35);
+    backdrop-filter: blur(10px);
+    color: rgba(240,248,255,.75);
     font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: .12em;
-    border-bottom: 1px solid var(--lm-border);
+    letter-spacing: .14em;
+    border-bottom: 1px solid var(--ice-line);
   }
+
   .lm-td{
     padding: 12px 12px;
     border-bottom: 1px solid rgba(255,255,255,.06);
-    color: rgba(255,255,255,.88);
+    color: rgba(245,250,255,.90);
     white-space: nowrap;
   }
   .lm-tdNum{ text-align:right; font-variant-numeric: tabular-nums; }
-  .lm-tr:nth-child(odd){ background: rgba(255,255,255,.02); }
+
+  .lm-tr:nth-child(odd){ background: rgba(255,255,255,.03); }
   .lm-tr:hover{ background: rgba(255,255,255,.06); }
+
   .lm-usa{
-    background: linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
-    outline: 1px solid rgba(255,255,255,.10);
+    background:
+      linear-gradient(90deg, rgba(120,200,255,.18), rgba(255,255,255,.03));
+    outline: 1px solid rgba(140,210,255,.25);
   }
-  .lm-flag{
-    width: 22px; height: 22px;
-    border-radius: 6px;
-    display:inline-flex;align-items:center;justify-content:center;
-    background: rgba(255,255,255,.06);
-    border: 1px solid rgba(255,255,255,.10);
-  }
-  .lm-country{
-    display:flex;align-items:center;gap:10px;
-  }
+
+  .lm-country{display:flex;align-items:center;gap:10px;}
   .lm-code{
-    font-weight: 900;
-    opacity: .95;
+    font-weight: 950;
+    opacity: .98;
     padding: 4px 8px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 12px;
+    border: 1px solid rgba(210,235,255,.22);
     background: rgba(0,0,0,.18);
     font-size: 12px;
-    letter-spacing: .04em;
+    letter-spacing: .06em;
   }
+
   @media (max-width: 760px){
-    .lm-wrap{ border-radius: 16px; padding: 12px 12px; margin: 12px auto; }
+    .lm-wrap{ border-radius: 18px; padding: 14px 12px; margin: 12px auto; }
     .lm-title{ font-size: 15px; }
     .lm-pill{ padding: 9px 10px; font-size: 13px; }
     .lm-table{ min-width: 640px; }
@@ -140,7 +190,6 @@
     const e = document.createElement(tag);
     for (const [k, v] of Object.entries(attrs)) {
       if (k === "class") e.className = v;
-      else if (k === "style") e.setAttribute("style", v);
       else e.setAttribute(k, v);
     }
     if (html) e.innerHTML = html;
@@ -150,30 +199,23 @@
   function ensureTopBox() {
     if (document.getElementById("usa-live-box")) return;
 
-    const wrap = el("div", { id: "usa-live-box", class: "lm-wrap" });
+    const wrap = el("div", { id: "usa-live-box", class: "lm-wrap lm-snow" });
     const header = el("div", { class: "lm-row" });
 
-    const title = el(
-      "div",
-      { class: "lm-title" },
-      `<span class="lm-flag">🏅</span><span>Team USA — Live Medals</span>`
+    header.appendChild(
+      el("div", { class: "lm-title" }, `<span class="lm-flag">❄️</span><span>Team USA — Live Medals</span>`)
     );
+    header.appendChild(el("div", { class: "lm-badge" }, `Ice-cold live • ${POLL_MS / 1000}s`));
 
-    const chip = el("div", { class: "lm-chip" }, `Live from <b>/api/medals</b> • ${POLL_MS / 1000}s`);
-
-    header.appendChild(title);
-    header.appendChild(chip);
-
-    const metrics = el("div", { class: "lm-metrics" }, `
-      <span class="lm-pill">🥇 <b id="usa-gold">—</b></span>
-      <span class="lm-pill">🥈 <b id="usa-silver">—</b></span>
-      <span class="lm-pill">🥉 <b id="usa-bronze">—</b></span>
-      <span class="lm-pill">Total <b id="usa-total">—</b></span>
-    `);
+    const metrics = el("div", { class: "lm-metrics" });
+    metrics.appendChild(el("span", { class: "lm-pill lm-gold" }, `🥇 <b id="usa-gold">—</b>`));
+    metrics.appendChild(el("span", { class: "lm-pill lm-silver" }, `🥈 <b id="usa-silver">—</b>`));
+    metrics.appendChild(el("span", { class: "lm-pill lm-bronze" }, `🥉 <b id="usa-bronze">—</b>`));
+    metrics.appendChild(el("span", { class: "lm-pill lm-total" }, `Total <b id="usa-total">—</b>`));
 
     wrap.appendChild(header);
     wrap.appendChild(metrics);
-    wrap.appendChild(el("div", { class: "lm-note" }, `Auto-refreshes every ${POLL_MS / 1000}s.`));
+    wrap.appendChild(el("div", { class: "lm-note" }, `Source: usamedalstoday.com/api/medals`));
 
     document.body.insertBefore(wrap, document.body.firstChild);
   }
@@ -181,13 +223,11 @@
   function ensureLiveTableContainer() {
     if (document.getElementById("live-medal-table")) return;
 
-    const wrap = el("div", { id: "live-medal-table", class: "lm-wrap" });
+    const wrap = el("div", { id: "live-medal-table", class: "lm-wrap lm-snow" });
     const header = el("div", { class: "lm-row" });
 
-    header.appendChild(
-      el("div", { class: "lm-title" }, `<span class="lm-flag">🏆</span><span>Live Medal Table</span>`)
-    );
-    header.appendChild(el("div", { class: "lm-chip" }, `Auto-refresh: ${POLL_MS / 1000}s`));
+    header.appendChild(el("div", { class: "lm-title" }, `<span class="lm-flag">🏂</span><span>Live Medal Table</span>`));
+    header.appendChild(el("div", { class: "lm-badge" }, `Auto-refresh: ${POLL_MS / 1000}s`));
 
     const tableWrap = el("div", { class: "lm-tableWrap" });
     const table = el("table", { class: "lm-table" });
@@ -208,14 +248,12 @@
 
     wrap.appendChild(header);
     wrap.appendChild(tableWrap);
-    wrap.appendChild(el("div", { class: "lm-note" }, `Tip: the USA row is highlighted.`));
+    wrap.appendChild(el("div", { class: "lm-note" }, `USA row is highlighted. Scroll stays smooth. ❄️`));
 
-    // place it right under the USA box
     const top = document.getElementById("usa-live-box");
     if (top && top.parentNode) top.parentNode.insertBefore(wrap, top.nextSibling);
     else document.body.insertBefore(wrap, document.body.firstChild);
 
-    // hide old static table if present
     hideOldStaticMedalTable();
   }
 
@@ -252,9 +290,7 @@
 
       const countryCell = el("td", { class: "lm-td" });
       countryCell.appendChild(
-        el("div", { class: "lm-country" },
-          `<span class="lm-code">${r.code || ""}</span><span>${r.country || ""}</span>`
-        )
+        el("div", { class: "lm-country" }, `<span class="lm-code">${r.code || ""}</span><span>${r.country || ""}</span>`)
       );
       tr.appendChild(countryCell);
 
