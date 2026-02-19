@@ -548,6 +548,19 @@ body:after{
 <!-- OLYMPIC_SHARE_IMAGE_STYLE_END -->
 
   <link rel="stylesheet" href="/winter.css" />
+
+<!-- MANUAL_HIDE_LIVE_START -->
+<style>
+/* Hide the two broken "Live" widgets at the top (leaves the rest of page intact). */
+section:first-of-type { display:none !important; }
+section:nth-of-type(2) { display:none !important; }
+
+/* If your page isn't using <section> for those widgets, this backup hides the first two large cards. */
+main > div:first-child { display:none !important; }
+main > div:nth-child(2) { display:none !important; }
+</style>
+<!-- MANUAL_HIDE_LIVE_END -->
+
 </head>
 
 <body>
@@ -581,7 +594,7 @@ body:after{
   <div style="margin-top:14px;border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:18px 18px;background:rgba(10,20,35,.35);backdrop-filter: blur(10px);">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
       <div style="display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;">
-        <span>🛷</span><span>Medal Table</span>
+        <span>🏅</span><span>Medal Table</span>
       </div>
       <div style="opacity:.8;font-size:12px;">Static (manual)</div>
     </div>
