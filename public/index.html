@@ -1017,3 +1017,36 @@ document.addEventListener('DOMContentLoaded', function() {
   <script src="/live-medals.js"></script>
 </body>
 </html>
+
+<script>
+async function forceUSAUpdate() {
+  try {
+    const r = await fetch('/api/medals?ts=' + Date.now(), { cache: "no-store" });
+    const j = await r.json();
+    const rows = j.rows || j.countries || j.data || [];
+
+    const usa = rows.find(c =>
+      c.code === "USA" ||
+      c.country === "United States"
+    );
+
+    if (!usa) return;
+
+    const goldEl   = document.querySelector('[data-medal="gold"]');
+    const silverEl = document.querySelector('[data-medal="silver"]');
+    const bronzeEl = document.querySelector('[data-medal="bronze"]');
+    const totalEl  = document.querySelector('[data-medal="total"]');
+
+    if (goldEl)   goldEl.textContent   = usa.gold;
+    if (silverEl) silverEl.textContent = usa.silver;
+    if (bronzeEl) bronzeEl.textContent = usa.bronze;
+    if (totalEl)  totalEl.textContent  = usa.total;
+
+  } catch (e) {
+    console.error("USA patch failed", e);
+  }
+}
+
+window.addEventListener("load", forceUSAUpdate);
+</script>
+
