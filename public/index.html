@@ -1121,3 +1121,117 @@ async function forceUSAUpdate() {
 window.addEventListener("load", forceUSAUpdate);
 </script>
 
+\n<!-- LIVE_MEDALS_CLIENT_START -->
+<script>
+(() => {
+  const API = "/api/medals";
+
+  function decodeHTMLEntities(s) {
+    const t = document.createElement("textarea");
+    t.innerHTML = String(s ?? "");
+    return t.value;
+  }
+
+  function normCountry(s) {
+    return decodeHTMLEntities(String(s ?? ""))
+      .replace(/&#160;|&nbsp;/g, " ")
+      .replace(/\u00a0/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .replace(/\*+$/g, "");
+  }
+
+  function n(x){ return (x==null)?0:(Number(x)||0); }
+
+  function setText(selectors, value) {
+    for (const sel of selectors) {
+      const el = document.querySelector(sel);
+      if (el) el.textContent = value;
+    }
+  }
+
+  function findMedalTbody() {
+    for (const tbl of document.querySelectorAll("table")) {
+      const ths = [...tbl.querySelectorAll("thead th")].map(th => th.textContent.trim().toUpperCase());
+      if (ths.includes("COUNTRY") && ths.includes("GOLD") && ths.includes("TOTAL")) {
+        let tb = tbl.querySelector("tbody");
+        if (!tb) { tb = document.createElement("tbody"); tbl.appendChild(tb); }
+        return tb;
+      }
+    }
+    return document.querySelector("table tbody");
+  }
+
+  function renderUSA(usa, updatedISO) {
+    const gold = usa ? n(usa.gold) : 0;
+    const silver = usa ? n(usa.silver) : 0;
+    const bronze = usa ? n(usa.bronze) : 0;
+    const total = usa ? n(usa.total) : (gold + silver + bronze);
+
+    setText(["#usaGold","[data-usa-gold]","[data-role='usa-gold']"], gold || "—");
+    setText(["#usaSilver","[data-usa-silver]","[data-role='usa-silver']"], silver || "—");
+    setText(["#usaBronze","[data-usa-bronze]","[data-role='usa-bronze']"], bronze || "—");
+    setText(["#usaTotal","[data-usa-total]","[data-role='usa-total']"], total || "—");
+
+    const nice = updatedISO ? new Date(updatedISO).toLocaleString() : "";
+    setText(["#usaUpdated","[data-usa-updated]","[data-role='usa-updated']"], nice);
+
+    setText(["#medalSource","[data-medal-source]"], location.origin + API);
+  }
+
+  function renderTable(medals) {
+    const tb = findMedalTbody();
+    if (!tb) return;
+    tb.innerHTML = "";
+
+    for (const r of medals) {
+      const tr = document.createElement("tr");
+      const isUSA = /^(united states( of america)?|usa)$/i.test(r.country) || /united states/i.test(r.country);
+
+      tr.innerHTML = `
+        <td>${r.rank ?? ""}</td>
+        <td>${r.country}</td>
+        <td>${n(r.gold)}</td>
+        <td>${n(r.silver)}</td>
+        <td>${n(r.bronze)}</td>
+        <td>${n(r.total)}</td>
+      `;
+
+      if (isUSA) tr.style.outline = "2px solid rgba(255,255,255,.25)";
+      tb.appendChild(tr);
+    }
+  }
+
+  async function update() {
+    try {
+      const r = await fetch(API + "?ts=" + Date.now(), { cache: "no-store" });
+      const j = await r.json();
+
+      const medals = Array.isArray(j.medals) ? j.medals.map(x => ({
+        rank: x.rank,
+        country: normCountry(x.country),
+        gold: n(x.gold ?? x.g),
+        silver: n(x.silver ?? x.s),
+        bronze: n(x.bronze ?? x.b),
+        total: n(x.total ?? x.t ?? (n(x.gold ?? x.g)+n(x.silver ?? x.s)+n(x.bronze ?? x.b)))
+      })) : [];
+
+      medals.sort((a,b) => (n(a.rank) || 999) - (n(b.rank) || 999));
+
+      const usa = medals.find(r =>
+        /^(united states( of america)?|usa)$/i.test(r.country) || /united states/i.test(r.country)
+      );
+
+      renderUSA(usa, j.updated);
+      renderTable(medals);
+    } catch (e) {
+      console.warn("medal update failed:", e);
+    }
+  }
+
+  update();
+  setInterval(update, 30_000);
+})();
+</script>
+<!-- LIVE_MEDALS_CLIENT_END -->
+\n
