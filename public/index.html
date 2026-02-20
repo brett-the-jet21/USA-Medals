@@ -611,7 +611,7 @@ main > div:nth-child(2) { display:none !important; }
             <th style="padding:10px 8px;text-align:right;opacity:.8;">Total</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="medalTbody">
           <tr><td style="padding:10px 8px;">1</td><td style="padding:10px 8px;">Norway</td><td style="padding:10px 8px;text-align:right;">15</td><td style="padding:10px 8px;text-align:right;">8</td><td style="padding:10px 8px;text-align:right;">10</td><td style="padding:10px 8px;text-align:right;font-weight:800;">33</td></tr>
           <tr><td style="padding:10px 8px;">2</td><td style="padding:10px 8px;">Italy</td><td style="padding:10px 8px;text-align:right;">9</td><td style="padding:10px 8px;text-align:right;">5</td><td style="padding:10px 8px;text-align:right;">12</td><td style="padding:10px 8px;text-align:right;font-weight:800;">26</td></tr>
           <tr style="outline:2px solid rgba(255,255,255,.12);"><td style="padding:10px 8px;">3</td><td style="padding:10px 8px;font-weight:700;">United States</td><td style="padding:10px 8px;text-align:right;">7</td><td style="padding:10px 8px;text-align:right;">11</td><td style="padding:10px 8px;text-align:right;">6</td><td style="padding:10px 8px;text-align:right;font-weight:800;">24</td></tr>
@@ -1121,116 +1121,81 @@ async function forceUSAUpdate() {
 window.addEventListener("load", forceUSAUpdate);
 </script>
 
-\n<!-- LIVE_MEDALS_CLIENT_START -->
+\n\n\n<!-- LIVE_MEDALS_CLIENT_START -->
 <script>
 (() => {
   const API = "/api/medals";
-
-  function decodeHTMLEntities(s) {
-    const t = document.createElement("textarea");
-    t.innerHTML = String(s ?? "");
-    return t.value;
-  }
+  const REFRESH_MS = 30_000;
 
   function normCountry(s) {
-    return decodeHTMLEntities(String(s ?? ""))
-      .replace(/&#160;|&nbsp;/g, " ")
+    return String(s ?? "")
       .replace(/\u00a0/g, " ")
       .replace(/\s+/g, " ")
       .trim()
       .replace(/\*+$/g, "");
   }
-
   function n(x){ return (x==null)?0:(Number(x)||0); }
 
-  function setText(selectors, value) {
-    for (const sel of selectors) {
-      const el = document.querySelector(sel);
-      if (el) el.textContent = value;
-    }
+  function set(id, val){
+    const el = document.getElementById(id);
+    if (el) el.textContent = String(val);
   }
 
-  function findMedalTbody() {
-    for (const tbl of document.querySelectorAll("table")) {
-      const ths = [...tbl.querySelectorAll("thead th")].map(th => th.textContent.trim().toUpperCase());
-      if (ths.includes("COUNTRY") && ths.includes("GOLD") && ths.includes("TOTAL")) {
-        let tb = tbl.querySelector("tbody");
-        if (!tb) { tb = document.createElement("tbody"); tbl.appendChild(tb); }
-        return tb;
-      }
-    }
-    return document.querySelector("table tbody");
+  function isUSA(name){
+    const c = normCountry(name).toLowerCase();
+    return c === "united states" || c === "united states of america" || c === "usa";
   }
 
-  function renderUSA(usa, updatedISO) {
-    const gold = usa ? n(usa.gold) : 0;
-    const silver = usa ? n(usa.silver) : 0;
-    const bronze = usa ? n(usa.bronze) : 0;
-    const total = usa ? n(usa.total) : (gold + silver + bronze);
-
-    setText(["#usaGold","[data-usa-gold]","[data-role='usa-gold']"], gold || "—");
-    setText(["#usaSilver","[data-usa-silver]","[data-role='usa-silver']"], silver || "—");
-    setText(["#usaBronze","[data-usa-bronze]","[data-role='usa-bronze']"], bronze || "—");
-    setText(["#usaTotal","[data-usa-total]","[data-role='usa-total']"], total || "—");
-
-    const nice = updatedISO ? new Date(updatedISO).toLocaleString() : "";
-    setText(["#usaUpdated","[data-usa-updated]","[data-role='usa-updated']"], nice);
-
-    setText(["#medalSource","[data-medal-source]"], location.origin + API);
-  }
-
-  function renderTable(medals) {
-    const tb = findMedalTbody();
+  function renderTable(medals){
+    const tb = document.getElementById("medalTbody");
     if (!tb) return;
     tb.innerHTML = "";
-
     for (const r of medals) {
       const tr = document.createElement("tr");
-      const isUSA = /^(united states( of america)?|usa)$/i.test(r.country) || /united states/i.test(r.country);
-
+      const country = normCountry(r.country);
       tr.innerHTML = `
         <td>${r.rank ?? ""}</td>
-        <td>${r.country}</td>
+        <td>${country}</td>
         <td>${n(r.gold)}</td>
         <td>${n(r.silver)}</td>
         <td>${n(r.bronze)}</td>
         <td>${n(r.total)}</td>
       `;
-
-      if (isUSA) tr.style.outline = "2px solid rgba(255,255,255,.25)";
+      if (isUSA(country)) tr.style.outline = "2px solid rgba(255,255,255,.25)";
       tb.appendChild(tr);
     }
   }
 
-  async function update() {
-    try {
+  async function update(){
+    try{
       const r = await fetch(API + "?ts=" + Date.now(), { cache: "no-store" });
       const j = await r.json();
-
       const medals = Array.isArray(j.medals) ? j.medals.map(x => ({
         rank: x.rank,
-        country: normCountry(x.country),
+        country: x.country,
         gold: n(x.gold ?? x.g),
         silver: n(x.silver ?? x.s),
         bronze: n(x.bronze ?? x.b),
         total: n(x.total ?? x.t ?? (n(x.gold ?? x.g)+n(x.silver ?? x.s)+n(x.bronze ?? x.b)))
       })) : [];
 
-      medals.sort((a,b) => (n(a.rank) || 999) - (n(b.rank) || 999));
+      const usa = medals.find(m => isUSA(m.country));
+      if (usa) {
+        set("usaGold", usa.gold);
+        set("usaSilver", usa.silver);
+        set("usaBronze", usa.bronze);
+        set("usaTotal", usa.total);
+      }
 
-      const usa = medals.find(r =>
-        /^(united states( of america)?|usa)$/i.test(r.country) || /united states/i.test(r.country)
-      );
-
-      renderUSA(usa, j.updated);
+      if (j.updated) set("usaUpdated", new Date(j.updated).toLocaleString());
       renderTable(medals);
-    } catch (e) {
-      console.warn("medal update failed:", e);
+    } catch(e){
+      console.warn("live medals update failed", e);
     }
   }
 
   update();
-  setInterval(update, 30_000);
+  setInterval(update, REFRESH_MS);
 })();
 </script>
 <!-- LIVE_MEDALS_CLIENT_END -->
