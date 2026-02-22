@@ -8,3 +8,4 @@
 .*.swp
 public/index.html.bak.*
 public/index.html.bak.shareimgfix.*
+.vercel/
