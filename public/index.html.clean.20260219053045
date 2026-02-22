@@ -1,0 +1,1110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0b1220" />
+
+  <title>USA Medal Count Today 🇺🇸 | Milano Cortina 2026 Winter Olympics</title>
+  <meta name="description" content="Live USA medal count for the Milano Cortina 2026 Winter Olympics. Track Team USA gold, silver, bronze and total medals with a fast medal table for all countries." />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://usamedalstoday.com/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="USA Medal Count Today 🇺🇸 | Milano Cortina 2026 Winter Olympics" />
+  <meta property="og:description" content="Live USA medal count for Milano Cortina 2026. Track gold, silver, bronze and total medals, plus a full Winter Olympics medal table by country." />
+  <meta property="og:url" content="https://usamedalstoday.com/" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="USA Medal Count Today 🇺🇸 | Milano Cortina 2026 Winter Olympics" />
+  <meta name="twitter:description" content="Live USA medal count for Milano Cortina 2026. Track gold, silver, bronze and total medals, plus a full Winter Olympics medal table by country." />
+
+  <!-- ✅ Google AdSense loader (installed) -->
+  
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How many medals does USA have today?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The USA medal count today updates live as events finish at the Milano Cortina 2026 Winter Olympics."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this USA medal count updated live?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. This page updates automatically as official Olympic results are released."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is the medal table sorted?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Medal tables are commonly sorted by gold medals first, but some views allow sorting by total medals."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- OLYMPIC_SUPER_THEME_START -->
+<style>
+:root{
+  --bg0:#070b16;
+  --bg1:#0b1220;
+  --card:rgba(255,255,255,.06);
+  --text:rgba(255,255,255,.92);
+  --muted:rgba(255,255,255,.72);
+  --line:rgba(255,255,255,.14);
+}
+html,body{height:100%}
+body{
+  margin:0;
+  color:var(--text);
+  background:
+    radial-gradient(900px 420px at 22% 10%, rgba(29,78,216,.22), transparent 60%),
+    radial-gradient(900px 420px at 78% 16%, rgba(185,28,28,.18), transparent 60%),
+    radial-gradient(700px 360px at 50% -10%, rgba(255,255,255,.10), transparent 60%),
+    linear-gradient(180deg, var(--bg0), var(--bg1));
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+}
+body:before{
+  content:"";
+  position:fixed; inset:0;
+  pointer-events:none;
+  opacity:.18;
+  background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.06) 0, rgba(255,255,255,.06) 1px, transparent 1px, transparent 10px);
+  mix-blend-mode: overlay;
+}
+
+.olympic-shell{max-width:1120px;margin:0 auto;padding:18px 16px 28px;}
+
+.olympic-hero{
+  position:relative;
+  border:1px solid var(--line);
+  background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+  box-shadow:0 18px 60px rgba(0,0,0,.40);
+  border-radius:22px;
+  overflow:hidden;
+  padding:18px;
+}
+.olympic-hero:before{
+  content:"";
+  position:absolute; inset:-2px;
+  background:
+    radial-gradient(700px 240px at 14% 0%, rgba(29,78,216,.30), transparent 62%),
+    radial-gradient(700px 240px at 86% 0%, rgba(185,28,28,.24), transparent 62%),
+    radial-gradient(900px 340px at 50% 0%, rgba(255,255,255,.12), transparent 58%);
+  opacity:.95;
+}
+.olympic-hero:after{
+  content:"";
+  position:absolute; inset:-80px;
+  background: radial-gradient(480px 160px at 10% 0%, rgba(255,255,255,.22), transparent 70%);
+  transform: rotate(8deg);
+  opacity:.16;
+  pointer-events:none;
+  animation: sheen 6s ease-in-out infinite;
+}
+@keyframes sheen{
+  0%{transform:translateX(-50px) rotate(8deg); opacity:.12;}
+  50%{transform:translateX(50px) rotate(8deg); opacity:.20;}
+  100%{transform:translateX(-50px) rotate(8deg); opacity:.12;}
+}
+.olympic-hero > *{position:relative}
+
+.olympic-toprow{display:flex;gap:16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;}
+.olympic-title{font-size:36px;line-height:1.05;font-weight:900;letter-spacing:.2px;margin:0;}
+.olympic-sub{margin:8px 0 0;color:var(--muted);font-size:15px;max-width:720px;}
+.olympic-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--line);
+  background:rgba(0,0,0,.18);
+  padding:10px 12px;border-radius:999px;
+  font-size:12px;color:var(--muted);
+}
+.olympic-dot{width:9px;height:9px;border-radius:999px;background:linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.25)); box-shadow:0 0 0 2px rgba(255,255,255,.10);}
+
+.rings-wrap{display:flex;align-items:center;gap:14px;}
+.rings{width:170px;height:auto;filter:drop-shadow(0 12px 20px rgba(0,0,0,.35));}
+.rings path{fill:none;stroke-width:10;stroke-linecap:round;opacity:.98;}
+.ring-blue{stroke:#0085C7;}
+.ring-yellow{stroke:#F4C300;}
+.ring-black{stroke:#000000;}
+.ring-green{stroke:#009F3D;}
+.ring-red{stroke:#DF0024;}
+
+.olympic-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px;}
+@media (max-width: 860px){.olympic-cards{grid-template-columns:1fr}}
+.olympic-card{border:1px solid var(--line);background:rgba(255,255,255,.06);border-radius:18px;padding:14px;}
+.olympic-card h3{margin:0 0 8px;font-size:12px;color:var(--muted);font-weight:800;letter-spacing:.25px;text-transform:uppercase;}
+.olympic-card .big{font-size:24px;font-weight:900;}
+.medal-chip{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border-radius:999px;border:1px solid var(--line);background:rgba(0,0,0,.18);font-size:12px;color:var(--muted);}
+.medal{width:10px;height:10px;border-radius:999px;display:inline-block;box-shadow:0 0 0 2px rgba(255,255,255,.10);}
+.medal.gold{background:linear-gradient(180deg, rgba(212,175,55,.95), rgba(212,175,55,.35));}
+.medal.silver{background:linear-gradient(180deg, rgba(191,199,213,.95), rgba(191,199,213,.35));}
+.medal.bronze{background:linear-gradient(180deg, rgba(184,115,51,.95), rgba(184,115,51,.35));}
+
+#root{
+  margin-top:14px;
+  border:1px solid var(--line);
+  background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+  border-radius:22px;
+  box-shadow:0 18px 60px rgba(0,0,0,.40);
+  overflow:hidden;
+}
+</style>
+<!-- OLYMPIC_SUPER_THEME_END -->
+
+
+<!-- OLYMPIC_TABLE_STYLE_START -->
+<style>
+/* Broadcast-grade table styling (applies to first table in #root) */
+#root table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  font-size:14px;
+}
+#root thead th{
+  position:sticky;
+  top:0;
+  z-index:2;
+  backdrop-filter: blur(10px);
+  background: rgba(0,0,0,.38);
+  border-bottom:1px solid rgba(255,255,255,.14);
+  padding:12px 10px;
+  text-transform:uppercase;
+  letter-spacing:.18px;
+  font-size:12px;
+  color: rgba(255,255,255,.78);
+}
+#root tbody td{
+  padding:12px 10px;
+  border-bottom:1px solid rgba(255,255,255,.10);
+  color: rgba(255,255,255,.90);
+}
+#root tbody tr:nth-child(odd){
+  background: rgba(255,255,255,.03);
+}
+#root tbody tr:hover{
+  background: rgba(255,255,255,.07);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.10);
+}
+#root table{
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:18px;
+  overflow:hidden;
+}
+#root thead th:first-child{border-top-left-radius:18px;}
+#root thead th:last-child{border-top-right-radius:18px;}
+</style>
+<!-- OLYMPIC_TABLE_STYLE_END -->
+
+
+<!-- OLYMPIC_PODIUM_STYLE_START -->
+<style>
+/* Podium strip */
+.podium{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap:12px;
+  margin:14px 0 14px;
+}
+@media (max-width: 860px){ .podium{ grid-template-columns:1fr; } }
+
+.podium-card{
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  border-radius:18px;
+  padding:14px;
+  box-shadow: 0 18px 60px rgba(0,0,0,.25);
+  position:relative;
+  overflow:hidden;
+}
+.podium-card:before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  opacity:.35;
+  background: radial-gradient(500px 180px at 30% 0%, rgba(255,255,255,.22), transparent 60%);
+}
+.podium-card > *{ position:relative; }
+
+.podium-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.podium-place{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-weight:900;
+  letter-spacing:.2px;
+}
+.podium-medal{
+  width:12px;height:12px;border-radius:999px;
+  box-shadow:0 0 0 2px rgba(255,255,255,.10);
+}
+.podium-medal.gold{ background:linear-gradient(180deg, rgba(212,175,55,.95), rgba(212,175,55,.35)); }
+.podium-medal.silver{ background:linear-gradient(180deg, rgba(191,199,213,.95), rgba(191,199,213,.35)); }
+.podium-medal.bronze{ background:linear-gradient(180deg, rgba(184,115,51,.95), rgba(184,115,51,.35)); }
+
+.podium-country{
+  font-size:18px;
+  font-weight:950;
+  margin-top:10px;
+}
+.podium-sub{
+  margin-top:6px;
+  color: rgba(255,255,255,.72);
+  font-size:12px;
+}
+.podium-stats{
+  margin-top:10px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.podium-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 11px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.18);
+  font-size:12px;
+  color: rgba(255,255,255,.72);
+}
+.podium-chip b{ color: rgba(255,255,255,.92); }
+
+/* Medal icons in table headers */
+#root thead th.medalHead{
+  white-space:nowrap;
+}
+#root thead th.medalHead .m{
+  display:inline-block;
+  width:10px;height:10px;border-radius:999px;
+  margin-right:8px;
+  vertical-align:middle;
+  box-shadow:0 0 0 2px rgba(255,255,255,.10);
+}
+#root thead th.medalHead .m.gold{ background:linear-gradient(180deg, rgba(212,175,55,.95), rgba(212,175,55,.35)); }
+#root thead th.medalHead .m.silver{ background:linear-gradient(180deg, rgba(191,199,213,.95), rgba(191,199,213,.35)); }
+#root thead th.medalHead .m.bronze{ background:linear-gradient(180deg, rgba(184,115,51,.95), rgba(184,115,51,.35)); }
+#root thead th.medalHead .m.total{ background:linear-gradient(180deg, rgba(255,255,255,.70), rgba(255,255,255,.20)); }
+
+/* USA highlight row */
+#root tbody tr.usa-row{
+  background: linear-gradient(90deg, rgba(29,78,216,.14), rgba(185,28,28,.10)) !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.14);
+}
+#root tbody tr.usa-row:hover{
+  background: linear-gradient(90deg, rgba(29,78,216,.18), rgba(185,28,28,.14)) !important;
+}
+#root tbody tr.usa-row td{
+  font-weight:800;
+}
+</style>
+<!-- OLYMPIC_PODIUM_STYLE_END -->
+
+
+<!-- OLYMPIC_BEST_STYLE_START -->
+<style>
+/* Hero layout upgrade */
+.hero-grid{
+  display:grid;
+  grid-template-columns: 1.35fr .65fr;
+  gap:14px;
+  margin-top:14px;
+}
+@media (max-width: 860px){ .hero-grid{ grid-template-columns:1fr; } }
+
+.usa-mega{
+  border:1px solid rgba(255,255,255,.16);
+  background: linear-gradient(90deg, rgba(29,78,216,.16), rgba(185,28,28,.12));
+  border-radius:18px;
+  padding:14px;
+  position:relative;
+  overflow:hidden;
+}
+.usa-mega:before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  opacity:.35;
+  background:
+    radial-gradient(600px 200px at 10% 0%, rgba(255,255,255,.20), transparent 60%),
+    radial-gradient(600px 200px at 90% 0%, rgba(255,255,255,.10), transparent 60%);
+}
+.usa-mega > *{ position:relative; }
+
+.usa-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.usa-title{
+  font-weight:950;
+  font-size:14px;
+  letter-spacing:.25px;
+  text-transform:uppercase;
+  color: rgba(255,255,255,.78);
+}
+.usa-total{
+  font-size:44px;
+  font-weight:980;
+  line-height:1;
+  margin-top:6px;
+}
+.usa-sub{
+  color: rgba(255,255,255,.72);
+  font-size:12px;
+  margin-top:6px;
+}
+
+.usa-medals{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+.usa-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.18);
+  font-size:12px;
+  color: rgba(255,255,255,.78);
+}
+.usa-pill b{ color: rgba(255,255,255,.95); font-weight:950; }
+
+.pulse{
+  animation: pulse 700ms ease-out 1;
+}
+@keyframes pulse{
+  0%{ transform:scale(1); filter:brightness(1); }
+  40%{ transform:scale(1.02); filter:brightness(1.15); }
+  100%{ transform:scale(1); filter:brightness(1); }
+}
+
+/* Podium: make it featured */
+.podium-card{
+  transform: translateZ(0);
+}
+.podium-card:hover{
+  transform: translateY(-2px);
+}
+
+/* Table: stronger scanability */
+#root td:nth-child(2){
+  font-weight:800;
+  letter-spacing:.1px;
+}
+#root td:nth-child(1){
+  color: rgba(255,255,255,.70);
+  font-variant-numeric: tabular-nums;
+}
+#root td:nth-child(n+3){
+  font-variant-numeric: tabular-nums;
+}
+</style>
+<!-- OLYMPIC_BEST_STYLE_END -->
+
+
+<!-- OLYMPIC_FINAL_POLISH_STYLE_START -->
+<style>
+/* Stadium light overlay (subtle) */
+body:after{
+  content:"";
+  position:fixed; inset:-120px;
+  pointer-events:none;
+  opacity:.10;
+  background:
+    radial-gradient(800px 220px at 15% 0%, rgba(255,255,255,.35), transparent 65%),
+    radial-gradient(800px 220px at 85% 0%, rgba(255,255,255,.22), transparent 65%),
+    radial-gradient(900px 260px at 50% 0%, rgba(29,78,216,.16), transparent 68%);
+  filter: blur(1px);
+}
+
+/* Live ticker */
+.ticker{
+  margin-top:12px;
+  border:1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.22);
+  border-radius:999px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.ticker .live{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 12px;
+  border-right:1px solid rgba(255,255,255,.14);
+  font-weight:900;
+  letter-spacing:.2px;
+  text-transform:uppercase;
+  font-size:12px;
+}
+.ticker .live .dot{
+  width:9px;height:9px;border-radius:999px;
+  background: #ff2e2e;
+  box-shadow: 0 0 18px rgba(255,46,46,.65);
+}
+.ticker .track{
+  position:relative;
+  flex:1;
+  min-width:0;
+  height:38px;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+}
+.ticker .msg{
+  position:absolute;
+  white-space:nowrap;
+  will-change: transform;
+  color: rgba(255,255,255,.82);
+  font-size:13px;
+  animation: marquee 16s linear infinite;
+}
+@keyframes marquee{
+  0%{ transform: translateX(100%); }
+  100%{ transform: translateX(-120%); }
+}
+
+/* Share button */
+.sharebar{
+  margin-top:10px;
+  display:flex;
+  justify-content:flex-end;
+}
+.btn-share{
+  cursor:pointer;
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.90);
+  padding:10px 12px;
+  border-radius:12px;
+  font-weight:900;
+  letter-spacing:.2px;
+}
+.btn-share:hover{
+  background: rgba(255,255,255,.10);
+}
+</style>
+<!-- OLYMPIC_FINAL_POLISH_STYLE_END -->
+
+
+<!-- OLYMPIC_SHARE_IMAGE_STYLE_START -->
+<style>
+.sharebar{
+  margin-top:10px;
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.btn-share{
+  cursor:pointer;
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.90);
+  padding:10px 12px;
+  border-radius:12px;
+  font-weight:900;
+  letter-spacing:.2px;
+}
+.btn-share:hover{ background: rgba(255,255,255,.10); }
+.btn-share:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+</style>
+<!-- OLYMPIC_SHARE_IMAGE_STYLE_END -->
+
+  <link rel="stylesheet" href="/winter.css" />
+</head>
+
+<body>
+
+<!-- MANUAL_STATIC_HTML_START -->
+<section style="max-width:1100px;margin:28px auto 0;padding:0 18px;">
+  <div style="border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:18px 18px;background:rgba(10,20,35,.35);backdrop-filter: blur(10px);">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;">
+        <span>❄️</span><span>Team USA — Medals</span>
+      </div>
+      <div style="opacity:.8;font-size:12px;">Static (manual)</div>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+      <div style="border:1px solid rgba(255,255,255,.10);border-radius:999px;padding:10px 14px;display:flex;gap:10px;align-items:center;">
+        <span>🥇</span><b style="font-size:18px;">7</b>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,.10);border-radius:999px;padding:10px 14px;display:flex;gap:10px;align-items:center;">
+        <span>🥈</span><b style="font-size:18px;">11</b>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,.10);border-radius:999px;padding:10px 14px;display:flex;gap:10px;align-items:center;">
+        <span>🥉</span><b style="font-size:18px;">6</b>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,.10);border-radius:999px;padding:10px 14px;display:flex;gap:10px;align-items:center;">
+        <span>Total</span><b style="font-size:18px;">24</b>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:14px;border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:18px 18px;background:rgba(10,20,35,.35);backdrop-filter: blur(10px);">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;">
+        <span>🛷</span><span>Medal Table</span>
+      </div>
+      <div style="opacity:.8;font-size:12px;">Static (manual)</div>
+    </div>
+
+    <div style="margin-top:12px;border:1px solid rgba(255,255,255,.10);border-radius:14px;overflow:hidden;">
+      <table style="width:100%;border-collapse:collapse;font-size:14px;">
+        <thead style="background:rgba(0,0,0,.22);">
+          <tr>
+            <th style="padding:10px 8px;text-align:left;opacity:.8;">#</th>
+            <th style="padding:10px 8px;text-align:left;opacity:.8;">Country</th>
+            <th style="padding:10px 8px;text-align:right;opacity:.8;">Gold</th>
+            <th style="padding:10px 8px;text-align:right;opacity:.8;">Silver</th>
+            <th style="padding:10px 8px;text-align:right;opacity:.8;">Bronze</th>
+            <th style="padding:10px 8px;text-align:right;opacity:.8;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:10px 8px;">1</td><td style="padding:10px 8px;">Norway</td><td style="padding:10px 8px;text-align:right;">15</td><td style="padding:10px 8px;text-align:right;">8</td><td style="padding:10px 8px;text-align:right;">10</td><td style="padding:10px 8px;text-align:right;font-weight:800;">33</td></tr>
+          <tr><td style="padding:10px 8px;">2</td><td style="padding:10px 8px;">Italy</td><td style="padding:10px 8px;text-align:right;">9</td><td style="padding:10px 8px;text-align:right;">5</td><td style="padding:10px 8px;text-align:right;">12</td><td style="padding:10px 8px;text-align:right;font-weight:800;">26</td></tr>
+          <tr style="outline:2px solid rgba(255,255,255,.12);"><td style="padding:10px 8px;">3</td><td style="padding:10px 8px;font-weight:700;">United States</td><td style="padding:10px 8px;text-align:right;">7</td><td style="padding:10px 8px;text-align:right;">11</td><td style="padding:10px 8px;text-align:right;">6</td><td style="padding:10px 8px;text-align:right;font-weight:800;">24</td></tr>
+          <tr><td style="padding:10px 8px;">4</td><td style="padding:10px 8px;">France</td><td style="padding:10px 8px;text-align:right;">6</td><td style="padding:10px 8px;text-align:right;">7</td><td style="padding:10px 8px;text-align:right;">4</td><td style="padding:10px 8px;text-align:right;font-weight:800;">17</td></tr>
+          <tr><td style="padding:10px 8px;">5</td><td style="padding:10px 8px;">Netherlands</td><td style="padding:10px 8px;text-align:right;">6</td><td style="padding:10px 8px;text-align:right;">7</td><td style="padding:10px 8px;text-align:right;">2</td><td style="padding:10px 8px;text-align:right;font-weight:800;">15</td></tr>
+          <tr><td style="padding:10px 8px;">6</td><td style="padding:10px 8px;">Sweden</td><td style="padding:10px 8px;text-align:right;">6</td><td style="padding:10px 8px;text-align:right;">6</td><td style="padding:10px 8px;text-align:right;">3</td><td style="padding:10px 8px;text-align:right;font-weight:800;">15</td></tr>
+          <tr><td style="padding:10px 8px;">7</td><td style="padding:10px 8px;">Germany</td><td style="padding:10px 8px;text-align:right;">5</td><td style="padding:10px 8px;text-align:right;">8</td><td style="padding:10px 8px;text-align:right;">8</td><td style="padding:10px 8px;text-align:right;font-weight:800;">21</td></tr>
+          <tr><td style="padding:10px 8px;">8</td><td style="padding:10px 8px;">Austria</td><td style="padding:10px 8px;text-align:right;">5</td><td style="padding:10px 8px;text-align:right;">8</td><td style="padding:10px 8px;text-align:right;">4</td><td style="padding:10px 8px;text-align:right;font-weight:800;">17</td></tr>
+          <tr><td style="padding:10px 8px;">9</td><td style="padding:10px 8px;">Japan</td><td style="padding:10px 8px;text-align:right;">5</td><td style="padding:10px 8px;text-align:right;">6</td><td style="padding:10px 8px;text-align:right;">11</td><td style="padding:10px 8px;text-align:right;font-weight:800;">22</td></tr>
+          <tr><td style="padding:10px 8px;">10</td><td style="padding:10px 8px;">Switzerland</td><td style="padding:10px 8px;text-align:right;">5</td><td style="padding:10px 8px;text-align:right;">4</td><td style="padding:10px 8px;text-align:right;">3</td><td style="padding:10px 8px;text-align:right;font-weight:800;">12</td></tr>
+          <tr><td style="padding:10px 8px;">11</td><td style="padding:10px 8px;">Canada</td><td style="padding:10px 8px;text-align:right;">4</td><td style="padding:10px 8px;text-align:right;">4</td><td style="padding:10px 8px;text-align:right;">6</td><td style="padding:10px 8px;text-align:right;font-weight:800;">14</td></tr>
+          <tr><td style="padding:10px 8px;">12</td><td style="padding:10px 8px;">Australia</td><td style="padding:10px 8px;text-align:right;">3</td><td style="padding:10px 8px;text-align:right;">2</td><td style="padding:10px 8px;text-align:right;">1</td><td style="padding:10px 8px;text-align:right;font-weight:800;">6</td></tr>
+          <tr><td style="padding:10px 8px;">13</td><td style="padding:10px 8px;">Great Britain</td><td style="padding:10px 8px;text-align:right;">3</td><td style="padding:10px 8px;text-align:right;">0</td><td style="padding:10px 8px;text-align:right;">0</td><td style="padding:10px 8px;text-align:right;font-weight:800;">3</td></tr>
+          <tr><td style="padding:10px 8px;">14</td><td style="padding:10px 8px;">China</td><td style="padding:10px 8px;text-align:right;">2</td><td style="padding:10px 8px;text-align:right;">3</td><td style="padding:10px 8px;text-align:right;">4</td><td style="padding:10px 8px;text-align:right;font-weight:800;">9</td></tr>
+          <tr><td style="padding:10px 8px;">15</td><td style="padding:10px 8px;">South Korea</td><td style="padding:10px 8px;text-align:right;">2</td><td style="padding:10px 8px;text-align:right;">2</td><td style="padding:10px 8px;text-align:right;">3</td><td style="padding:10px 8px;text-align:right;font-weight:800;">7</td></tr>
+          <tr><td style="padding:10px 8px;">16</td><td style="padding:10px 8px;">Czechia</td><td style="padding:10px 8px;text-align:right;">2</td><td style="padding:10px 8px;text-align:right;">2</td><td style="padding:10px 8px;text-align:right;">0</td><td style="padding:10px 8px;text-align:right;font-weight:800;">4</td></tr>
+          <tr><td style="padding:10px 8px;">17</td><td style="padding:10px 8px;">Slovenia</td><td style="padding:10px 8px;text-align:right;">2</td><td style="padding:10px 8px;text-align:right;">1</td><td style="padding:10px 8px;text-align:right;">1</td><td style="padding:10px 8px;text-align:right;font-weight:800;">4</td></tr>
+          <tr><td style="padding:10px 8px;">18</td><td style="padding:10px 8px;">Brazil</td><td style="padding:10px 8px;text-align:right;">1</td><td style="padding:10px 8px;text-align:right;">0</td><td style="padding:10px 8px;text-align:right;">0</td><td style="padding:10px 8px;text-align:right;font-weight:800;">1</td></tr>
+          <tr><td style="padding:10px 8px;">18</td><td style="padding:10px 8px;">Kazakhstan</td><td style="padding:10px 8px;text-align:right;">1</td><td style="padding:10px 8px;text-align:right;">0</td><td style="padding:10px 8px;text-align:right;">0</td><td style="padding:10px 8px;text-align:right;font-weight:800;">1</td></tr>
+          <tr><td style="padding:10px 8px;">20</td><td style="padding:10px 8px;">Poland</td><td style="padding:10px 8px;text-align:right;">0</td><td style="padding:10px 8px;text-align:right;">3</td><td style="padding:10px 8px;text-align:right;">1</td><td style="padding:10px 8px;text-align:right;font-weight:800;">4</td></tr>
+          <tr><td style="padding:10px 8px;">21</td><td style="padding:10px 8px;">New Zealand</td><td style="padding:10px 8px;text-align:right;">0</td><td style="padding:10px 8px;text-align:right;">2</td><td style="padding:10px 8px;text-align:right;">1</td><td style="padding:10px 8px;text-align:right;font-weight:800;">3</td></tr>
+          <tr><td style="padding:10px 8px;">22</td><td style="padding:10px 8px;">Latvia</td><td style="padding:10px 8px;text-align:right;">0</td><td style="padding:10px 8px;text-align:right;">1</td><td style="padding:10px 8px;text-align:right;">1</td><td style="padding:10px 8px;text-align:right;font-weight:800;">2</td></tr>
+          <tr><td style="padding:10px 8px;">23</td><td style="padding:10px 8px;">Georgia</td><td style="padding:10px 8px;text-align:right;">0</td><td style="padding:10px 8px;text-align:right;">1</td><td style="padding:10px 8px;text-align:right;">0</td><td style="padding:10px 8px;text-align:right;font-weight:800;">1</td></tr>
+          <tr><td style="padding:10px 8px;">24</td><td style="padding:10px 8px;">Finland</td><td style="padding:10px 8px;text-align:right;">0</td><td style="padding:10px 8px;text-align:right;">0</td><td style="padding:10px 8px;text-align:right;">4</td><td style="padding:10px 8px;text-align:right;font-weight:800;">4</td></tr>
+          <tr><td style="padding:10px 8px;">25</td><td style="padding:10px 8px;">Bulgaria</td><td style="padding:10px 8px;text-align:right;">0</td><td style="padding:10px 8px;text-align:right;">0</td><td style="padding:10px 8px;text-align:right;">2</td><td style="padding:10px 8px;text-align:right;font-weight:800;">2</td></tr>
+          <tr><td style="padding:10px 8px;">26</td><td style="padding:10px 8px;">Belgium</td><td style="padding:10px 8px;text-align:right;">0</td><td style="padding:10px 8px;text-align:right;">0</td><td style="padding:10px 8px;text-align:right;">1</td><td style="padding:10px 8px;text-align:right;font-weight:800;">1</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<!-- MANUAL_STATIC_HTML_END -->
+
+
+
+<section id="publisher-content" style="max-width:980px;margin:28px auto 18px auto;padding:0 16px;font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial;line-height:1.55;">
+  <h1 style="margin:0 0 10px 0;">USA Medal Count Today — Milano Cortina 2026</h1>
+  <p style="margin:0 0 10px 0;">
+    USA Medals Today provides live, up-to-date medal counts for Team USA at the 2026 Winter Olympics in Milano Cortina.
+    Track USA gold, silver, bronze, and total medals across all winter sports including skiing, snowboarding, hockey,
+    figure skating, speed skating, curling, and more.
+  </p>
+  <p style="margin:0 0 10px 0;">
+    The medal table updates throughout the Games as events finish, giving fans a fast way to follow Team USA’s progress
+    and compare standings against other countries. If you want a clean, quick snapshot of the USA medal count, this page
+    is designed to load fast and stay current.
+  </p>
+  <p style="margin:0 0 10px 0;">
+    We also show the full international medal standings so you can see where the USA ranks overall. Bookmark this page
+    for daily medal tracking during Milano Cortina 2026.
+  </p>
+  <p style="margin:0;">
+    Tip: Medal totals can change quickly during peak event hours. Refresh for the latest updates after finals conclude.
+  </p>
+
+  <p style="margin:0 0 10px 0;">
+    Medal counts are typically updated after official results are posted for each event. During busy competition days,
+    multiple finals may conclude close together, so totals can shift quickly. If you are comparing countries, focus on
+    gold medals first and then total medals as a secondary view.
+  </p>
+  <p style="margin:0;">
+    This site is an independent informational tracker for Olympic fans. For official results, schedules, and athlete
+    details, refer to Olympic organizers and broadcasters. Here, the goal is a simple, fast medal snapshot that works
+    well on mobile and desktop.
+  </p>
+
+</section>
+
+
+
+<!-- OLYMPIC_SUPER_HERO_START -->
+<header class="olympic-hero">
+  <div class="olympic-toprow">
+    <div>
+      <div class="rings-wrap" style="margin-bottom:10px;">
+        <svg class="rings" viewBox="0 0 360 140" aria-label="Olympic rings" role="img">
+          <path class="ring-blue"   d="M80 60a40 40 0 1 1 0 .1"/>
+          <path class="ring-black"  d="M180 60a40 40 0 1 1 0 .1"/>
+          <path class="ring-red"    d="M280 60a40 40 0 1 1 0 .1"/>
+          <path class="ring-yellow" d="M130 95a40 40 0 1 1 0 .1"/>
+          <path class="ring-green"  d="M230 95a40 40 0 1 1 0 .1"/>
+        </svg>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <div style="font-weight:900;font-size:12px;color:rgba(255,255,255,.78);letter-spacing:.25px;text-transform:uppercase;">
+            USA Medals Tracker
+          </div>
+          <div style="font-weight:950;font-size:14px;">
+            Milano Cortina 2026 • Live Medal Table
+          </div>
+        </div>
+      </div>
+
+      <h1 class="olympic-title">USA Medal Count Today 🇺🇸</h1>
+      <p class="olympic-sub">Live medal standings built for speed, readability, and sharing.</p>
+    </div>
+
+    <div class="olympic-badge"><span class="olympic-dot"></span> Live updates</div>
+
+<!-- OLYMPIC_USA_MEGA_START -->
+<div class="hero-grid">
+  <div class="usa-mega" id="usaMega">
+    <div class="usa-top">
+      <div>
+        <div class="usa-title">Team USA — Live Total</div>
+        <div class="usa-total" id="usaTotal">—</div>
+        <div class="usa-sub" id="usaMeta">Reading from medal table…</div>
+      </div>
+      <div style="text-align:right; color:rgba(255,255,255,.70); font-size:12px;">
+        <div style="font-weight:900;">Updated</div>
+        <div id="usaUpdated">—</div>
+      </div>
+    </div>
+
+    <div class="usa-medals">
+      <span class="usa-pill"><span class="medal gold"></span><b id="usaGold">—</b> Gold</span>
+      <span class="usa-pill"><span class="medal silver"></span><b id="usaSilver">—</b> Silver</span>
+      <span class="usa-pill"><span class="medal bronze"></span><b id="usaBronze">—</b> Bronze</span>
+      <span class="usa-pill"><span class="m total"></span><b id="usaTotal2">—</b> Total</span>
+    </div>
+  </div>
+  <div>
+    <!-- Keep your existing three cards area visually compact by letting podium carry weight -->
+  </div>
+</div>
+<!-- OLYMPIC_USA_MEGA_END -->
+
+  </div>
+
+  <div class="olympic-cards">
+    <div class="olympic-card">
+      <h3>Team USA</h3>
+      <div class="big">Medals at a glance</div>
+      <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+        <span class="medal-chip"><span class="medal gold"></span> Gold</span>
+        <span class="medal-chip"><span class="medal silver"></span> Silver</span>
+        <span class="medal-chip"><span class="medal bronze"></span> Bronze</span>
+      </div>
+    </div>
+    <div class="olympic-card">
+      <h3>Refresh</h3>
+      <div class="big" id="olympic-last-updated">Loading…</div>
+      <div style="margin-top:6px;color:var(--muted);font-size:12px;">Auto-updates every 30 seconds.</div>
+    </div>
+    <div class="olympic-card">
+      <h3>Share</h3>
+      <div class="big">Post the table</div>
+      <div style="margin-top:6px;color:var(--muted);font-size:12px;">Use the share buttons below.</div>
+    </div>
+  </div>
+</header>
+<!-- OLYMPIC_SUPER_HERO_END -->
+
+<!-- OLYMPIC_FINAL_TICKER_START -->
+<div class="ticker" id="ticker">
+  <div class="live"><span class="dot"></span>LIVE</div>
+  <div class="track"><div class="msg" id="tickerMsg">Loading live updates…</div></div>
+</div>
+<div class="sharebar">
+  <!-- OLYMPIC_SHARE_IMAGE_MARKUP_START -->
+<button class="btn-share" id="copyPodiumImgBtn" type="button">Copy Image</button>
+<button class="btn-share" id="downloadPodiumImgBtn" type="button">Download PNG</button>
+<!-- OLYMPIC_SHARE_IMAGE_MARKUP_END -->
+</div>
+<!-- OLYMPIC_FINAL_TICKER_END -->
+
+
+
+<div class="olympic-shell">
+
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">USA</div>
+        <div>
+          <h1>USA Medal Count Today — Milano Cortina 2026</h1>
+          <p style="margin-top:8px;font-weight:700;color:#d32f2f;">🔴 Live medal tracker — auto-updated as events finish</p>
+          <div id="shareRow" style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <a id="shareX" href="#" target="_blank" rel="noopener" style="padding:8px 12px;border:1px solid rgba(255,255,255,.2);border-radius:999px;text-decoration:none;display:inline-flex;gap:8px;align-items:center;">Share on X</a>
+            <a id="shareReddit" href="#" target="_blank" rel="noopener" style="padding:8px 12px;border:1px solid rgba(255,255,255,.2);border-radius:999px;text-decoration:none;display:inline-flex;gap:8px;align-items:center;">Share on Reddit</a>
+            <button id="copyLink" type="button" style="padding:8px 12px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:transparent;color:inherit;cursor:pointer;">Copy link</button>
+            <span id="copyStatus" style="font-size:12px;opacity:.8;"></span>
+          </div>
+          <p>
+            Track the <strong>USA medal count</strong> for the <strong>Milano Cortina 2026 Winter Olympics</strong>,
+            plus a fast <strong>Winter Olympics medal table</strong> across all countries. Built for mobile, speed, and SEO.
+          </p>
+        </div>
+      </div>
+
+      <div class="chipRow">
+        <div class="chip"><span class="dot"></span><span id="statusText">Medal table ready</span></div>
+        <div class="chip">Page refreshed: <span id="lastUpdated">—</span></div>
+      </div>
+    </header>
+
+    <!-- ✅ IDEAL SPOT: Editorial content BEFORE any ads -->
+    <section class="editorial" aria-label="About USA medal count today">
+      <h2>USA Medal Count Today – Milano Cortina 2026 Winter Olympics</h2>
+      <p>Track the <strong>live USA medal count today</strong> for the Milano Cortina 2026 Winter Olympics. This page updates automatically as Team USA wins gold, silver, and bronze medals across all Winter Olympic sports.</p>
+      <p>See real-time totals, medal rankings, and how the United States compares to other top countries like Canada, Norway, Germany, and China.</p>
+
+      <p>
+        USA Medals Today provides a live, continuously updated view of the United States Olympic medal count during the
+        Milano Cortina 2026 Winter Olympic Games. This page is designed to be fast, clear, and mobile-friendly so fans can
+        quickly see Team USA’s gold, silver, bronze, and total medals as events finish.
+      </p>
+
+      <p>
+        Olympic medal standings can change throughout the day as competitions conclude across multiple venues and time zones.
+        The medal table below summarizes results across all Winter Olympic sports, and helps you compare the United States to
+        other countries in a single, easy-to-read ranking.
+      </p>
+
+      <p>
+        If you want the traditional Olympic standings, use <strong>Sort: Gold</strong> to rank countries by gold medals first
+        (then silver, then bronze). If you prefer overall performance, use <strong>Sort: Total</strong> to rank by total medals.
+        Bookmark this page to keep up with the latest USA medal totals during Milano Cortina 2026.
+      </p>
+    </section>
+
+    <!-- ✅ TOP AD (now safely below publisher content) -->
+    <div class="adWrap" aria-label="Top ad">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-8025748227928688"
+           data-ad-slot="7778609511"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      
+    </div>
+
+    <section class="hero" aria-label="Controls">
+      <div class="heroInner">
+        <div class="heroTitle">
+          <strong>Winter Olympics Medal Count (All Countries)</strong>
+          <span>Milano Cortina 2026 runs Feb 6–22, 2026. Search any country, sort by totals or gold, and keep USA highlighted.</span>
+        </div>
+        <div class="searchRow">
+          <input id="search" class="search" type="search" placeholder="Search country (e.g., Canada, Japan, Brazil)..." autocomplete="off" />
+          <button class="pill primary" id="btnSortTotal" type="button">Sort: Total</button>
+          <button class="pill" id="btnSortGold" type="button">Sort: Gold</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card" aria-label="Medal Count Table">
+        <div class="cardHead">
+          <h2>Medal Count Table</h2>
+          <div class="small">Ranks sort by selected mode (Total or Gold). All countries are listed for SEO and completeness.</div>
+        </div>
+
+        <div class="cardBody">
+          <div class="kpis">
+            <div class="kpi">
+              <div class="label">🥇 USA Gold</div>
+              <div class="value" id="usaGold">—</div>
+            </div>
+            <div class="kpi">
+              <div class="label">🥈 USA Silver</div>
+              <div class="value" id="usaSilver">—</div>
+            </div>
+            <div class="kpi">
+              <div class="label">🥉 USA Bronze</div>
+              <div class="value" id="usaBronze">—</div>
+            </div>
+            <div class="kpi">
+              <div class="label">🏅 USA Total</div>
+              <div class="value" id="usaTotal">—</div>
+            </div>
+          </div>
+
+          <!-- OLYMPIC_PODIUM_MARKUP_START -->
+<div class="podium" id="podium"></div>
+<!-- OLYMPIC_PODIUM_MARKUP_END -->
+<table aria-label="Winter Olympics medal count table">
+            <thead>
+<!-- OLYMPIC_MEDAL_HEADS_START -->
+              <tr>
+                <th class="rank">Rank</th>
+                <th>Country</th>
+                <th class="right medalHead"><span class="m gold"></span>Gold</th>
+                <th class="right medalHead"><span class="m silver"></span>Silver</th>
+                <th class="right medalHead"><span class="m bronze"></span>Bronze</th>
+                <th class="right medalHead"><span class="m total"></span>Total</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+<tr class="usa-row"><td>1</td><td>🇺🇸 United States US</td><td>2</td><td>0</td><td>0</td><td>2</td></tr>
+<tr><td>2</td><td>🇳🇴 Norway</td><td>3</td><td>1</td><td>2</td><td>6</td></tr>
+<tr><td>3</td><td>🇮🇹 Italy</td><td>1</td><td>2</td><td>6</td><td>9</td></tr>
+<tr><td>4</td><td>🇯🇵 Japan</td><td>1</td><td>2</td><td>1</td><td>4</td></tr>
+<tr><td>5</td><td>🇦🇹 Austria</td><td>1</td><td>2</td><td>0</td><td>3</td></tr>
+<tr><td>6</td><td>🇩🇪 Germany</td><td>1</td><td>1</td><td>1</td><td>3</td></tr>
+<tr><td>7</td><td>🇨🇿 Czechia</td><td>1</td><td>1</td><td>0</td><td>2</td></tr>
+<tr><td>8</td><td>🇫🇷 France</td><td>1</td><td>1</td><td>0</td><td>2</td></tr>
+<tr><td>9</td><td>🇸🇪 Sweden</td><td>1</td><td>1</td><td>0</td><td>2</td></tr>
+<tr><td>10</td><td>🇨🇭 Switzerland</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+</tbody>
+          </table>
+
+          <!-- ✅ MID AD -->
+          <div class="adWrap" aria-label="Mid content ad">
+            <ins class="adsbygoogle"
+                 style="display:block; margin:16px 0"
+                 data-ad-client="ca-pub-8025748227928688"
+                 data-ad-slot="3373472404"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            
+          </div>
+
+          <div class="note">
+            <strong>Note:</strong> This page is intentionally lightweight for speed and indexing. Medal totals can be updated instantly by editing the update map in the code, or later by connecting a live feed.
+            <br><br>
+            <strong>Ranking rules:</strong> Use <b>Sort: Gold</b> to follow official Olympic medal table ranking (gold → silver → bronze). Use <b>Sort: Total</b> to rank by total medals.
+          </div>
+
+          <div class="faqTitle">About the USA Medal Count</div>
+
+          <div class="faq" aria-label="FAQ">
+            <details>
+              <summary>Is this the live USA medal count today?</summary>
+              <p>
+                The layout is live and SEO-ready. Medal totals can be updated instantly by editing the update map in the code, or later by connecting a live feed.
+              </p>
+            </details>
+            <details>
+              <summary>How is the ranking calculated?</summary>
+              <p>
+                You can sort by <b>Total medals</b> (default) or by <b>Gold medals</b>. Ties break by the next medal type, then alphabetical.
+              </p>
+            </details>
+            <details>
+              <summary>Why include all countries?</summary>
+              <p>
+                Having every country listed helps users search quickly and helps search engines understand the page is a comprehensive Winter Olympics medal table.
+              </p>
+            </details>
+          </div>
+
+          <!-- ✅ SEO block (Milano Cortina 2026) -->
+          <h2 class="faqTitle">USA Medal Count — Milano Cortina 2026 Winter Olympics</h2>
+
+          <div class="small" style="margin:8px 0 0; line-height:1.65;">
+            <p style="margin:0 0 10px;">
+              The <strong>USA medal count today</strong> page tracks <strong>Team USA</strong> across the
+              <strong>Milano Cortina 2026 Winter Olympics</strong>. Use the medal table above to follow
+              <strong>USA gold medals</strong>, <strong>USA silver medals</strong>, <strong>USA bronze medals</strong>, and
+              <strong>total medals</strong>, plus the complete <strong>Winter Olympics medal table by country</strong>.
+            </p>
+
+            <p style="margin:0 0 10px;">
+              During the Games, the medal counts update as events finish and results become official. If you prefer the traditional
+              Olympic standings, tap <strong>Sort: Gold</strong> to rank countries by <strong>gold</strong> first, then
+              <strong>silver</strong>, then <strong>bronze</strong>. If you want to compare overall performance, tap
+              <strong>Sort: Total</strong> to rank by total medals.
+            </p>
+
+            <p style="margin:0 0 10px;">
+              Milano Cortina 2026 features winter sports like <strong>alpine skiing</strong>, <strong>snowboarding</strong>,
+              <strong>cross-country skiing</strong>, <strong>biathlon</strong>, <strong>figure skating</strong>,
+              <strong>speed skating</strong>, <strong>ice hockey</strong>, <strong>curling</strong>, and more. As medals are awarded,
+              this page helps you quickly see how the <strong>United States</strong> compares to countries like
+              <strong>Canada</strong>, <strong>Norway</strong>, <strong>Germany</strong>, <strong>Italy</strong>, and others.
+            </p>
+
+            <p style="margin:0;">
+              Bookmark this page for the fastest way to check the <strong>USA Winter Olympics medal count</strong> and the full
+              <strong>Milano Cortina 2026 medal table</strong> in one place.
+            </p>
+          </div>
+
+          <!-- ✅ BOTTOM AD -->
+          <div class="adWrap" aria-label="Bottom ad">
+            <ins class="adsbygoogle"
+                 style="display:block; margin:16px 0"
+                 data-ad-client="ca-pub-8025748227928688"
+                 data-ad-slot="7397118526"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            
+          </div>
+
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div>
+        © <span id="year"></span> USA Medals Today <span class="sep">•</span>
+        Fast Winter Olympics medal table.
+        <span class="sep">•</span> <a href="/privacy-policy.html">Privacy Policy</a>
+      </div>
+      <div>
+        <span class="sep">Tip:</span> Keep one canonical domain (root) + redirect www.
+      </div>
+    </footer>
+  </div>
+
+  
+  
+
+
+
+
+</div>
+
+
+
+
+<!-- OLYMPIC_PODIUM_JS_START -->
+
+<!-- OLYMPIC_PODIUM_JS_END -->
+
+
+<!-- OLYMPIC_USA_MEGA_JS_START -->
+
+<!-- OLYMPIC_USA_MEGA_JS_END -->
+
+
+<!-- OLYMPIC_FINAL_POLISH_JS_START -->
+
+<!-- OLYMPIC_FINAL_POLISH_JS_END -->
+
+
+<!-- OLYMPIC_SHARE_IMAGE_JS_START -->
+
+<!-- OLYMPIC_SHARE_IMAGE_JS_END -->
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8025748227928688"
+     crossorigin="anonymous"></script>
+\n
+
+
+<script>
+// HARDCODED DATA - NO FETCHING
+document.addEventListener('DOMContentLoaded', function() {
+  // Update USA stats
+  const stats = document.querySelectorAll('.stat-num');
+  if (stats[0]) stats[0].textContent = '2';
+  if (stats[1]) stats[1].textContent = '0';
+  if (stats[2]) stats[2].textContent = '0';
+  if (stats[3]) stats[3].textContent = '2';
+  
+  // Update podium
+  const podiums = document.querySelectorAll('.podium-sub');
+  if (podiums[0]) podiums[0].innerHTML = 'Gold 2 • Silver 0 • Bronze 0 • Total 2';
+  
+  // Update table
+  const tbody = document.getElementById('tableBody');
+  if (tbody) {
+    tbody.innerHTML = `
+<tr class="usa-row"><td>1</td><td>🇺🇸 United States US</td><td>2</td><td>0</td><td>0</td><td>2</td></tr>
+<tr><td>2</td><td>🇳🇴 Norway</td><td>3</td><td>1</td><td>2</td><td>6</td></tr>
+<tr><td>3</td><td>🇮🇹 Italy</td><td>1</td><td>2</td><td>6</td><td>9</td></tr>
+<tr><td>4</td><td>🇯🇵 Japan</td><td>1</td><td>2</td><td>1</td><td>4</td></tr>
+<tr><td>5</td><td>🇦🇹 Austria</td><td>1</td><td>2</td><td>0</td><td>3</td></tr>
+<tr><td>6</td><td>🇩🇪 Germany</td><td>1</td><td>1</td><td>1</td><td>3</td></tr>
+<tr><td>7</td><td>🇨🇿 Czechia</td><td>1</td><td>1</td><td>0</td><td>2</td></tr>
+<tr><td>8</td><td>🇫🇷 France</td><td>1</td><td>1</td><td>0</td><td>2</td></tr>
+<tr><td>9</td><td>🇸🇪 Sweden</td><td>1</td><td>1</td><td>0</td><td>2</td></tr>
+<tr><td>10</td><td>🇨🇭 Switzerland</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>11</td><td>🇰🇷 South Korea</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>12</td><td>🇸🇮 Slovenia</td><td>0</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>13</td><td>🇧🇬 Bulgaria</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>14</td><td>🇨🇦 Canada</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>15</td><td>🇨🇳 China</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+    `;
+  }
+});
+</script>
+  <script src="/live-medals.js"></script>
+</body>
+</html>
+
+<script>
+async function forceUSAUpdate() {
+  try {
+    const r = await fetch('/api/medals?ts=' + Date.now(), { cache: "no-store" });
+    const j = await r.json();
+    const rows = j.rows || j.countries || j.data || [];
+
+    const usa = rows.find(c =>
+      c.code === "USA" ||
+      c.country === "United States"
+    );
+
+    if (!usa) return;
+
+    const goldEl   = document.querySelector('[data-medal="gold"]');
+    const silverEl = document.querySelector('[data-medal="silver"]');
+    const bronzeEl = document.querySelector('[data-medal="bronze"]');
+    const totalEl  = document.querySelector('[data-medal="total"]');
+
+    if (goldEl)   goldEl.textContent   = usa.gold;
+    if (silverEl) silverEl.textContent = usa.silver;
+    if (bronzeEl) bronzeEl.textContent = usa.bronze;
+    if (totalEl)  totalEl.textContent  = usa.total;
+
+  } catch (e) {
+    console.error("USA patch failed", e);
+  }
+}
+
+window.addEventListener("load", forceUSAUpdate);
+</script>
+

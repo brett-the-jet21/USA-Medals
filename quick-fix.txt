@@ -1,0 +1,8 @@
+Find these lines around line 630-640:
+<div class="stat-num">—</div>
+
+Replace ALL four of them with:
+Gold: <div class="stat-num">2</div>
+Silver: <div class="stat-num">0</div>
+Bronze: <div class="stat-num">0</div>
+Total: <div class="stat-num">2</div>
